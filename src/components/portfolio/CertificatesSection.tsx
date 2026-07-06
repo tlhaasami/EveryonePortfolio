@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Certificate } from "@/lib/mockData";
 import { Award, ExternalLink, ShieldCheck, Calendar, Bookmark, X } from "lucide-react";
+import CertificateCard from "./CertificateCard";
 import SkeletonImage from "./SkeletonImage";
 
 interface CertificatesSectionProps {
@@ -12,69 +13,156 @@ interface CertificatesSectionProps {
 
 export default function CertificatesSection({ certificates }: CertificatesSectionProps) {
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollPosRef = useRef(0);
+  const directionRef = useRef(1); // 1 = scrolling right, -1 = scrolling left
+  const [isHovered, setIsHovered] = useState(false);
+  const [canScroll, setCanScroll] = useState(false);
 
-  // Duplicate items for the infinite marquee scroll
-  const marqueeItems = [...certificates, ...certificates];
+  // Mouse Drag to Scroll State refs
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftStartRef = useRef(0);
+
+  // Detect if scroll row actually overflows the screen
+  useEffect(() => {
+    const checkScroll = () => {
+      const el = scrollRef.current;
+      if (el) {
+        setCanScroll(el.scrollWidth > el.clientWidth);
+      }
+    };
+    checkScroll();
+    const timer = setTimeout(checkScroll, 150); // Timeout to let images render layout sizes
+
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      window.removeEventListener("resize", checkScroll);
+      clearTimeout(timer);
+    };
+  }, [certificates]);
+
+  // Fluid sub-pixel auto-scroll with Ping-Pong direction changes at boundaries
+  useEffect(() => {
+    if (!canScroll) return;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let frameId: number;
+    const speed = 0.55; // Pixels per frame crawl speed
+
+    const tick = () => {
+      if (!isHovered) {
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll <= 0) return;
+
+        // Update position based on direction
+        scrollPosRef.current += speed * directionRef.current;
+
+        // Bounce back from right edge
+        if (scrollPosRef.current >= maxScroll) {
+          scrollPosRef.current = maxScroll;
+          directionRef.current = -1;
+        }
+        // Bounce back from left edge
+        else if (scrollPosRef.current <= 0) {
+          scrollPosRef.current = 0;
+          directionRef.current = 1;
+        }
+
+        el.scrollLeft = Math.round(scrollPosRef.current);
+      }
+      frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [isHovered, canScroll]);
+
+  // Sync scroll tracker on manual scroll interaction
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    if (isHovered && canScroll) {
+      scrollPosRef.current = el.scrollLeft;
+    }
+  };
+
+  // Mouse drag-to-scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!canScroll) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    isDraggingRef.current = true;
+    setIsHovered(true);
+    startXRef.current = e.pageX - el.offsetLeft;
+    scrollLeftStartRef.current = el.scrollLeft;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !canScroll) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5;
+    el.scrollLeft = scrollLeftStartRef.current - walk;
+    scrollPosRef.current = el.scrollLeft;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
+    setIsHovered(false);
+  };
 
   return (
     <section id="certificates" className="py-20 relative overflow-hidden bg-zinc-50/50 border-b border-zinc-200">
-      <div className="container mx-auto px-6 relative z-10 max-w-5xl mb-12">
-        <div className="text-left">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        
+        {/* Header */}
+        <div className="text-left mb-12">
           <h2 className="text-xs font-bold tracking-widest text-violet-600 uppercase mb-2">My Credentials</h2>
           <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Professional Certifications</h3>
-          <p className="text-xs text-zinc-400 mt-1">Explore my verified certifications. Click any certificate to view authentication details.</p>
+          <p className="text-xs text-zinc-450 mt-1">Explore my verified certifications.</p>
         </div>
-      </div>
 
-      {/* Infinite Horizontal Marquee */}
-      <div className="relative w-full overflow-hidden select-none">
-        {/* Fading Edge Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-zinc-50 via-zinc-50/10 to-transparent pointer-events-none z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-zinc-50 via-zinc-50/10 to-transparent pointer-events-none z-10" />
+        {/* Carousel Row wrapper */}
+        <div className="relative w-full overflow-hidden select-none">
+          {/* Fading Edge Overlays - Only shown if scroll is active */}
+          {canScroll && (
+            <>
+              <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-zinc-50 via-zinc-50/10 to-transparent pointer-events-none z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-zinc-50 via-zinc-50/10 to-transparent pointer-events-none z-10" />
+            </>
+          )}
 
-        {/* Scrolling Strip */}
-        <div className="flex gap-6 animate-marquee py-4">
-          {marqueeItems.map((cert, idx) => (
-            <div
-              key={idx}
-              onClick={() => setSelectedCert(cert)}
-              className="flex-shrink-0 w-[240px] sm:w-[280px] rounded-2xl bg-white border border-zinc-200 shadow-sm hover:shadow-md hover:border-violet-500/20 transition-all duration-300 overflow-hidden cursor-pointer group flex flex-col justify-between"
-            >
-              {/* Upper Part: Certificate Image / Placeholder */}
-              <div className="relative aspect-[4/3] bg-zinc-100 w-full overflow-hidden border-b border-zinc-150">
-                {cert.image ? (
-                  <SkeletonImage 
-                    src={cert.image} 
-                    alt={cert.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-103"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-zinc-300">
-                    <Award className="w-10 h-10" />
-                  </div>
-                )}
-                <div className="absolute top-3 right-3 p-1.5 rounded-lg bg-zinc-900/40 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </div>
-              </div>
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            onMouseEnter={() => canScroll && setIsHovered(true)}
+            onMouseLeave={handleMouseUpOrLeave}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUpOrLeave}
+            onTouchStart={() => canScroll && setIsHovered(true)}
+            onTouchEnd={() => canScroll && setIsHovered(false)}
+            className={`flex gap-6 py-4 scrollbar-none snap-mandatory ${
+              canScroll 
+                ? "overflow-x-auto cursor-grab active:cursor-grabbing" 
+                : "overflow-x-hidden"
+            }`}
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {/* Spacing spacer before first card - only if scrolling */}
+            {canScroll && <div className="w-1.5 flex-shrink-0" />}
+            
+            {certificates.map((cert, idx) => (
+              <CertificateCard key={idx} cert={cert} onClick={() => setSelectedCert(cert)} />
+            ))}
 
-              {/* Lower Part: Certificate Details */}
-              <div className="p-4 flex-1 flex flex-col justify-between">
-                <div>
-                  <h5 className="font-extrabold text-zinc-950 text-xs sm:text-sm line-clamp-2 leading-snug group-hover:text-violet-600 transition-colors">
-                    {cert.name}
-                  </h5>
-                  <p className="text-[10px] text-zinc-400 font-bold mt-1">{cert.organization}</p>
-                </div>
-                <div className="flex items-center justify-between pt-3 border-t border-zinc-100 mt-3 text-[9px] text-zinc-400 font-bold uppercase tracking-wider">
-                  <span>View Details</span>
-                  <ChevronRightIcon className="w-3.5 h-3.5 text-zinc-300 group-hover:text-zinc-500 group-hover:translate-x-0.5 transition-all" />
-                </div>
-              </div>
-
-            </div>
-          ))}
+            {/* Spacing spacer after last card - only if scrolling */}
+            {canScroll && <div className="w-1.5 flex-shrink-0" />}
+          </div>
         </div>
       </div>
 
@@ -129,17 +217,17 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
                 <div className="space-y-4 pt-4 border-t border-zinc-100">
                   <div className="grid grid-cols-2 gap-4 text-xs font-semibold">
                     <div className="space-y-1">
-                      <span className="text-[9px] text-zinc-450 uppercase tracking-widest block font-bold">Issue Date</span>
+                      <span className="text-[9px] text-zinc-455 uppercase tracking-widest block font-bold">Issue Date</span>
                       <span className="text-zinc-700 flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {selectedCert.date}</span>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[9px] text-zinc-450 uppercase tracking-widest block font-bold">Credential ID</span>
+                      <span className="text-[9px] text-zinc-455 uppercase tracking-widest block font-bold">Credential ID</span>
                       <span className="text-zinc-700 flex items-center gap-1.5 font-mono"><Bookmark className="w-3.5 h-3.5" /> {selectedCert.credentialId}</span>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-[9px] text-zinc-450 uppercase tracking-widest block font-bold">Skills Authenticated</span>
+                    <span className="text-[9px] text-zinc-455 uppercase tracking-widest block font-bold">Skills Authenticated</span>
                     <div className="flex flex-wrap gap-1.5">
                       {selectedCert.skillsEarned.map((skill, idx) => (
                         <span
@@ -174,14 +262,5 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
         )}
       </AnimatePresence>
     </section>
-  );
-}
-
-// Simple Helper Icon component
-function ChevronRightIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
   );
 }

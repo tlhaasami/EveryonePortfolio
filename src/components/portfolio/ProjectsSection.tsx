@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Code, ShieldAlert, BookOpen, Layers, X, Star, GitFork, ArrowRightLeft } from "lucide-react";
+import { ExternalLink, ShieldAlert, BookOpen, Layers, X, Star, GitFork, ArrowRightLeft } from "lucide-react";
 import { GithubIcon } from "../shared/icons";
 import { Project, GithubRepo } from "@/lib/mockData";
+import ProjectCard from "./ProjectCard";
+import GithubRepoCard from "./GithubRepoCard";
 import SkeletonImage from "./SkeletonImage";
 
 interface ProjectsSectionProps {
@@ -13,92 +15,113 @@ interface ProjectsSectionProps {
   githubProfileUrl: string;
 }
 
-// Custom 3D Tilt Card Component
-function ProjectCard({ project, onClick }: { project: Project; onClick: () => void }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const xc = rect.width / 2;
-    const yc = rect.height / 2;
-    const tiltX = (yc - y) / 12; // tilt factors
-    const tiltY = (x - xc) / 12;
-    card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (!card) return;
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="group flex flex-col h-full rounded-2xl bg-white border border-zinc-200 shadow-sm overflow-hidden cursor-pointer transition-all duration-200 ease-out hover:shadow-xl hover:border-violet-500/30"
-      onClick={onClick}
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      {/* Thumbnail */}
-      <div className="relative aspect-video overflow-hidden border-b border-zinc-200" style={{ transform: "translateZ(20px)" }}>
-        <SkeletonImage 
-          src={project.thumbnail} 
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
-        
-        {/* Tags overlay */}
-        <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-1">
-          {project.tags.slice(0, 3).map((tag, idx) => (
-            <span 
-              key={idx} 
-              className="px-2 py-0.5 rounded-full bg-zinc-950/80 border border-zinc-800/40 text-[9px] font-bold text-zinc-100 backdrop-blur-sm"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Body */}
-      <div className="p-6 flex-1 flex flex-col justify-between" style={{ transform: "translateZ(30px)" }}>
-        <div>
-          <h4 className="text-lg font-black text-zinc-950 group-hover:text-violet-600 transition-colors mb-2">
-            {project.title}
-          </h4>
-          <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
-            {project.description}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between pt-4 border-t border-zinc-150">
-          <span className="text-xs font-bold text-violet-600 group-hover:underline">
-            View Case Study
-          </span>
-          <Code className="w-4 h-4 text-zinc-400 group-hover:text-zinc-800" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function ProjectsSection({ projects, githubRepos, githubProfileUrl }: ProjectsSectionProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollPosRef = useRef(0);
+  const directionRef = useRef(1); // 1 = right, -1 = left
+  const [isHovered, setIsHovered] = useState(false);
+  const [canScroll, setCanScroll] = useState(false);
 
-  // Duplicate items for seamless circular marquee
-  const marqueeRepos = [...githubRepos, ...githubRepos];
+  // Mouse Drag to Scroll State refs
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftStartRef = useRef(0);
+
+  // Detect if scroll row actually overflows the screen
+  useEffect(() => {
+    const checkScroll = () => {
+      const el = scrollRef.current;
+      if (el) {
+        setCanScroll(el.scrollWidth > el.clientWidth);
+      }
+    };
+    checkScroll();
+    const timer = setTimeout(checkScroll, 150);
+
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      window.removeEventListener("resize", checkScroll);
+      clearTimeout(timer);
+    };
+  }, [githubRepos]);
+
+  // Fluid sub-pixel auto-scroll with Ping-Pong direction changes at boundaries
+  useEffect(() => {
+    if (!canScroll) return;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let frameId: number;
+    const speed = 0.55; // Pixels per frame crawl speed
+
+    const tick = () => {
+      if (!isHovered) {
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll <= 0) return;
+
+        // Update position based on direction
+        scrollPosRef.current += speed * directionRef.current;
+
+        // Bounce back from right edge
+        if (scrollPosRef.current >= maxScroll) {
+          scrollPosRef.current = maxScroll;
+          directionRef.current = -1;
+        }
+        // Bounce back from left edge
+        else if (scrollPosRef.current <= 0) {
+          scrollPosRef.current = 0;
+          directionRef.current = 1;
+        }
+
+        el.scrollLeft = Math.round(scrollPosRef.current);
+      }
+      frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [isHovered, canScroll]);
+
+  // Sync scroll tracker on manual scroll interaction
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    if (isHovered && canScroll) {
+      scrollPosRef.current = el.scrollLeft;
+    }
+  };
+
+  // Mouse drag-to-scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!canScroll) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    isDraggingRef.current = true;
+    setIsHovered(true);
+    startXRef.current = e.pageX - el.offsetLeft;
+    scrollLeftStartRef.current = el.scrollLeft;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !canScroll) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5;
+    el.scrollLeft = scrollLeftStartRef.current - walk;
+    scrollPosRef.current = el.scrollLeft;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
+    setIsHovered(false);
+  };
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden bg-white border-b border-zinc-200">
-      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         
         {/* Header */}
         <div className="text-left mb-16">
@@ -142,7 +165,7 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
               <h4 className="text-lg font-black text-zinc-950 flex items-center gap-2">
                 <GithubIcon className="w-5 h-5 text-zinc-900" /> Additional Repositories
               </h4>
-              <p className="text-xs text-zinc-400 mt-0.5">Explore active pipelines and packages directly from my GitHub profile.</p>
+              <p className="text-xs text-zinc-450 mt-0.5">Explore active pipelines and packages directly from my GitHub profile.</p>
             </div>
             
             <a 
@@ -155,51 +178,50 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
             </a>
           </div>
 
-          {/* Infinite Horizontal Scrolling Repos Marquee */}
+          {/* Horizontal Scrolling Repos Container */}
           <div className="relative w-full overflow-hidden select-none">
-            {/* Fading Edge Overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white via-white/10 to-transparent pointer-events-none z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white via-white/10 to-transparent pointer-events-none z-10" />
-            
-            <div className="flex gap-6 animate-marquee py-4">
-              {marqueeRepos.map((repo, idx) => (
-                <a
-                  key={idx}
-                  href={repo.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-shrink-0 w-[240px] sm:w-[280px] p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm hover:shadow-md hover:border-violet-500/20 hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="font-extrabold text-zinc-900 text-sm line-clamp-1 group-hover:text-violet-600">
-                        {repo.name}
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-zinc-50 border border-zinc-200 text-[8px] font-bold text-zinc-500 uppercase">
-                        {repo.language}
-                      </span>
-                    </div>
-                    <p className="text-zinc-500 text-xs leading-relaxed line-clamp-3 mb-6">
-                      {repo.description}
-                    </p>
-                  </div>
+            {/* Fading Edge Overlays - Only shown if scroll is active */}
+            {canScroll && (
+              <>
+                <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white via-white/10 to-transparent pointer-events-none z-10" />
+                <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white via-white/10 to-transparent pointer-events-none z-10" />
+              </>
+            )}
 
-                  <div className="flex items-center gap-4 pt-3 border-t border-zinc-150 text-[10px] text-zinc-400 font-bold">
-                    <span className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> {repo.stars}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <GitFork className="w-3.5 h-3.5 text-zinc-400" /> {repo.forks}
-                    </span>
-                  </div>
-                </a>
+            <div 
+              ref={scrollRef}
+              onScroll={handleScroll}
+              onMouseEnter={() => canScroll && setIsHovered(true)}
+              onMouseLeave={handleMouseUpOrLeave}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUpOrLeave}
+              onTouchStart={() => canScroll && setIsHovered(true)}
+              onTouchEnd={() => canScroll && setIsHovered(false)}
+              className={`flex gap-6 py-4 scrollbar-none snap-mandatory ${
+                canScroll 
+                  ? "overflow-x-auto cursor-grab active:cursor-grabbing" 
+                  : "overflow-x-hidden"
+              }`}
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
+              {/* Spacing spacer before first card - only if scrolling */}
+              {canScroll && <div className="w-1.5 flex-shrink-0" />}
+              
+              {githubRepos.map((repo, idx) => (
+                <GithubRepoCard key={idx} repo={repo} />
               ))}
+
+              {/* Spacing spacer after last card - only if scrolling */}
+              {canScroll && <div className="w-1.5 flex-shrink-0" />}
             </div>
 
-            {/* Horizontal Scroll Hint */}
-            <div className="flex items-center gap-1 text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-2 justify-end pr-2">
-              <ArrowRightLeft className="w-3 h-3 animate-pulse" /> Auto Scrolling Loop
-            </div>
+            {/* Horizontal Scroll Hint - Only shown if scrolling is active */}
+            {canScroll && (
+              <div className="flex items-center gap-1 text-[10px] font-bold text-zinc-405 uppercase tracking-widest mt-2 justify-end pr-2">
+                <ArrowRightLeft className="w-3 h-3 animate-pulse" /> Hover to pause & scroll
+              </div>
+            )}
           </div>
         </div>
 
@@ -269,13 +291,13 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
                       <h4 className="text-zinc-400 font-bold text-xs tracking-wider uppercase mb-2.5 flex items-center gap-2">
                         <ShieldAlert className="w-4 h-4 text-fuchsia-600" /> Engineering Challenges
                       </h4>
-                      <p className="text-zinc-600 text-xs leading-relaxed">{selectedProject.challenges}</p>
+                      <p className="text-zinc-650 text-xs leading-relaxed">{selectedProject.challenges}</p>
                     </div>
                     <div>
                       <h4 className="text-zinc-400 font-bold text-xs tracking-wider uppercase mb-2.5 flex items-center gap-2">
                         <BookOpen className="w-4 h-4 text-cyan-600" /> Lessons Learned
                       </h4>
-                      <p className="text-zinc-600 text-xs leading-relaxed">{selectedProject.lessonsLearned}</p>
+                      <p className="text-zinc-655 text-xs leading-relaxed">{selectedProject.lessonsLearned}</p>
                     </div>
                   </div>
                 </div>
@@ -298,8 +320,8 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
 
                   {selectedProject.architecture && (
                     <div>
-                      <h4 className="text-zinc-400 font-bold text-xs tracking-wider uppercase mb-2">System Architecture</h4>
-                      <p className="text-zinc-500 text-xs leading-relaxed">{selectedProject.architecture}</p>
+                      <h4 className="text-zinc-450 font-bold text-xs tracking-wider uppercase mb-2">System Architecture</h4>
+                      <p className="text-zinc-505 text-xs leading-relaxed">{selectedProject.architecture}</p>
                     </div>
                   )}
 
