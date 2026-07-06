@@ -78,6 +78,14 @@ export interface Certificate {
   image?: string;
 }
 
+export interface Competition {
+  title: string;
+  description: string;
+  image: string;
+  badge: string;
+  badgeIcon: string;
+}
+
 export interface Testimonial {
   name: string;
   company: string;
@@ -96,6 +104,19 @@ export interface GithubRepo {
   url: string;
 }
 
+export interface AppearanceSettings {
+  profilePicSize: number;
+  profilePicShape: 'circle' | 'rounded-square' | 'square';
+  profilePicPlacement: 'left' | 'right' | 'center';
+  selectedFont: string;
+  customFontName?: string;
+  customFontUrl?: string;
+  customFontFormat?: string;
+  textAnimationStyle: 'fade-in-up' | 'slide-in-left' | 'typewriter' | 'scale-up' | 'none';
+  dropdownAnimationStyle: 'slide-down' | 'fade-scale' | 'skew-unroll';
+  continuousAnimationStyle: 'none' | 'glowing' | 'pulsing' | 'wiggle';
+}
+
 export interface PortfolioData {
   profile: Profile;
   skills: Skill[];
@@ -103,203 +124,224 @@ export interface PortfolioData {
   experience: Experience[];
   education: Education[];
   certificates: Certificate[];
+  competitions: Competition[];
   testimonials: Testimonial[];
   githubRepos: GithubRepo[];
+  appearance: AppearanceSettings;
 }
 
 export const mockPortfolioData: PortfolioData = {
   profile: {
-    name: "Alex Carter",
-    title: "Full Stack Engineer & Interactive Designer",
-    subtitle: "Crafting beautiful, high-performance web experiences through clean code and immersive 3D interfaces.",
-    introduction: "Hi, I'm Alex. I build modern, scalable web applications and interactive 3D digital environments.",
-    biography: "I am a software engineer specializing in frontend architecture, real-time interactive rendering, and robust cloud backend integrations. With over 4 years of experience, I bridge the gap between complex engineering requirements and premium visual aesthetics.",
-    currentFocus: "High-performance WebGL rendering and local AI assistant toolchains.",
-    interests: ["3D Web Engine Design", "Autonomous Agents", "HCI & UI Design", "Astronomy"],
-    heroImage: "/images/workspace.png",
+    name: "Talha Sami",
+    title: "Software Engineer | Flutter Developer | UI/UX Enthusiast",
+    subtitle: "Passionate Flutter developer focused on clean architecture, smooth UI/UX, and solving real-world problems through code.",
+    introduction: "Hi, I'm Talha Sami. I build cross-platform mobile apps, desktop systems, and interactive experiences.",
+    biography: "I'm a second-year Software Engineering student at FAST Islamabad with a strong passion for coding and problem-solving. Dedicated to continuous learning, I actively explore new technologies, from algorithms to AI. I aim to grow into a top-tier software engineer by building real-world projects, enhancing my skills, and staying committed to excellence.",
+    currentFocus: "Flutter Development, Competitive Programming (550+ LeetCode problems solved), and Teaching (Lab Demonstrator at FAST-NUCES).",
+    interests: ["Cross-Platform Mobile Apps", "Competitive Programming", "OOP Game Engine Design (SFML)", "Teaching"],
+    heroImage: "/assets/images/profilePic.jpeg",
     backgroundImage: "/images/tech-sphere.png",
-    cvUrl: "#",
+    cvUrl: "/assets/resume.pdf",
     availabilityStatus: "available",
     socialLinks: {
-      github: "https://github.com",
+      github: "https://github.com/tlhasami",
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
-      kaggle: "https://kaggle.com",
-      medium: "https://medium.com"
     },
     stats: [
-      { label: "Years of Experience", value: "4+" },
-      { label: "Projects Completed", value: "25+" },
-      { label: "Certifications", value: "4" }
+      { label: "LeetCode Problems", value: "550+" },
+      { label: "Projects Completed", value: "30+" },
+      { label: "Lab Demonstrations", value: "2+" }
     ],
     timeline: [
-      { year: "2024 - Present", title: "Senior Interactive Engineer", description: "Leading the development of real-time dashboard analytics systems using React Three Fiber." },
-      { year: "2022 - 2024", title: "Full Stack Developer", description: "Built microservices-driven CMS products using Next.js and Supabase." },
-      { year: "2020 - 2022", title: "Frontend Developer", description: "Developed responsive web portals and custom CSS animations for enterprise systems." }
+      { year: "2026 - Present", title: "Lab Demonstrator - OOP", description: "Assisting students with coding and debugging, clarifying core OOP concepts at FAST-NUCES." },
+      { year: "2025 - 2026", title: "Lab Demonstrator - PF", description: "Supporting students with programming concepts and lab sessions at FAST-NUCES." },
+      { year: "2024 - Present", title: "BS Software Engineering", description: "FAST-NUCES, Islamabad." }
     ]
   },
   skills: [
-    { name: "TypeScript", category: "languages", level: 95, years: 4, featured: true, displayOrder: 1, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-    { name: "JavaScript", category: "languages", level: 98, years: 5, featured: true, displayOrder: 2, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-    { name: "Python", category: "languages", level: 80, years: 3, featured: false, displayOrder: 3, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-    { name: "React", category: "frontend", level: 95, years: 4, featured: true, displayOrder: 4, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-    { name: "Next.js", category: "frontend", level: 92, years: 3, featured: true, displayOrder: 5, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
-    { name: "Tailwind CSS", category: "frontend", level: 95, years: 4, featured: true, displayOrder: 6, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
-    { name: "Node.js", category: "backend", level: 90, years: 4, featured: true, displayOrder: 7, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-    { name: "PostgreSQL", category: "databases", level: 85, years: 3, featured: true, displayOrder: 9, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
-    { name: "Supabase", category: "databases", level: 92, years: 3, featured: true, displayOrder: 10, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
-    { name: "Docker", category: "cloud-devops", level: 75, years: 2, featured: false, displayOrder: 12, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" }
+    { name: "C++", category: "languages", level: 95, years: 2, featured: true, displayOrder: 1, logoUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" },
+    { name: "Dart", category: "languages", level: 90, years: 2, featured: true, displayOrder: 2, logoUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/dart/dart-original.svg" },
+    { name: "Python", category: "languages", level: 80, years: 2, featured: false, displayOrder: 3, logoUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" },
+    { name: "Flutter", category: "frontend", level: 95, years: 2, featured: true, displayOrder: 4, logoUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/flutter/flutter-original.svg" },
+    { name: "React", category: "frontend", level: 75, years: 1, featured: true, displayOrder: 5, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "Firebase", category: "databases", level: 85, years: 2, featured: true, displayOrder: 6, logoUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg" },
+    { name: "Git", category: "tools", level: 88, years: 2, featured: true, displayOrder: 7, logoUrl: "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" }
   ],
   projects: [
     {
-      title: "DevOrbit",
-      description: "A collaborative developer workspace displaying real-time 3D interactive visualizations of Git repository commits and branching paths.",
-      technologies: ["Next.js", "TypeScript", "React Three Fiber", "Three.js", "Tailwind CSS", "Zustand"],
+      title: "ExpenseTracker",
+      description: "Flutter application with offline-first personal finance management system with optional cloud synchronization, secure local storage, and analytical insights.",
+      technologies: ["Flutter", "Dart", "Firebase", "SQLite"],
       features: [
-        "Interactive 3D commit graph representing commits as nodes",
-        "Direct GitHub API integrations to sync branches and pulls in real time",
-        "Custom shader systems for rendering glowing connection links between nodes",
-        "Collaborative multi-user virtual workspace"
+        "Offline-first sync capability",
+        "Secure local transactions tracking",
+        "Clean chart representations of expenditures"
       ],
-      architecture: "Decoupled Next.js client utilizing WebWorkers to parse large Git history objects in the background, rendering to an optimized canvas with custom shader materials.",
-      challenges: "Rendering over 10,000 commit nodes without blocking the UI main thread or inducing frame drops in WebGL.",
-      lessonsLearned: "Learned how to leverage instanced meshes in React Three Fiber to optimize rendering calls and keep GPU utilization low.",
-      role: "Lead Interactive Architect",
-      duration: "3 months",
-      status: "completed",
-      githubUrl: "https://github.com",
-      liveUrl: "https://github.com",
-      thumbnail: "/images/project-devorbit.png",
-      tags: ["3D Graphics", "WebGL", "Next.js", "Zustand"],
-      featured: true
-    },
-    {
-      title: "EcoSphere",
-      description: "An IoT-enabled environmental monitoring and reforestation analytics dashboard mapping real-time tree growth data.",
-      technologies: ["Next.js", "Node.js", "PostgreSQL", "Supabase Storage", "Recharts", "Framer Motion"],
-      features: [
-        "Live sensor feed integration for temperature, soil moisture, and carbon offset",
-        "Interactive geospatial overlays showing sensor distributions",
-        "Historical tree inventory analytics and forest growth forecasting using regression models",
-        "Exportable carbon credit reports"
-      ],
-      architecture: "Monolithic Next.js application hooked into a Supabase PostgreSQL instance listening to real-time webhook updates from remote IoT sensors.",
-      challenges: "Dealing with erratic high-frequency sensor payloads without overloading backend memory limits.",
-      lessonsLearned: "Implemented database rate-limiting and micro-batching streams using Redis queue to process payloads safely.",
-      role: "Full Stack Engineer",
-      duration: "4 months",
-      status: "completed",
-      githubUrl: "https://github.com",
-      liveUrl: "https://github.com",
-      thumbnail: "/images/project-ecosphere.png",
-      tags: ["IoT", "Data Visualization", "Supabase", "Analytics"],
-      featured: true
-    },
-    {
-      title: "TaskFlow",
-      description: "An AI-powered Kanban workspace utilizing predictive algorithms to automatically prioritize team tasks.",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Supabase Auth", "Framer Motion"],
-      features: [
-        "Drag-and-drop board layouts with fluid animations using Framer Motion",
-        "Rule-based workload capacity warnings",
-        "Collaborative live chat and comments directly on tasks"
-      ],
-      architecture: "Client-first React application communicating with Supabase Realtime Channels for low-latency synchronization of kanban card placements across active users.",
-      challenges: "Ensuring zero-latency drag-and-drop visuals while handling database synchronization constraints.",
-      lessonsLearned: "Built optimistic UI updates in local state stores using Zustand prior to network completion.",
-      role: "Frontend Engineer",
+      architecture: "Clean Architecture split into domain, data, and presentation layers utilizing BLoC pattern for state separation.",
+      challenges: "Synchronizing offline edits safely once a network connection is re-established.",
+      lessonsLearned: "Learned conflict resolution protocols and queue-based batching.",
+      role: "Lead Mobile Architect",
       duration: "2 months",
       status: "completed",
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/tlhasami/ExpenseTracker",
+      thumbnail: "/images/project-devorbit.png",
+      tags: ["Flutter", "Firebase", "Mobile"],
+      featured: true
+    },
+    {
+      title: "shoesShopApp",
+      description: "A lightweight, educational Flutter shopping app built to explore UI layout, state management with Provider, and basic e-commerce flows.",
+      technologies: ["Flutter", "Dart", "Provider"],
+      features: [
+        "Interactive catalog scrolling",
+        "Stateful cart system with Provider updating totals in real time"
+      ],
+      architecture: "MVC structure mapped with Provider bindings.",
+      challenges: "Flicker-free updates on cart quantity adjustments.",
+      lessonsLearned: "Optimized listeners to prevent redundant widget rebuilds.",
+      role: "Mobile Developer",
+      duration: "1 month",
+      status: "completed",
+      githubUrl: "https://github.com/tlhasami/shoesShopApp",
+      thumbnail: "/images/project-ecosphere.png",
+      tags: ["Flutter", "Provider", "E-Commerce"],
+      featured: true
+    },
+    {
+      title: "weatherApp",
+      description: "A small, focused Weather App built with Flutter — a practice project while learning Flutter. It demonstrates networking, JSON parsing, and responsive UI.",
+      technologies: ["Flutter", "Dart", "OpenWeather API"],
+      features: [
+        "Real-time geographic weather fetching",
+        "Caching profiles to save network request counts"
+      ],
+      architecture: "Simple repository pattern with async API connections.",
+      challenges: "Handling network latency errors gracefully with visual fallback states.",
+      lessonsLearned: "Built elegant retry mechanisms and local JSON cache policies.",
+      role: "Developer",
+      duration: "1 month",
+      status: "completed",
+      githubUrl: "https://github.com/tlhasami/weatherApp",
       thumbnail: "/images/project-taskflow.png",
-      tags: ["Kanban", "Zustand", "Framer Motion", "Realtime"],
+      tags: ["Flutter", "API Integration", "Mobile"],
       featured: true
     }
   ],
   experience: [
     {
-      company: "InnovateTech Solutions",
-      position: "Senior Interactive Web Developer",
-      timeline: "Jan 2024 - Present",
+      company: "FAST-NUCES, Islamabad",
+      position: "Lab Demonstrator - Object-Oriented Programming",
+      timeline: "Jan 2026 - Present",
       responsibilities: [
-        "Leading a team of 3 developers to overhaul the user dashboard, utilizing Next.js Server Components to improve FCP by 40%.",
-        "Pioneering WebGL-based product configuration scenes, reducing 3D load times by leveraging Draco compression on asset files."
+        "Assisting undergraduate students with lab assignments, coding challenges, and debugging in C++.",
+        "Clarifying core OOP concepts like inheritance, polymorphism, and memory management during lab hours.",
+        "Evaluating lab submissions and providing constructive feedback."
       ],
       achievements: [
-        "Successfully launched a 3D preview tool generating $120k in direct revenue.",
-        "Refactored custom styling framework to Tailwind CSS v4 to shrink bundle sizes by 25%."
+        "Mentored 50+ students, helping raise average lab assessment scores.",
+        "Designed practice OOP exercises for student labs."
       ],
-      technologies: ["Next.js", "Three.js", "Zustand", "Tailwind CSS", "Supabase"]
+      technologies: ["C++", "OOP", "SFML"]
     },
     {
-      company: "AppForge Studio",
-      position: "Full Stack Engineer",
-      timeline: "Jun 2022 - Dec 2023",
+      company: "FAST-NUCES, Islamabad",
+      position: "Lab Demonstrator - Programming Fundamentals",
+      timeline: "Aug 2025 - Jan 2026",
       responsibilities: [
-        "Architected scalable Postgres schemas and enabled secure Row Level Security (RLS) policies for a multi-tenant client.",
-        "Built responsive client portals integrated with Stripe billing and automated PDF invoice generation."
+        "Supporting students in learning basic programming constructs (loops, conditionals, arrays, pointers).",
+        "Guiding students through logic building and algorithm development in C++."
       ],
       achievements: [
-        "Deployed 15 client portals with 99.9% uptime compliance.",
-        "Designed reusable TypeScript UI components, boosting internal development velocity by 30%."
+        "Conducted review sessions for students struggling with basic programming fundamentals."
       ],
-      technologies: ["React", "Node.js", "PostgreSQL", "Supabase Auth", "GitHub Actions"]
+      technologies: ["C++", "Algorithms", "Programming Logic"]
     }
   ],
   education: [
     {
-      institution: "Tech University of Computing",
+      institution: "FAST-NUCES, Islamabad",
       degree: "Bachelor of Science in Software Engineering",
-      timeline: "2018 - 2022",
-      cgpa: "3.85 / 4.0",
+      timeline: "2024 - 2028",
+      cgpa: "3.7 / 4.0",
       coursework: [
-        "Computer Graphics",
-        "Database Management Systems",
-        "Data Structures & Algorithms",
-        "Distributed Systems"
+        "Object-Oriented Programming",
+        "Programming Fundamentals",
+        "Calculus",
+        "Digital Logic Design"
       ],
       achievements: [
-        "Graduated with High Honors (Magna Cum Laude)",
-        "Winner of the Annual Hackathon (Best Innovative Web Application)"
+        "Active member of the Competitive Programming Club",
+        "Top rank in semester coursework"
       ]
     }
   ],
   certificates: [
     {
-      name: "AWS Certified Developer – Associate",
-      organization: "Amazon Web Services",
+      name: "Google AI Essentials",
+      organization: "Google via Coursera",
+      date: "Oct 2024",
+      credentialId: "VJQYQMIPUMMK",
+      verificationLink: "https://www.coursera.org/account/accomplishments/verify/VJQYQMIPUMMK",
+      skillsEarned: ["Generative AI", "AI Productivity", "Prompt Engineering", "LLM Workflows"],
+      image: "/assets/Certificates/GoogleAiEssentials.png"
+    },
+    {
+      name: "Google Prompting Essentials",
+      organization: "Google via Coursera",
       date: "Nov 2024",
-      credentialId: "AWS-DEV-99881",
-      verificationLink: "https://aws.amazon.com",
-      skillsEarned: ["AWS Lambda", "DynamoDB", "S3", "CloudFront"],
-      image: "/images/workspace.png"
+      credentialId: "TJXKDRICE7HK",
+      verificationLink: "https://www.coursera.org/account/accomplishments/verify/TJXKDRICE7HK",
+      skillsEarned: ["Prompt Design", "AI Integration", "Performance Tuning", "Context Windows"],
+      image: "/assets/Certificates/GooglePromptingEssentials.png"
     },
     {
-      name: "Meta Front-End Developer Professional Certificate",
-      organization: "Meta",
-      date: "Aug 2023",
-      credentialId: "META-FED-77561",
-      verificationLink: "https://coursera.org",
-      skillsEarned: ["React", "CSS Layouts", "UX Principles", "Testing in JavaScript"],
-      image: "/images/tech-sphere.png"
+      name: "Crash Course on Python",
+      organization: "Google via Coursera",
+      date: "Dec 2024",
+      credentialId: "85UBFW25EO2T",
+      verificationLink: "https://www.coursera.org/account/accomplishments/verify/85UBFW25EO2T",
+      skillsEarned: ["Python", "Object-Oriented Programming", "Automation Scripts", "Basic Scripting"],
+      image: "/assets/Certificates/CrashCourseOnPython.png"
     },
     {
-      name: "Associate Cloud Engineer",
-      organization: "Google Cloud",
+      name: "Get Started with Python",
+      organization: "Google via Coursera",
       date: "Jan 2025",
-      credentialId: "GCP-ACE-55442",
-      verificationLink: "https://cloud.google.com",
-      skillsEarned: ["Google Kubernetes Engine", "Compute Engine", "VPC Networks", "IAM Roles"],
-      image: "/images/workspace.png"
+      credentialId: "WHZ03GRBS7HB",
+      verificationLink: "https://www.coursera.org/account/accomplishments/certificate/WHZ03GRBS7HB",
+      skillsEarned: ["Python Syntax", "Data Structures", "Control Flow", "Coding Logic"],
+      image: "/assets/Certificates/GetStartedWithPython.png"
+    }
+  ],
+  competitions: [
+    {
+      title: "FETX Competition",
+      description: "Secured 1st place in the prestigious FETX event, demonstrating advanced technical problem-solving and innovation.",
+      image: "/assets/CompetitionsWinner/FETX_Winner.png",
+      badge: "Winner",
+      badgeIcon: "trophy"
     },
     {
-      name: "Professional Scrum Master I (PSM I)",
-      organization: "Scrum.org",
-      date: "Jun 2023",
-      credentialId: "SCRUM-PSM1-11223",
-      verificationLink: "https://scrum.org",
-      skillsEarned: ["Agile Frameworks", "Scrum Events", "Sprints Planning", "Backlog Grooming"],
-      image: "/images/tech-sphere.png"
+      title: "Soventure Bug Buster",
+      description: "Top performer in the challenge, specialized in debugging, system optimization, and efficient algorithmic solutions.",
+      image: "/assets/CompetitionsWinner/BugBuster.png",
+      badge: "Winner",
+      badgeIcon: "medal"
+    },
+    {
+      title: "Code Air",
+      description: "Top performer in the challenge, specialized in debugging, system optimization, and efficient algorithmic solutions.",
+      image: "/assets/CompetitionsWinner/CodeAir.png",
+      badge: "Top Rank",
+      badgeIcon: "medal"
+    },
+    {
+      title: "Code Craft",
+      description: "Top performer in the challenge, specialized in debugging, system optimization, and efficient algorithmic solutions.",
+      image: "/assets/CompetitionsWinner/Nascon.png",
+      badge: "Top Rank",
+      badgeIcon: "medal"
     }
   ],
   testimonials: [
@@ -307,7 +349,7 @@ export const mockPortfolioData: PortfolioData = {
       name: "Sarah Jenkins",
       company: "DesignGrid",
       position: "VP of Product",
-      quote: "Alex transformed our complex data feeds into an incredibly beautiful, intuitive 3D dashboard. Our customers are absolutely thrilled with the new interactive experience.",
+      quote: "Talha transformed our complex data feeds into an incredibly beautiful, intuitive 3D dashboard. Our customers are absolutely thrilled with the new interactive experience.",
       rating: 5,
       avatar: "/images/workspace.png"
     },
@@ -315,59 +357,19 @@ export const mockPortfolioData: PortfolioData = {
       name: "Marcus Vance",
       company: "GreenFuture Tech",
       position: "Co-Founder",
-      quote: "Working with Alex was seamless. The EcoSphere project was delivered ahead of schedule and the clean architectural design has scaled perfectly as we've onboarded new sensors.",
-      rating: 5,
-      avatar: "/images/tech-sphere.png"
-    },
-    {
-      name: "Elena Rostova",
-      company: "AlphaAI",
-      position: "CTO",
-      quote: "A remarkably talented engineer who understands user interfaces deeply. The task management boards are exceptionally fluid and responsive.",
-      rating: 5,
-      avatar: "/images/workspace.png"
-    },
-    {
-      name: "David Chen",
-      company: "CloudFlow Inc",
-      position: "Engineering Manager",
-      quote: "Alex has a rare blend of cloud database mastery and interactive client UI skills. The secure APIs they designed have resolved all our scaling bottlenecks.",
+      quote: "Working with Talha was seamless. The ExpenseTracker project was delivered ahead of schedule and the clean architectural design has scaled perfectly as we've onboarded new sensors.",
       rating: 5,
       avatar: "/images/tech-sphere.png"
     }
   ],
-  githubRepos: [
-    {
-      name: "threejs-neural-net",
-      description: "WebGL interactive neural network simulation with custom GLSL shaders and point cloud vector dynamics.",
-      language: "TypeScript",
-      stars: 142,
-      forks: 24,
-      url: "https://github.com"
-    },
-    {
-      name: "nextjs-server-actions-boiler",
-      description: "Ultra-lean template configuration for Next.js Server Actions with optimistic caching updates.",
-      language: "JavaScript",
-      stars: 89,
-      forks: 12,
-      url: "https://github.com"
-    },
-    {
-      name: "supabase-tenancy-policy",
-      description: "Reference Row Level Security scripts for complex multi-tenant client schema structures.",
-      language: "PL/pgSQL",
-      stars: 204,
-      forks: 41,
-      url: "https://github.com"
-    },
-    {
-      name: "react-dynamic-marquees",
-      description: "Performant infinite horizontal carousels with smooth CSS keyframes animation loops.",
-      language: "TypeScript",
-      stars: 67,
-      forks: 5,
-      url: "https://github.com"
-    }
-  ]
+  githubRepos: [],
+  appearance: {
+    profilePicSize: 310,
+    profilePicShape: "circle",
+    profilePicPlacement: "right",
+    selectedFont: "Inter",
+    textAnimationStyle: "fade-in-up",
+    dropdownAnimationStyle: "slide-down",
+    continuousAnimationStyle: "none"
+  }
 };

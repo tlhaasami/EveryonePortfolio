@@ -2,20 +2,51 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Education, Experience } from "@/lib/mockData";
+import { Education, Experience, AppearanceSettings } from "@/lib/mockData";
 import { GraduationCap, Briefcase, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import ScrollParallaxWrapper from "./ScrollParallaxWrapper";
 
 interface CredentialsSectionProps {
   education: Education[];
   experience: Experience[];
+  appearance?: AppearanceSettings;
 }
 
-export default function CredentialsSection({ education, experience }: CredentialsSectionProps) {
+export default function CredentialsSection({ education, experience, appearance }: CredentialsSectionProps) {
   const [expandedIdx, setExpandedIdx] = useState<number | null>(0);
 
   const toggleAccordion = (idx: number) => {
     setExpandedIdx(prev => (prev === idx ? null : idx));
+  };
+
+  const dropdownStyle = appearance?.dropdownAnimationStyle || "slide-down";
+
+  // Framer Motion variant configuration based on selected dropdown animation style
+  const getAccordionAnimation = () => {
+    switch (dropdownStyle) {
+      case "fade-scale":
+        return {
+          initial: { height: 0, opacity: 0, scale: 0.95 },
+          animate: { height: "auto", opacity: 1, scale: 1 },
+          exit: { height: 0, opacity: 0, scale: 0.95 },
+          transition: { duration: 0.25, ease: "easeInOut" as any }
+        };
+      case "skew-unroll":
+        return {
+          initial: { height: 0, opacity: 0, rotateX: -10, transformOrigin: "top" },
+          animate: { height: "auto", opacity: 1, rotateX: 0, transformOrigin: "top" },
+          exit: { height: 0, opacity: 0, rotateX: -10, transformOrigin: "top" },
+          transition: { duration: 0.3, ease: "easeInOut" as any }
+        };
+      case "slide-down":
+      default:
+        return {
+          initial: { height: 0, opacity: 0 },
+          animate: { height: "auto", opacity: 1 },
+          exit: { height: 0, opacity: 0 },
+          transition: { duration: 0.25, ease: "easeInOut" as any }
+        };
+    }
   };
 
   return (
@@ -28,25 +59,26 @@ export default function CredentialsSection({ education, experience }: Credential
         {/* Header */}
         <div className="text-left mb-16">
           <motion.h2 
-            className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            My Background
-          </motion.h2>
-          <motion.h3 
-            className="text-2xl sm:text-3xl font-black text-zinc-950"
+            className="text-2xl sm:text-3xl font-black text-zinc-950 tracking-tight"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Experience & Education
-          </motion.h3>
+            Credentials & Work History
+          </motion.h2>
+          <motion.p 
+            className="text-xs font-bold text-zinc-450 uppercase tracking-widest mt-1.5"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            Journey map of academic path & industry experience
+          </motion.p>
         </div>
 
-        {/* Side-by-Side Row Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">
+        {/* Layout Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16">
           
           {/* Left Column: Work Experience Accordion */}
           <div className="lg:col-span-7 space-y-6">
@@ -96,15 +128,12 @@ export default function CredentialsSection({ education, experience }: Credential
                         </div>
                       </div>
 
-                      {/* Expandable Panel */}
+                      {/* Expandable Panel with dynamic dropdown animation style */}
                       <AnimatePresence initial={false}>
                         {isExpanded && (
                           <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="border-t border-zinc-200/60"
+                            {...getAccordionAnimation()}
+                            className="border-t border-zinc-200/60 overflow-hidden"
                           >
                             <div className="p-5 bg-white space-y-4 font-sans text-xs sm:text-sm">
                               

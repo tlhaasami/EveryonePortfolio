@@ -7,12 +7,13 @@ import AboutSection from "./AboutSection";
 import ProjectsSection from "./ProjectsSection";
 import SkillsSection from "./SkillsSection";
 import CredentialsSection from "./CredentialsSection";
-import CertificatesSection from "./CertificatesSection";
+import AchievementsSection from "./AchievementsSection";
 import TestimonialsSection from "./TestimonialsSection";
 import ContactSection from "./ContactSection";
 import AssistantPanel from "./AssistantPanel";
 import ResumeDownloaderModal from "./ResumeDownloaderModal";
-import { Menu, X, FileDown, Heart } from "lucide-react";
+import { Menu, X, FileDown, Heart, Settings } from "lucide-react";
+import Link from "next/link";
 import { GithubIcon, LinkedinIcon } from "../shared/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollProgress } from "./Animations";
@@ -40,7 +41,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
     { href: "#projects", label: "Projects" },
     { href: "#skills", label: "Skills" },
     { href: "#credentials", label: "Credentials" },
-    { href: "#certificates", label: "Certificates" },
+    { href: "#achievements", label: "Achievements" },
     { href: "#testimonials", label: "Testimonials" },
     { href: "#contact", label: "Contact" }
   ];
@@ -69,6 +70,32 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-zinc-900 selection:bg-violet-500/10 selection:text-violet-900 font-sans">
+      {/* Dynamic Font Loader & Style Injections */}
+      {data.appearance?.selectedFont && (
+        <link 
+          rel="stylesheet"
+          href={`https://fonts.googleapis.com/css2?family=${data.appearance.selectedFont.replace(/\s+/g, "+")}:wght@300;400;500;600;700;800;900&display=swap`}
+        />
+      )}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          ${data.appearance?.customFontUrl && data.appearance?.customFontName ? `
+            @font-face {
+              font-family: '${data.appearance.customFontName}';
+              src: url('${data.appearance.customFontUrl}') format('${data.appearance.customFontFormat || "truetype"}');
+              font-weight: normal;
+              font-style: normal;
+              font-display: swap;
+            }
+          ` : ""}
+          *, body, html, button, input, select, textarea {
+            font-family: ${data.appearance?.customFontUrl && data.appearance?.customFontName 
+              ? `'${data.appearance.customFontName}', sans-serif` 
+              : `${data.appearance?.selectedFont || "Inter"}, sans-serif`} !important;
+          }
+        `
+      }} />
+
       {/* Scroll Progress Bar */}
       <ScrollProgress />
       
@@ -104,8 +131,15 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
             ))}
           </nav>
 
-          {/* Resume Downloader Button */}
-          <div className="hidden lg:block">
+          {/* Controls: Admin + Resume */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link 
+              href="/admin"
+              className="inline-flex items-center justify-center p-2.5 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-650 hover:text-zinc-950 transition-all shadow-sm active:scale-[0.97] cursor-pointer"
+              title="Admin Dashboard"
+            >
+              <Settings className="w-3.5 h-3.5" />
+            </Link>
             <button 
               onClick={() => setIsResumeOpen(true)}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[hsl(262,83%,58%)] to-[hsl(262,83%,48%)] hover:from-[hsl(262,83%,52%)] hover:to-[hsl(262,83%,42%)] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-violet-500/15 cursor-pointer hover:shadow-lg hover:shadow-violet-500/25 active:scale-[0.97]"
@@ -198,7 +232,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
 
       {/* Main Content Layout */}
       <main>
-        <HeroSection profile={data.profile} />
+        <HeroSection profile={data.profile} appearance={data.appearance} />
         <AboutSection profile={data.profile} />
         <ProjectsSection 
           projects={data.projects} 
@@ -206,8 +240,8 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           githubProfileUrl={data.profile.socialLinks.github}
         />
         <SkillsSection skills={data.skills} />
-        <CredentialsSection experience={data.experience} education={data.education} />
-        <CertificatesSection certificates={data.certificates} />
+        <CredentialsSection experience={data.experience} education={data.education} appearance={data.appearance} />
+        <AchievementsSection certificates={data.certificates} competitions={data.competitions || []} />
         <TestimonialsSection testimonials={data.testimonials} />
         <ContactSection profile={data.profile} />
       </main>
@@ -294,6 +328,17 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           </div>
         </div>
       </footer>
+
+      {/* Floating Admin Dashboard Trigger (Bottom-Left) */}
+      <div className="fixed bottom-6 left-6 z-40">
+        <Link 
+          href="/admin"
+          className="flex items-center justify-center w-11 h-11 rounded-full bg-zinc-950 hover:bg-zinc-800 text-white border border-zinc-800 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          title="Access Admin CMS"
+        >
+          <Settings className="w-5 h-5 animate-[spin_10s_linear_infinite]" />
+        </Link>
+      </div>
 
     </div>
   );

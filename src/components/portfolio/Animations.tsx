@@ -258,3 +258,74 @@ export function ScrollProgress() {
     </div>
   );
 }
+
+// ─── Typewriter Effect ───
+export function TypewriterEffect({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const letters = Array.from(text);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.03, delayChildren: delay }
+    }
+  };
+  const childVariants = {
+    hidden: { opacity: 0, display: "none" },
+    visible: { opacity: 1, display: "inline" }
+  };
+  return (
+    <motion.span variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className={className}>
+      {letters.map((char, index) => (
+        <motion.span key={index} variants={childVariants}>
+          {char}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+}
+
+// ─── Text Animation Wrapper ───
+interface TextAnimationWrapperProps {
+  children: React.ReactNode;
+  style?: 'fade-in-up' | 'slide-in-left' | 'typewriter' | 'scale-up' | 'none';
+  delay?: number;
+  className?: string;
+  distance?: number;
+}
+
+export function TextAnimationWrapper({ 
+  children, 
+  style = "fade-in-up", 
+  delay = 0, 
+  className = "", 
+  distance = 30 
+}: TextAnimationWrapperProps) {
+  if (style === "none") {
+    return <div className={className}>{children}</div>;
+  }
+  if (style === "slide-in-left") {
+    return (
+      <SlideIn direction="left" delay={delay} className={className}>
+        {children}
+      </SlideIn>
+    );
+  }
+  if (style === "scale-up") {
+    return (
+      <ScaleIn delay={delay} className={className}>
+        {children}
+      </ScaleIn>
+    );
+  }
+  if (style === "typewriter" && typeof children === "string") {
+    return (
+      <TypewriterEffect text={children} delay={delay} className={className} />
+    );
+  }
+  // Default to fade-in-up
+  return (
+    <FadeInUp delay={delay} distance={distance} className={className}>
+      {children}
+    </FadeInUp>
+  );
+}
