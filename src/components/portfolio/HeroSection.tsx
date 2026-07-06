@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, MessageSquare, Award } from "lucide-react";
-import { GithubIcon, LinkedinIcon, TwitterIcon } from "../shared/icons";
+import { ArrowRight, MessageSquare } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "../shared/icons";
 import { Profile } from "@/lib/mockData";
 import SkeletonImage from "./SkeletonImage";
 import ThreeDBackground from "./ThreeDBackground";
+import { Magnetic, TextReveal, FadeInUp, StaggerContainer, StaggerItem } from "./Animations";
 
 interface HeroSectionProps {
   profile: Profile;
@@ -13,129 +14,142 @@ interface HeroSectionProps {
 
 export default function HeroSection({ profile }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center py-20 overflow-hidden bg-grid-pattern border-b border-zinc-200 bg-white">
-      {/* 3D Interactive Canvas */}
+    <section className="relative min-h-[92vh] flex items-center justify-center py-20 overflow-hidden bg-grid-pattern bg-white wave-divider">
       <ThreeDBackground />
 
       {/* Glow blobs */}
-      <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] rounded-full bg-violet-200/40 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-cyan-200/40 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[15%] left-[5%] w-[350px] h-[350px] rounded-full bg-[hsl(262,83%,85%)] opacity-30 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[15%] right-[5%] w-[400px] h-[400px] rounded-full bg-[hsl(175,72%,80%)] opacity-25 blur-[140px] pointer-events-none" />
+      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] rounded-full bg-[hsl(35,92%,85%)] opacity-15 blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-5xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-6xl mx-auto">
           
-          {/* Left Column: Text & CTAs */}
-          <motion.div 
-            className="flex-1 text-center lg:text-left space-y-6"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            {/* Availability Badge */}
+          {/* Left Column */}
+          <div className="flex-1 text-center lg:text-left space-y-7">
+            
+            {/* Floating Availability Badge */}
             {profile.availabilityStatus === "available" && (
-              <motion.div 
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 text-[10px] font-bold tracking-wider uppercase"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Available for projects
-              </motion.div>
+              <FadeInUp delay={0.2} distance={15}>
+                <div 
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-emerald-700 text-[10px] font-bold tracking-wider uppercase border border-emerald-500/20"
+                  style={{ animation: "float 6s ease-in-out infinite" }}
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  Available for projects
+                </div>
+              </FadeInUp>
             )}
 
-            {/* Name + Role */}
-            <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950">
-                {profile.name}
+            {/* Name with word-by-word reveal */}
+            <div className="space-y-3">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-zinc-950 leading-[1.1]">
+                <TextReveal text={profile.name} delay={0.3} />
               </h1>
-              <p className="text-lg sm:text-xl font-bold bg-gradient-to-r from-violet-600 to-cyan-600 bg-clip-text text-transparent">
-                {profile.title}
+              <FadeInUp delay={0.6} distance={20}>
+                <p className="text-lg sm:text-xl lg:text-2xl font-extrabold gradient-text">
+                  {profile.title}
+                </p>
+              </FadeInUp>
+            </div>
+
+            {/* Intro */}
+            <FadeInUp delay={0.75} distance={20}>
+              <p className="text-zinc-700 text-base sm:text-lg font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
+                {profile.introduction}
               </p>
-            </div>
+            </FadeInUp>
 
-            {/* One-Line Intro */}
-            <p className="text-zinc-800 text-base sm:text-lg font-semibold leading-relaxed max-w-xl mx-auto lg:mx-0">
-              {profile.introduction}
-            </p>
+            <FadeInUp delay={0.85} distance={20}>
+              <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
+                {profile.subtitle}
+              </p>
+            </FadeInUp>
 
-            {/* Short Paragraph */}
-            <p className="text-zinc-500 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
-              {profile.subtitle}
-            </p>
+            {/* CTAs with magnetic hover */}
+            <FadeInUp delay={0.95} distance={20}>
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-3">
+                <Magnetic strength={0.15}>
+                  <a 
+                    href="#projects"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[hsl(262,83%,58%)] to-[hsl(262,83%,48%)] hover:from-[hsl(262,83%,52%)] hover:to-[hsl(262,83%,42%)] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-violet-500/20 active:scale-[0.98] hover:shadow-xl hover:shadow-violet-500/30"
+                  >
+                    View Work <ArrowRight className="w-4 h-4" />
+                  </a>
+                </Magnetic>
+                <Magnetic strength={0.15}>
+                  <a 
+                    href="#contact"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl glass text-zinc-700 font-bold text-xs uppercase tracking-wider transition-all hover:bg-white/80 active:scale-[0.98] border border-zinc-200/60"
+                  >
+                    Contact Me <MessageSquare className="w-4 h-4" />
+                  </a>
+                </Magnetic>
+              </div>
+            </FadeInUp>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-              <a 
-                href="#projects"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg shadow-zinc-900/10 active:scale-98"
-              >
-                View Work <ArrowRight className="w-4 h-4" />
-              </a>
-              <a 
-                href="#contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs uppercase tracking-wider transition-colors active:scale-98"
-              >
-                Contact Me <MessageSquare className="w-4 h-4" />
-              </a>
-            </div>
-
-            {/* Social Links Directly Under CTAs */}
-            <div className="flex items-center justify-center lg:justify-start gap-5 pt-4">
-              <a 
-                href={profile.socialLinks.github} 
-                target="_blank" 
-                rel="noreferrer"
-                className="text-zinc-400 hover:text-zinc-900 transition-colors p-2 rounded-lg hover:bg-zinc-100"
-              >
-                <GithubIcon className="w-5 h-5" />
-              </a>
-              <a 
-                href={profile.socialLinks.linkedin} 
-                target="_blank" 
-                rel="noreferrer"
-                className="text-zinc-400 hover:text-zinc-900 transition-colors p-2 rounded-lg hover:bg-zinc-100"
-              >
-                <LinkedinIcon className="w-5 h-5" />
-              </a>
+            {/* Social Links with stagger */}
+            <StaggerContainer className="flex items-center justify-center lg:justify-start gap-3 pt-3" staggerDelay={0.06}>
+              {[
+                { href: profile.socialLinks.github, icon: <GithubIcon className="w-4.5 h-4.5" />, label: "GitHub" },
+                { href: profile.socialLinks.linkedin, icon: <LinkedinIcon className="w-4.5 h-4.5" />, label: "LinkedIn" },
+              ].map((social, idx) => (
+                <StaggerItem key={idx}>
+                  <Magnetic strength={0.25}>
+                    <a 
+                      href={social.href} 
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="text-zinc-400 hover:text-zinc-900 transition-all duration-300 p-2.5 rounded-xl hover:bg-zinc-100 hover:shadow-sm"
+                      aria-label={social.label}
+                    >
+                      {social.icon}
+                    </a>
+                  </Magnetic>
+                </StaggerItem>
+              ))}
               {profile.socialLinks.kaggle && (
-                <a 
-                  href={profile.socialLinks.kaggle} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="text-zinc-400 hover:text-zinc-900 transition-colors p-2 rounded-lg hover:bg-zinc-100 font-bold text-xs"
-                >
-                  Kaggle
-                </a>
+                <StaggerItem>
+                  <a href={profile.socialLinks.kaggle} target="_blank" rel="noreferrer"
+                    className="text-zinc-400 hover:text-zinc-900 transition-all duration-300 p-2.5 rounded-xl hover:bg-zinc-100 hover:shadow-sm font-bold text-xs">
+                    Kaggle
+                  </a>
+                </StaggerItem>
               )}
               {profile.socialLinks.medium && (
-                <a 
-                  href={profile.socialLinks.medium} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="text-zinc-400 hover:text-zinc-900 transition-colors p-2 rounded-lg hover:bg-zinc-100 font-bold text-xs"
-                >
-                  Medium
-                </a>
+                <StaggerItem>
+                  <a href={profile.socialLinks.medium} target="_blank" rel="noreferrer"
+                    className="text-zinc-400 hover:text-zinc-900 transition-all duration-300 p-2.5 rounded-xl hover:bg-zinc-100 hover:shadow-sm font-bold text-xs">
+                    Medium
+                  </a>
+                </StaggerItem>
               )}
-            </div>
-          </motion.div>
+            </StaggerContainer>
+          </div>
 
-          {/* Right Column: Circle Photo */}
+          {/* Right Column: Photo */}
           <motion.div 
             className="flex-1 relative flex justify-center items-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+            initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
           >
-            {/* Spinning decorative frame rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[300px] sm:w-[380px] h-[300px] sm:h-[380px] rounded-full border border-zinc-200/80 animate-[spin_50s_linear_infinite]" />
-              <div className="absolute w-[260px] sm:w-[320px] h-[260px] sm:h-[320px] rounded-full border border-dashed border-zinc-300/60 animate-[spin_30s_linear_infinite_reverse]" />
-            </div>
+            {/* Animated conic gradient ring */}
+            <div className="absolute w-[280px] sm:w-[340px] h-[280px] sm:h-[340px] rounded-full animate-[spin_12s_linear_infinite]"
+              style={{
+                background: "conic-gradient(from 0deg, hsl(262, 83%, 58%), hsl(175, 72%, 42%), hsl(35, 92%, 62%), hsl(262, 83%, 58%))",
+                padding: "3px",
+                WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px))",
+                mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px))",
+              }}
+            />
 
-            {/* Circular Image frame */}
-            <div className="relative w-[240px] sm:w-[300px] h-[240px] sm:h-[300px] rounded-full overflow-hidden border-4 border-white shadow-2xl bg-zinc-100 group">
+            <div className="absolute w-[310px] sm:w-[380px] h-[310px] sm:h-[380px] rounded-full border border-zinc-200/40 animate-[spin_50s_linear_infinite] pointer-events-none" />
+
+            <div className="relative w-[250px] sm:w-[310px] h-[250px] sm:h-[310px] rounded-full overflow-hidden border-4 border-white shadow-2xl bg-zinc-100 group">
               <SkeletonImage 
                 src={profile.heroImage} 
                 alt={profile.name} 
@@ -143,7 +157,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                 className="object-cover rounded-full transition-transform duration-700 group-hover:scale-105"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
             </div>
           </motion.div>
         </div>

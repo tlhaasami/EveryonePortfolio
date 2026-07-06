@@ -1,0 +1,162 @@
+[
+    {
+        "name": "ExpenseTracker",
+        "description": "Flutter application with offline-first personal finance management system with optional cloud synchronization, secure local storage, and analytical insights.",
+        "language": "Dart",
+        "category": "Mobile development",
+        "github": "https://github.com/tlhasami/ExpenseTracker",
+        "tech": ["Flutter", "Dart", "Firebase"]
+    },
+    {
+        "name": "shoesShopApp",
+        "description": "A lightweight, educational Flutter shopping app built to explore UI layout, state management with Provider, and basic e-commerce flows.",
+        "language": "Dart",
+        "category": "Mobile development",
+        "github": "https://github.com/tlhasami/shoesShopApp",
+        "tech": ["Flutter", "Dart", "Provider"]
+    },
+    {
+        "name": "weatherApp",
+        "description": "A small, focused Weather App built with Flutter — a practice project while learning Flutter. It demonstrates networking, JSON parsing, and responsive UI.",
+        "language": "Dart",
+        "category": "Mobile development",
+        "github": "https://github.com/tlhasami/weatherApp",
+        "tech": ["Flutter", "Dart", "API"]
+    },
+    {
+        "name": "my_chat_app",
+        "description": "My Chat App is a modern, user-friendly chat application built with Flutter. It allows users to communicate in real-time and share images.",
+        "language": "Dart",
+        "category": "Mobile development",
+        "github": "https://github.com/tlhasami/my_chat_app",
+        "tech": ["Flutter", "Firebase", "Realtime"]
+    },
+    {
+        "name": "WebScraping_PredictionModel",
+        "description": "Two data science projects: house price prediction using web-scraped data from Zameen.com, and PUBG player statistics analysis.",
+        "language": "Python",
+        "category": "Data Science",
+        "github": "https://github.com/tlhasami/WebScraping_PredictionModel",
+        "tech": ["Python", "Pandas", "Scikit-Learn"]
+    },
+    {
+        "name": "Mini-Jarvis",
+        "description": "Mini Jarvis is a simple voice assistant built using Python that can perform basic voice-controlled tasks like opening Google and playing music.",
+        "language": "Python",
+        "category": "Automation",
+        "github": "https://github.com/tlhasami/Mini-Jarvis",
+        "tech": ["Python", "Speech Recognition"]
+    },
+    {
+        "name": "TicTacToeGUI",
+        "description": "Tic Tac Toe game developed in C++ using the SFML graphics library. It provides a modern GUI with multiple gameplay modes including AI.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/TicTacToeGUI",
+        "tech": ["C++", "SFML", "AI"]
+    },
+    {
+        "name": "SonicGameClone",
+        "description": "This project is a 2D platformer game featuring Sonic the Hedgehog, implemented with a focus on OOP concepts such as inheritance and polymorphism.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/SonicGameClone",
+        "tech": ["C++", "SFML", "OOP"]
+    },
+    {
+        "name": "Space-Shooter",
+        "description": "A dynamic, graphics-based space shooter game built with C++ and SFML. Battle waves of enemies and survive challenging levels.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/Space-Shooter",
+        "tech": ["C++", "SFML", "Game Dev"]
+    },
+    {
+        "name": "XonicGamePF",
+        "description": "Xonic is a compact 2D game implemented in C++ using the SFML library, featuring arcade-style gameplay and interactive graphics.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/XonicGamePF",
+        "tech": ["C++", "SFML", "Algorithms"]
+    },
+    {
+        "name": "2048_GAME",
+        "description": "A single-player sliding tile puzzle game. The objective is to slide numbered tiles on a grid to combine them to create the 2048 tile.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/2048_GAME",
+        "tech": ["C++", "Logic", "UI"]
+    },
+    {
+        "name": "MINESWEEPER_GRAPHICS_SFML",
+        "description": "A graphical implementation of the classic Minesweeper game using SFML, featuring smooth graphics and intuitive controls.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/MINESWEEPER_GRAPHICS_SFML",
+        "tech": ["C++", "SFML", "Logic"]
+    },
+    {
+        "name": "LUDO_SFML_GRAPHIC",
+        "description": "A compact Ludo board game using SFML for graphics, audio and window management. Great for learning C++ Game engineering.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/LUDO_SFML_GRAPHIC",
+        "tech": ["C++", "SFML", "Multiplayer"]
+    },
+    {
+        "name": "PredictionModel",
+        "description": "A comprehensive C++ application for store analytics, sales forecasting, and data-driven decision making using clustering algorithms.",
+        "language": "C++",
+        "category": "Data Analysis",
+        "github": "https://github.com/tlhasami/PredictionModel",
+        "tech": ["C++", "Algorithms", "Data"]
+    },
+    {
+        "name": "LeetCodePractice",
+        "description": "This repository contains my solutions to LeetCode problems solved during Data Structures and Algorithms practice, organized by topic.",
+        "language": "C++",
+        "category": "DSA",
+        "github": "https://github.com/tlhasami/LeetCodePractice",
+        "tech": ["C++", "DSA", "Logic"]
+    },
+    {
+        "name": "ManagementSystems",
+        "description": "Collection of console-based management system projects in C++ using OOP, including Banking, Student Records, and Inventory systems.",
+        "language": "C++",
+        "category": "Software Design",
+        "github": "https://github.com/tlhasami/ManagementSystems",
+        "tech": ["C++", "OOP", "Systems"]
+    },
+    {
+        "name": "taskSimulation",
+        "description": "A compact C++ OOP demo implementing a role-based task and messaging system with policy enforcement and authentication.",
+        "language": "C++",
+        "category": "Software Design",
+        "github": "https://github.com/tlhasami/taskSimulation",
+        "tech": ["C++", "OOP", "Security"]
+    },
+    {
+        "name": "UNO_GAME",
+        "description": "A terminal implementation of the classic UNO card game allowing two players to play against each other with standard mechanics.",
+        "language": "C++",
+        "category": "Game development",
+        "github": "https://github.com/tlhasami/UNO_GAME",
+        "tech": ["C++", "Terminal", "Logic"]
+    },
+    {
+        "name": "ShopingPortalOnline",
+        "description": "An Online console based shopping portal featuring vendor, admin, and manager roles with complex interaction patterns.",
+        "language": "C++",
+        "category": "Software Design",
+        "github": "https://github.com/tlhasami/ShopingPortalOnline",
+        "tech": ["C++", "Logic", "OOP"]
+    },
+    {
+        "name": "Software-Testing",
+        "description": "A C++ programming assignment framework featuring a structured template system for algorithm validation and integrated testing.",
+        "language": "C++",
+        "category": "Software testing",
+        "github": "https://github.com/tlhasami/Software-Testing",
+        "tech": ["C++", "Unit Testing", "Algorithms"]
+    }
+]

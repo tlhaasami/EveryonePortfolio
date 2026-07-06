@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Talha Sami - Projects Portfolio showcasing Flutter, C++, Python, and Data Science projects.">
+    <meta name="keywords"
+        content="Talha Sami, Projects, Flutter, C++, Python, Data Science, Portfolio">
+    <meta name="author" content="Talha Sami">
+    <title>Projects | Talha Sami</title>
+
+    <!-- Google Fonts - Premium Luxury Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Instant theme application to prevent flash -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('portfolio-theme');
+            if (savedTheme !== 'light') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Particles Background -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- Aurora Waves Background -->
+    <div class="aurora-layer" aria-hidden="true">
+        <div class="aurora-wave aurora-wave-1"></div>
+        <div class="aurora-wave aurora-wave-2"></div>
+        <div class="aurora-wave aurora-wave-3"></div>
+    </div>
+
+    <!-- Fixed Header -->
+    <header id="main-header">
+        <nav class="nav-container">
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="logo">
+                <a href="index.html" class="logo-wrapper" style="text-decoration: none;">
+                    <span class="logo-icon">TS</span>
+                    <span class="logo-title">Talha Sami</span>
+                </a>
+            </div>
+
+            <nav>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="index.html#about" class="nav-link"><i class="fas fa-user"></i> About</a></li>
+                    <li><a href="index.html#tech-stack" class="nav-link"><i class="fas fa-code"></i> Tech Stack</a></li>
+                    <li><a href="index.html#achievements" class="nav-link"><i class="fas fa-trophy"></i> Achievements</a></li>
+                    <li><a href="index.html#certificates" class="nav-link"><i class="fas fa-certificate"></i> Certificates</a></li>
+                    <li><a href="projects.html" class="nav-link active"><i class="fas fa-folder"></i> Projects</a></li>
+                    <li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section" style="padding-top: 120px; min-height: 100vh;">
+        <div class="container">
+            <h2 class="section-title">Signature Works</h2>
+            
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                A collection of projects showcasing my expertise in Flutter, C++, Python, and more.
+            </p>
+
+            <!-- GitHub Profile Link -->
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <a href="https://github.com/tlhasami" target="_blank" rel="noopener noreferrer" class="cta-button"
+                    style="display: inline-flex;">
+                    <i class="fab fa-github"></i> View All Projects on GitHub
+                </a>
+            </div>
+
+            <div id="projects-grid" class="projects-grid">
+                <!-- Projects will be loaded dynamically from projects-data.json -->
+            </div>
+
+            <!-- Back to Home -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="index.html" class="cta-button" style="display: inline-flex; background: transparent; border: 1px solid var(--gold-primary);">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script type="module" src="js/projects-page.js"></script>
+</body>
+
+</html>

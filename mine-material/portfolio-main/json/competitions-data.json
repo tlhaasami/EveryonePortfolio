@@ -1,0 +1,30 @@
+[
+    {
+        "title": "FETX Competition",
+        "description": "Secured 1st place in the prestigious FETX event, demonstrating advanced technical problem-solving and innovation.",
+        "image": "assets/CompetitionsWinner/FETX_Winner.png",
+        "badge": "Winner",
+        "badgeIcon": "trophy"
+    },
+    {
+        "title": "Soventure Bug Buster",
+        "description": "Top performer in the challenge, specialized in debugging, system optimization, and efficient algorithmic solutions.",
+        "image": "assets/CompetitionsWinner/BugBuster.png",
+        "badge": "Winner",
+        "badgeIcon": "medal"
+    },
+    {
+        "title": "Code Air",
+        "description": "Top performer in the challenge, specialized in debugging, system optimization, and efficient algorithmic solutions.",
+        "image": "assets/CompetitionsWinner/CodeAir.png",
+        "badge": "Top Rank",
+        "badgeIcon": "medal"
+    },
+    {
+        "title": "Code Craft",
+        "description": "Top performer in the challenge, specialized in debugging, system optimization, and efficient algorithmic solutions.",
+        "image": "assets/CompetitionsWinner/Nascon.png",
+        "badge": "Top Rank",
+        "badgeIcon": "medal"
+    }
+]

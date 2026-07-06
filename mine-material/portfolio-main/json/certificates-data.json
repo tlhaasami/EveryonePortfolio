@@ -1,0 +1,34 @@
+[
+    {
+        "title": "Google AI Essentials",
+        "description": "Professional certification from Google via Coursera, validating expertise in modern AI implementation.",
+        "image": "assets/Certificates/GoogleAiEssentials.png",
+        "verifyUrl": "https://www.coursera.org/account/accomplishments/verify/VJQYQMIPUMMK",
+        "issuer": "Google",
+        "platform": "Coursera"
+    },
+    {
+        "title": "Prompting Essentials",
+        "description": "Learned to design effective prompts for AI models to generate high-quality outputs.",
+        "image": "assets/Certificates/GooglePromptingEssentials.png",
+        "verifyUrl": "https://www.coursera.org/account/accomplishments/verify/TJXKDRICE7HK",
+        "issuer": "Google",
+        "platform": "Coursera"
+    },
+    {
+        "title": "Crash Course on Python",
+        "description": "Gained a solid foundation in Python programming and automation scripts.",
+        "image": "assets/Certificates/CrashCourseOnPython.png",
+        "verifyUrl": "https://www.coursera.org/account/accomplishments/verify/85UBFW25EO2T",
+        "issuer": "Google",
+        "platform": "Coursera"
+    },
+    {
+        "title": "Get Started with Python",
+        "description": "Introductory course covering basic Python syntax, logic, and data structures.",
+        "image": "assets/Certificates/GetStartedWithPython.png",
+        "verifyUrl": "https://www.coursera.org/account/accomplishments/certificate/WHZ03GRBS7HB",
+        "issuer": "Google",
+        "platform": "Coursera"
+    }
+]

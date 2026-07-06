@@ -1,0 +1,78 @@
+/* ==========================================
+   TYPOGRAPHY
+   ========================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 4rem;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    position: relative;
+    padding-top: 2rem;
+}
+
+h2.section-title {
+    color: var(--text-primary);
+    text-align: center;
+}
+
+#about h2.section-title {
+    margin-top: -1rem;
+    /* Less space for the first section below hero */
+}
+
+h2.section-title {
+    margin-top: -1rem;
+    /* Less space for the first section below hero */
+}
+
+:root.dark-theme h2.section-title {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: table;
+    /* Allow centering with margin auto if needed */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gold-primary);
+    border-radius: 2px;
+}
+
+:root:not(.dark-theme) h2.section-title::after {
+    background: #000;
+}
+
+h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+}

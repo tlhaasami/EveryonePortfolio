@@ -1,0 +1,91 @@
+/* ==========================================
+   VARIABLES - AURORA PREMIUM EDITION
+   ========================================== */
+:root {
+    /* Premium Aurora Palette */
+    --gold-primary: #E8B86D;
+    --gold-secondary: #C9A055;
+    --gold-light: #F4D499;
+    --gold-gradient: linear-gradient(135deg, #F4D499 0%, #E8B86D 50%, #C9A055 100%);
+    --silver-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    
+    /* Accent Colors - Modern Complements */
+    --accent-cyan: #67E8F9;
+    --accent-violet: #A78BFA;
+    --accent-rose: #FDA4AF;
+    --accent-emerald: #6EE7B7;
+    
+    /* Aurora Gradients */
+    --aurora-gradient: linear-gradient(135deg, 
+        rgba(103, 232, 249, 0.15) 0%, 
+        rgba(167, 139, 250, 0.1) 25%, 
+        rgba(232, 184, 109, 0.15) 50%, 
+        rgba(110, 231, 183, 0.1) 75%, 
+        rgba(253, 164, 175, 0.1) 100%);
+    --mesh-gradient: radial-gradient(at 40% 20%, rgba(167, 139, 250, 0.08) 0px, transparent 50%),
+        radial-gradient(at 80% 0%, rgba(103, 232, 249, 0.06) 0px, transparent 50%),
+        radial-gradient(at 0% 50%, rgba(232, 184, 109, 0.08) 0px, transparent 50%),
+        radial-gradient(at 80% 50%, rgba(110, 231, 183, 0.05) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(253, 164, 175, 0.06) 0px, transparent 50%);
+
+    /* Base Colors */
+    --color-black: #0A0A0B;
+    --color-white: #FAFAFA;
+
+    /* Fonts */
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: 'Montserrat', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 8rem;
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    --transition-premium: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Light Mode Variables */
+:root:not(.dark-theme) {
+    --bg-primary: #FAFBFC;
+    --bg-secondary: #F1F5F9;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --accent-color: #1E293B;
+    --border-color: rgba(148, 163, 184, 0.3);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 12px 28px rgba(15, 23, 42, 0.08), 0 4px 8px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 24px 48px rgba(15, 23, 42, 0.12), 0 8px 16px rgba(15, 23, 42, 0.08);
+    --shadow-xl: 0 32px 64px rgba(15, 23, 42, 0.16), 0 16px 24px rgba(15, 23, 42, 0.1);
+    --glow: 0 0 20px rgba(232, 184, 109, 0.15), 0 0 40px rgba(167, 139, 250, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --highlight-glow: 0 0 30px rgba(232, 184, 109, 0.25);
+}
+
+/* Dark Mode Variables */
+:root.dark-theme {
+    --bg-primary: #06070A;
+    --bg-secondary: #0D0F14;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --accent-color: var(--gold-primary);
+    --border-color: rgba(148, 163, 184, 0.12);
+    --card-bg: rgba(15, 23, 42, 0.6);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 32px 64px rgba(0, 0, 0, 0.7), 0 16px 24px rgba(0, 0, 0, 0.6);
+    --glow: 0 0 25px rgba(232, 184, 109, 0.2), 0 0 50px rgba(167, 139, 250, 0.1);
+    --glass-bg: rgba(13, 15, 20, 0.8);
+    --glass-border: rgba(148, 163, 184, 0.1);
+    --highlight-glow: 0 0 40px rgba(232, 184, 109, 0.3), 0 0 80px rgba(167, 139, 250, 0.15);
+}

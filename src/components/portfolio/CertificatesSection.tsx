@@ -6,6 +6,7 @@ import { Certificate } from "@/lib/mockData";
 import { Award, ExternalLink, ShieldCheck, Calendar, Bookmark, X } from "lucide-react";
 import CertificateCard from "./CertificateCard";
 import SkeletonImage from "./SkeletonImage";
+import { FadeInUp } from "./Animations";
 
 interface CertificatesSectionProps {
   certificates: Certificate[];
@@ -121,9 +122,15 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
         
         {/* Header */}
         <div className="text-left mb-12">
-          <h2 className="text-xs font-bold tracking-widest text-violet-600 uppercase mb-2">My Credentials</h2>
-          <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Professional Certifications</h3>
-          <p className="text-xs text-zinc-450 mt-1">Explore my verified certifications.</p>
+          <FadeInUp distance={15}>
+            <h2 className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2">My Credentials</h2>
+          </FadeInUp>
+          <FadeInUp delay={0.1} distance={20}>
+            <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Professional Certifications</h3>
+          </FadeInUp>
+          <FadeInUp delay={0.2} distance={15}>
+            <p className="text-xs text-zinc-450 mt-1">Explore my verified certifications.</p>
+          </FadeInUp>
         </div>
 
         {/* Carousel Row wrapper */}

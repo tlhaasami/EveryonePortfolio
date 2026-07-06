@@ -8,6 +8,7 @@ import { Project, GithubRepo } from "@/lib/mockData";
 import ProjectCard from "./ProjectCard";
 import GithubRepoCard from "./GithubRepoCard";
 import SkeletonImage from "./SkeletonImage";
+import { FadeInUp, ScaleIn, StaggerContainer, StaggerItem } from "./Animations";
 
 interface ProjectsSectionProps {
   projects: Project[];
@@ -125,38 +126,24 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
         
         {/* Header */}
         <div className="text-left mb-16">
-          <motion.h2 
-            className="text-xs font-bold tracking-widest text-violet-600 uppercase mb-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            My Showcase
-          </motion.h2>
-          <motion.h3 
-            className="text-2xl sm:text-3xl font-black text-zinc-950"
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            Featured Projects
-          </motion.h3>
+          <FadeInUp distance={15}>
+            <h2 className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2">My Showcase</h2>
+          </FadeInUp>
+          <FadeInUp delay={0.1} distance={20}>
+            <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Featured Projects</h3>
+          </FadeInUp>
         </div>
 
         {/* Featured Projects Grid (Top 3 or 4) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24" staggerDelay={0.12}>
           {projects.slice(0, 4).map((project, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-            >
+            <StaggerItem key={idx}>
+              <ScaleIn delay={idx * 0.05}>
               <ProjectCard project={project} onClick={() => setSelectedProject(project)} />
-            </motion.div>
+              </ScaleIn>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* GitHub & More Projects Horizontal Scroll Section */}
         <div className="pt-12 border-t border-zinc-200">

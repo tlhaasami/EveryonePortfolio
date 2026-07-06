@@ -1,0 +1,179 @@
+/* ==========================================
+   BUTTONS & INTERACTIVE ELEMENTS
+   ========================================== */
+
+/* CTA Buttons */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    will-change: transform, background-color, border-color;
+    box-sizing: border-box;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--accent-violet) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+    border-radius: 10px;
+}
+
+.cta-button:hover {
+    color: var(--color-white);
+    border-color: transparent;
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), var(--highlight-glow);
+}
+
+.cta-button:hover::before {
+    opacity: 1;
+}
+
+/* Accessibility - Focus states */
+.cta-button:focus,
+.cta-button:focus-visible {
+    outline: 2px solid var(--gold-primary);
+    outline-offset: 4px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.75rem;
+    font-size: 1.2rem;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    will-change: transform, background-color;
+    box-sizing: border-box;
+}
+
+.theme-toggle:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-primary);
+    transform: rotate(180deg) scale(1.1);
+    border-color: var(--accent-color);
+}
+
+.theme-toggle:focus,
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--gold-primary);
+    outline-offset: 4px;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all var(--transition-normal);
+    border-radius: 10px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+    color: var(--color-white);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm), 0 0 20px rgba(232, 184, 109, 0.3);
+}
+
+/* Form Button */
+.submit-btn {
+    padding: 1rem 2.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 10px;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--accent-violet) 100%);
+    color: var(--color-white);
+    border-color: transparent;
+    box-shadow: var(--highlight-glow);
+}
+
+/* Back to Top */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+    z-index: 999;
+    border-radius: 14px;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+    color: var(--color-white);
+    border-color: transparent;
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md), var(--highlight-glow);
+}

@@ -1,0 +1,121 @@
+/* ==========================================
+   PROJECTS, CERTIFICATES & TECH STACK
+   ========================================== */
+
+/* Tech Stack Section */
+.tech-stack-section {
+    background: transparent;
+}
+
+.tech-category {
+    margin-bottom: 3rem;
+}
+
+.tech-category h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.tech-category h3 i {
+    color: var(--gold-primary);
+}
+
+/* Projects Section */
+.projects-section {
+    background: transparent;
+}
+
+.projects-category {
+    margin-bottom: 4rem;
+}
+
+.category-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tech-icon {
+    font-size: 2.5rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.project-header {
+    margin-bottom: 1rem;
+}
+
+.project-header h4 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Achievements Section layout */
+.achievements-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.leetcode-profile {
+    text-align: center;
+    padding: 3rem 3rem 3rem;
+    /* Decreased bottom padding */
+    border: 3px solid var(--border-color);
+    background-color: var(--bg-secondary);
+}
+
+.leetcode-profile h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.leetcode-profile p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.profile-link {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--border-color);
+    font-weight: 600;
+    transition: all var(--transition-normal);
+}
+
+.profile-link:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-primary);
+}
+
+/* Certificates Grid */
+.certificates-section {
+    padding-top: 1rem !important;
+    /* Decreased upper padding */
+}
+
+.certificates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
