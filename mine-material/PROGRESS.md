@@ -9,6 +9,9 @@ Track the implementation status of features and modules for the EveryonePortfoli
 - [x] Tailwind CSS v4 Configuration
 - [x] ESLint & Prettier Setup
 - [x] Project Folder Organization and Naming
+- [x] UI Libraries & Animations Setup (`lucide-react`, `framer-motion`)
+- [x] Shared Brand Icons System (custom SVGs)
+- [x] Core Portfolio Frontend Skeleton Scaffold (Hero, Projects, Skills, Experience, Contact)
 - [ ] Supabase Client Integration & Configuration
 
 ---
