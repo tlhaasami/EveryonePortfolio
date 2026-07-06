@@ -1,0 +1,827 @@
+# EveryonePortfolio
+
+## Product Requirements & Vision Document (Version 1.0)
+
+---
+
+# Introduction
+
+**EveryonePortfolio** is a full-stack, cloud-based **Portfolio Builder SaaS** that enables anyone to create, customize, and manage a professional portfolio website without writing code.
+
+Unlike traditional portfolio websites that require manual coding or static updates, EveryonePortfolio is a **dynamic CMS-driven platform** where every piece of content is managed through an intuitive admin dashboard.
+
+The platform follows a **multi-tenant architecture**, meaning a single application serves thousands of independent users. Every user receives their own portfolio, dashboard, theme settings, analytics, AI-powered assistance, and personalized URL while sharing the same infrastructure securely.
+
+The goal is to create a production-grade application that demonstrates modern software engineering principles including scalable architecture, authentication, database design, system design, frontend engineering, backend engineering, cloud deployment, and interactive web experiences.
+
+The platform is designed to evolve continuously. New modules, themes, AI capabilities, integrations, and features can be added without requiring major architectural changes.
+
+---
+
+# Product Vision
+
+Create a platform where anyone can
+
+* Create a professional portfolio
+* Customize it completely without coding
+* Manage everything through an admin dashboard
+* Generate professional ATS-friendly resumes
+* Showcase projects professionally
+* Add interactive 3D experiences
+* Track visitors and analytics
+* Receive intelligent recommendations for improving their portfolio
+* Own a personal portfolio URL
+* Eventually connect their own domain
+
+The platform should feel less like a portfolio website and more like a complete **Professional Identity Platform**.
+
+---
+
+# Core Principles
+
+* Fully dynamic
+* Database-driven
+* Multi-tenant
+* Modular architecture
+* Production-ready
+* Scalable
+* Responsive
+* Secure
+* Highly customizable
+* Zero hardcoded portfolio data
+* Everything manageable through the dashboard
+
+---
+
+# Platform Architecture
+
+```
+Visitors
+
+↓
+
+EveryonePortfolio
+
+↓
+
+Authentication
+
+↓
+
+Dashboard
+
+↓
+
+Portfolio Engine
+
+↓
+
+CMS
+
+↓
+
+Database
+
+↓
+
+Storage
+
+↓
+
+Analytics
+
+↓
+
+3D Engine
+
+↓
+
+AI Layer
+```
+
+---
+
+# URL Structure
+
+Platform Home
+
+```
+everyoneportfolio.vercel.app
+```
+
+Login
+
+```
+everyoneportfolio.vercel.app/login
+```
+
+Register
+
+```
+everyoneportfolio.vercel.app/register
+```
+
+Dashboard
+
+```
+everyoneportfolio.vercel.app/dashboard
+```
+
+User Portfolio
+
+```
+everyoneportfolio.vercel.app/u/username
+```
+
+Future
+
+```
+username.dev
+```
+
+---
+
+# Major Modules
+
+## 1. Landing Website
+
+Purpose
+
+Introduce the platform.
+
+Includes
+
+* Hero
+* Features
+* Benefits
+* Pricing (Future)
+* FAQ
+* Login
+* Register
+* Documentation (Future)
+
+---
+
+## 2. Authentication
+
+Features
+
+* Register
+* Login
+* Logout
+* Forgot Password
+* Email Verification
+* Secure Sessions
+* Username Reservation
+* Protected Routes
+
+---
+
+## 3. User Dashboard
+
+The control center of every user's portfolio.
+
+Contains
+
+* Dashboard
+* Portfolio CMS
+* Appearance
+* Resume Builder
+* Analytics
+* Settings
+* Account
+
+---
+
+# Portfolio CMS
+
+Everything inside the portfolio is editable.
+
+---
+
+## Hero Section
+
+* Name
+* Title
+* Subtitle
+* Introduction
+* Hero Image
+* Background
+* Social Links
+* Call To Action
+* Availability Status
+* CV Download
+
+---
+
+## About
+
+* Biography
+* Timeline
+* Personal Statistics
+* Current Focus
+* Interests
+
+---
+
+## Skills
+
+Dynamic categories.
+
+Examples
+
+* Languages
+* Frontend
+* Backend
+* Databases
+* AI
+* Automation
+* Cloud
+* DevOps
+* Tools
+* Soft Skills
+
+Each skill
+
+* Name
+* Icon
+* Description
+* Level
+* Years
+* Category
+* Featured
+* Display Order
+
+---
+
+## Projects
+
+Most important section.
+
+Each project contains
+
+* Title
+* Description
+* Technologies
+* Features
+* Architecture
+* Challenges
+* Lessons Learned
+* Role
+* Duration
+* Status
+* GitHub
+* Live Demo
+* Gallery
+* Videos
+* Architecture Diagrams
+* Tags
+* Categories
+* Featured
+
+---
+
+## Experience
+
+* Company
+* Position
+* Responsibilities
+* Technologies
+* Achievements
+* Timeline
+
+---
+
+## Education
+
+* Institution
+* Degree
+* CGPA
+* Timeline
+* Coursework
+* Achievements
+
+---
+
+## Certificates
+
+Each certificate
+
+* Name
+* Organization
+* Date
+* Verification Link
+* Credential ID
+* Image
+* PDF
+* Skills Earned
+
+---
+
+## Achievements
+
+Examples
+
+* Awards
+* Competitions
+* Leadership
+* Freelancing
+* Sports
+
+---
+
+## Testimonials
+
+Each testimonial
+
+* Name
+* Company
+* Position
+* Image
+* Rating
+* Review
+
+---
+
+## Services
+
+Future freelancing section.
+
+* Service Name
+* Description
+* Technologies
+* Pricing (Future)
+
+---
+
+## Contact
+
+* Contact Form
+* Email
+* Phone
+* Social Links
+* Availability
+
+---
+
+## SEO
+
+Editable metadata.
+
+* Page Title
+* Description
+* Keywords
+* Open Graph Image
+
+---
+
+# Appearance Engine
+
+Every user should customize the portfolio without coding.
+
+Customization
+
+* Primary Color
+* Secondary Color
+* Accent Color
+* Typography
+* Fonts
+* Border Radius
+* Shadows
+* Animations
+* Light Theme
+* Dark Theme
+* Glass Effects
+* Layout
+* Component Styles
+* Navigation Style
+* Footer Style
+* Section Visibility
+* Section Order
+* Animation Speed
+
+---
+
+# Resume Builder
+
+One of the platform's flagship features.
+
+Purpose
+
+Generate professional ATS-friendly resumes from existing portfolio data.
+
+Built using LaTeX templates.
+
+No manual LaTeX editing.
+
+Features
+
+* Multiple Resume Versions
+* Multiple Templates
+* Section Enable/Disable
+* Section Reordering
+* Project Selection
+* Skill Selection
+* Certificate Selection
+* Experience Selection
+* Live Preview
+* Generate PDF
+* Download PDF
+
+Future
+
+* DOCX Export
+* Cover Letter Generator
+* AI Resume Optimization
+
+---
+
+# 3D Experience Engine
+
+Not a Blender showcase.
+
+Instead, an interactive section demonstrating modern web experiences.
+
+Examples
+
+* Interactive Workspace
+* Futuristic Dashboard
+* Technology Showcase
+* Interactive Objects
+* Scroll-driven Animations
+* Animated Particles
+* Dynamic Lighting
+
+Each user can
+
+* Enable/Disable 3D
+* Choose Scene
+* Customize Colors
+
+Future
+
+* Scene Marketplace
+
+---
+
+# Analytics
+
+Every portfolio includes analytics.
+
+Examples
+
+* Visitors
+* Countries
+* Devices
+* Browsers
+* Most Viewed Projects
+* Traffic Sources
+* Page Views
+* Click Statistics
+* Download Counts
+
+---
+
+# Smart Assistant Layer
+
+Designed to operate **without mandatory paid AI APIs**.
+
+The platform owner should incur **zero AI operating costs**.
+
+Advanced AI can later be enabled by users supplying their own API keys or using local models.
+
+## 1. Portfolio Knowledge Assistant
+
+A portfolio-specific chatbot using Retrieval-Augmented Generation (RAG) over the user's own data.
+
+Answers questions such as:
+
+* Who is this person?
+* What projects have they built?
+* What skills do they have?
+* What certificates have they earned?
+* How can I contact them?
+
+---
+
+## 2. Portfolio Health Analyzer
+
+Rule-based evaluation engine.
+
+Checks
+
+* Missing sections
+* Weak project descriptions
+* Missing screenshots
+* Poor SEO
+* Missing links
+* Empty contact details
+* Overall portfolio completeness
+
+Provides a score and actionable recommendations.
+
+---
+
+## 3. Resume Optimizer
+
+Compares a job description with the user's portfolio.
+
+Suggests
+
+* Relevant projects
+* Relevant skills
+* Relevant certificates
+* Best resume layout
+
+---
+
+## 4. Portfolio Reviewer
+
+Evaluates the portfolio from a recruiter's perspective.
+
+Scores
+
+* Projects
+* Experience
+* Skills
+* SEO
+* Accessibility
+* Organization
+
+Provides strengths, weaknesses, and improvement suggestions.
+
+---
+
+## 5. Skill Gap Analyzer
+
+Compares the user's skills against curated career profiles (e.g., Frontend Developer, Machine Learning Engineer, Backend Developer).
+
+Outputs:
+
+* Match percentage
+* Missing skills
+* Suggested learning priorities
+
+---
+
+## 6. Career Roadmap Generator
+
+Uses predefined learning paths to show progress toward a target career.
+
+Example:
+
+Current Goal:
+Machine Learning Engineer
+
+Shows completed and missing milestones based on the user's portfolio.
+
+---
+
+# Super Admin Panel
+
+Platform owner controls
+
+* Users
+* Platform Settings
+* Templates
+* Themes
+* Feature Flags
+* Analytics
+* Storage
+* Platform Announcements
+
+---
+
+# Functional Requirements
+
+## Authentication
+
+* Registration
+* Login
+* Password Reset
+* Email Verification
+* Username Validation
+* Secure Sessions
+
+---
+
+## Portfolio Management
+
+* CRUD for every section
+* Image Uploads
+* Automatic Publishing
+* Draft Support (future)
+
+---
+
+## Customization
+
+* Theme Customization
+* Layout Customization
+* Light/Dark Mode
+* Animation Settings
+* Section Ordering
+* 3D Toggle
+
+---
+
+## Resume Builder
+
+* Generate ATS-friendly PDFs
+* Multiple Templates
+* Multiple Resume Versions
+* Section Selection
+* Project Selection
+* PDF Export
+
+---
+
+## Smart Assistant
+
+* Portfolio Chat
+* Health Analysis
+* Resume Suggestions
+* Portfolio Review
+* Skill Gap Analysis
+* Career Roadmap
+
+---
+
+## Analytics
+
+* Visitor Tracking
+* Portfolio Statistics
+* Device Analytics
+* Traffic Analytics
+
+---
+
+## Super Admin
+
+* User Management
+* Storage Monitoring
+* Platform Analytics
+* Platform Configuration
+
+---
+
+# Non-Functional Requirements
+
+* Multi-tenant architecture
+* Data isolation through Row Level Security
+* Responsive design
+* High performance
+* Accessibility compliance
+* SEO-friendly rendering
+* Modular codebase
+* Secure authentication
+* Scalable database design
+* Production-ready architecture
+* Free-tier deployment
+* Zero mandatory AI costs
+
+---
+
+# Future Roadmap
+
+* Custom Domains
+* Multiple Portfolio Templates
+* Drag-and-Drop Builder
+* AI Content Generation (user-provided API key or local model)
+* Team Portfolios
+* Portfolio Marketplace
+* Plugin System
+* Portfolio Import/Export
+* Mobile Application
+* Enterprise Features
+* Resume Cover Letter Generator
+* Additional 3D Scene Library
+
+---
+
+# Suggested Folder Architecture
+
+```
+apps/
+    web
+
+packages/
+    ui
+    types
+    utils
+    config
+
+modules/
+    auth
+    dashboard
+    portfolio
+    appearance
+    analytics
+    resume
+    ai
+    three
+    seo
+    settings
+    notifications
+
+services/
+    supabase
+    storage
+    api
+
+components/
+    shared
+
+hooks/
+
+lib/
+
+middleware/
+
+public/
+```
+
+---
+
+# Recommended Tech Stack
+
+## Frontend
+
+* Next.js (App Router)
+* React
+* TypeScript
+* Tailwind CSS
+* Shadcn/UI
+* Framer Motion
+* GSAP
+* Lenis
+* React Three Fiber
+* Drei
+* Three.js
+* Zustand
+* TanStack Query
+* React Hook Form
+* Zod
+
+---
+
+## Backend
+
+* Supabase
+
+  * PostgreSQL
+  * Authentication
+  * Storage
+  * Row Level Security
+  * Edge Functions
+  * Realtime (optional)
+
+---
+
+## Resume Generation
+
+* LaTeX templates
+* PDF generation pipeline
+
+---
+
+## AI & Smart Features
+
+* Rule-based recommendation engine
+* RAG architecture for portfolio knowledge
+* Local vector storage (or PostgreSQL + pgvector when appropriate)
+* Optional support for user-provided LLM API keys or local models (e.g., Ollama) in the future
+
+---
+
+## Deployment
+
+* Vercel (Frontend)
+* Supabase (Backend & Database)
+
+---
+
+## Version Control & Quality
+
+* Git
+* GitHub
+* ESLint
+* Prettier
+* Husky
+* lint-staged
+
+---
+
+## Testing
+
+* Vitest
+* React Testing Library
+* Playwright
+
+---
+
+# Final Vision
+
+EveryonePortfolio is not just a portfolio builder—it is a **Professional Identity Platform**. It combines a customizable portfolio CMS, ATS-friendly resume generation, interactive 3D experiences, analytics, and intelligent guidance into a single, scalable SaaS application.
+
+By following a modular, production-ready architecture and relying on free-tier infrastructure with zero mandatory AI operating costs, the platform serves as both a practical tool for users and an exceptional showcase of modern software engineering, system design, and full-stack development. It is designed to grow from a student project into a real-world product without requiring a complete rewrite.
