@@ -15,6 +15,8 @@ export interface Profile {
     linkedin: string;
     twitter?: string;
     portfolio?: string;
+    kaggle?: string;
+    medium?: string;
   };
   stats: { label: string; value: string }[];
   timeline: { year: string; title: string; description: string }[];
@@ -27,6 +29,7 @@ export interface Skill {
   years: number;
   featured: boolean;
   displayOrder: number;
+  logoUrl?: string; // Sourced for tech logos
 }
 
 export interface Project {
@@ -72,6 +75,7 @@ export interface Certificate {
   credentialId: string;
   verificationLink: string;
   skillsEarned: string[];
+  image?: string;
 }
 
 export interface Testimonial {
@@ -83,11 +87,13 @@ export interface Testimonial {
   avatar: string;
 }
 
-export interface Service {
+export interface GithubRepo {
   name: string;
   description: string;
-  technologies: string[];
-  pricing: string;
+  language: string;
+  stars: number;
+  forks: number;
+  url: string;
 }
 
 export interface PortfolioData {
@@ -98,7 +104,7 @@ export interface PortfolioData {
   education: Education[];
   certificates: Certificate[];
   testimonials: Testimonial[];
-  services: Service[];
+  githubRepos: GithubRepo[];
 }
 
 export const mockPortfolioData: PortfolioData = {
@@ -117,12 +123,14 @@ export const mockPortfolioData: PortfolioData = {
     socialLinks: {
       github: "https://github.com",
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com"
+      twitter: "https://twitter.com",
+      kaggle: "https://kaggle.com",
+      medium: "https://medium.com"
     },
     stats: [
       { label: "Years of Experience", value: "4+" },
       { label: "Projects Completed", value: "25+" },
-      { label: "Happy Clients", value: "15+" }
+      { label: "Certifications", value: "4" }
     ],
     timeline: [
       { year: "2024 - Present", title: "Senior Interactive Engineer", description: "Leading the development of real-time dashboard analytics systems using React Three Fiber." },
@@ -131,20 +139,16 @@ export const mockPortfolioData: PortfolioData = {
     ]
   },
   skills: [
-    { name: "TypeScript", category: "languages", level: 95, years: 4, featured: true, displayOrder: 1 },
-    { name: "JavaScript", category: "languages", level: 98, years: 5, featured: true, displayOrder: 2 },
-    { name: "Python", category: "languages", level: 80, years: 3, featured: false, displayOrder: 3 },
-    { name: "React / Next.js", category: "frontend", level: 95, years: 4, featured: true, displayOrder: 4 },
-    { name: "Three.js / React Three Fiber", category: "frontend", level: 88, years: 2, featured: true, displayOrder: 5 },
-    { name: "Tailwind CSS", category: "frontend", level: 95, years: 4, featured: true, displayOrder: 6 },
-    { name: "Node.js", category: "backend", level: 90, years: 4, featured: true, displayOrder: 7 },
-    { name: "GraphQL / REST APIs", category: "backend", level: 88, years: 3, featured: false, displayOrder: 8 },
-    { name: "PostgreSQL", category: "databases", level: 85, years: 3, featured: true, displayOrder: 9 },
-    { name: "Supabase / Firebase", category: "databases", level: 92, years: 3, featured: true, displayOrder: 10 },
-    { name: "Vercel / AWS", category: "cloud-devops", level: 85, years: 3, featured: true, displayOrder: 11 },
-    { name: "Docker", category: "cloud-devops", level: 75, years: 2, featured: false, displayOrder: 12 },
-    { name: "Git & GitHub", category: "tools", level: 95, years: 5, featured: true, displayOrder: 13 },
-    { name: "Figma", category: "tools", level: 80, years: 3, featured: false, displayOrder: 14 }
+    { name: "TypeScript", category: "languages", level: 95, years: 4, featured: true, displayOrder: 1, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+    { name: "JavaScript", category: "languages", level: 98, years: 5, featured: true, displayOrder: 2, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+    { name: "Python", category: "languages", level: 80, years: 3, featured: false, displayOrder: 3, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+    { name: "React", category: "frontend", level: 95, years: 4, featured: true, displayOrder: 4, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "Next.js", category: "frontend", level: 92, years: 3, featured: true, displayOrder: 5, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+    { name: "Tailwind CSS", category: "frontend", level: 95, years: 4, featured: true, displayOrder: 6, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+    { name: "Node.js", category: "backend", level: 90, years: 4, featured: true, displayOrder: 7, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+    { name: "PostgreSQL", category: "databases", level: 85, years: 3, featured: true, displayOrder: 9, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+    { name: "Supabase", category: "databases", level: 92, years: 3, featured: true, displayOrder: 10, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
+    { name: "Docker", category: "cloud-devops", level: 75, years: 2, featured: false, displayOrder: 12, logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" }
   ],
   projects: [
     {
@@ -267,7 +271,8 @@ export const mockPortfolioData: PortfolioData = {
       date: "Nov 2024",
       credentialId: "AWS-DEV-99881",
       verificationLink: "https://aws.amazon.com",
-      skillsEarned: ["AWS Lambda", "DynamoDB", "S3", "CloudFront"]
+      skillsEarned: ["AWS Lambda", "DynamoDB", "S3", "CloudFront"],
+      image: "/images/workspace.png"
     },
     {
       name: "Meta Front-End Developer Professional Certificate",
@@ -275,7 +280,8 @@ export const mockPortfolioData: PortfolioData = {
       date: "Aug 2023",
       credentialId: "META-FED-77561",
       verificationLink: "https://coursera.org",
-      skillsEarned: ["React", "CSS Layouts", "UX Principles", "Testing in JavaScript"]
+      skillsEarned: ["React", "CSS Layouts", "UX Principles", "Testing in JavaScript"],
+      image: "/images/tech-sphere.png"
     },
     {
       name: "Associate Cloud Engineer",
@@ -283,7 +289,8 @@ export const mockPortfolioData: PortfolioData = {
       date: "Jan 2025",
       credentialId: "GCP-ACE-55442",
       verificationLink: "https://cloud.google.com",
-      skillsEarned: ["Google Kubernetes Engine", "Compute Engine", "VPC Networks", "IAM Roles"]
+      skillsEarned: ["Google Kubernetes Engine", "Compute Engine", "VPC Networks", "IAM Roles"],
+      image: "/images/workspace.png"
     },
     {
       name: "Professional Scrum Master I (PSM I)",
@@ -291,7 +298,8 @@ export const mockPortfolioData: PortfolioData = {
       date: "Jun 2023",
       credentialId: "SCRUM-PSM1-11223",
       verificationLink: "https://scrum.org",
-      skillsEarned: ["Agile Frameworks", "Scrum Events", "Sprints Planning", "Backlog Grooming"]
+      skillsEarned: ["Agile Frameworks", "Scrum Events", "Sprints Planning", "Backlog Grooming"],
+      image: "/images/tech-sphere.png"
     }
   ],
   testimonials: [
@@ -310,20 +318,56 @@ export const mockPortfolioData: PortfolioData = {
       quote: "Working with Alex was seamless. The EcoSphere project was delivered ahead of schedule and the clean architectural design has scaled perfectly as we've onboarded new sensors.",
       rating: 5,
       avatar: "/images/tech-sphere.png"
-    }
-  ],
-  services: [
-    {
-      name: "Interactive 3D Web Development",
-      description: "Custom WebGL interfaces, real-time 3D model loaders, particle systems, and shader integrations inside React applications.",
-      technologies: ["React Three Fiber", "Three.js", "WebGL", "GLSL shaders"],
-      pricing: "$120 / hr"
     },
     {
-      name: "Full Stack Web Apps",
-      description: "Developing robust Next.js dashboards, secure data isolation schemas, payment gateways, and real-time synchronization components.",
-      technologies: ["Next.js", "TypeScript", "PostgreSQL", "Supabase", "Stripe"],
-      pricing: "Custom quote"
+      name: "Elena Rostova",
+      company: "AlphaAI",
+      position: "CTO",
+      quote: "A remarkably talented engineer who understands user interfaces deeply. The task management boards are exceptionally fluid and responsive.",
+      rating: 5,
+      avatar: "/images/workspace.png"
+    },
+    {
+      name: "David Chen",
+      company: "CloudFlow Inc",
+      position: "Engineering Manager",
+      quote: "Alex has a rare blend of cloud database mastery and interactive client UI skills. The secure APIs they designed have resolved all our scaling bottlenecks.",
+      rating: 5,
+      avatar: "/images/tech-sphere.png"
+    }
+  ],
+  githubRepos: [
+    {
+      name: "threejs-neural-net",
+      description: "WebGL interactive neural network simulation with custom GLSL shaders and point cloud vector dynamics.",
+      language: "TypeScript",
+      stars: 142,
+      forks: 24,
+      url: "https://github.com"
+    },
+    {
+      name: "nextjs-server-actions-boiler",
+      description: "Ultra-lean template configuration for Next.js Server Actions with optimistic caching updates.",
+      language: "JavaScript",
+      stars: 89,
+      forks: 12,
+      url: "https://github.com"
+    },
+    {
+      name: "supabase-tenancy-policy",
+      description: "Reference Row Level Security scripts for complex multi-tenant client schema structures.",
+      language: "PL/pgSQL",
+      stars: 204,
+      forks: 41,
+      url: "https://github.com"
+    },
+    {
+      name: "react-dynamic-marquees",
+      description: "Performant infinite horizontal carousels with smooth CSS keyframes animation loops.",
+      language: "TypeScript",
+      stars: 67,
+      forks: 5,
+      url: "https://github.com"
     }
   ]
 };

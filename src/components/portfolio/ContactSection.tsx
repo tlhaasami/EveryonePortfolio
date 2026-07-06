@@ -25,13 +25,13 @@ export default function ContactSection({ profile }: ContactSectionProps) {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-zinc-950/20">
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="contact" className="py-24 relative overflow-hidden bg-white border-b border-zinc-200">
+      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
         
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-20">
+        <div className="text-left mb-16">
           <motion.h2 
-            className="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-3"
+            className="text-xs font-bold tracking-widest text-violet-600 uppercase mb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -39,105 +39,107 @@ export default function ContactSection({ profile }: ContactSectionProps) {
             Get In Touch
           </motion.h2>
           <motion.h3 
-            className="text-3xl sm:text-4xl font-bold text-white mb-4"
+            className="text-2xl sm:text-3xl font-black text-zinc-950"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             Let's Start a Conversation
           </motion.h3>
-          <motion.p 
-            className="text-zinc-500"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            Have a project in mind, an opportunity, or just want to say hello? Drop me a message below.
-          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
           
-          {/* Details - Left column */}
-          <div className="lg:col-span-2 space-y-8 flex flex-col justify-between">
+          {/* Details - Left column (Lg: col-span-5) */}
+          <div className="lg:col-span-5 flex flex-col justify-between p-8 rounded-3xl bg-zinc-50 border border-zinc-200">
             <div className="space-y-6">
-              <h4 className="text-xl font-bold text-white mb-4">Contact Information</h4>
+              <h4 className="text-base font-bold text-zinc-900 mb-2">Contact Details</h4>
               
               <div className="flex items-center gap-4 group">
-                <div className="p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-violet-400 group-hover:border-violet-500/30 transition-all duration-300">
+                <div className="p-3 rounded-xl bg-white border border-zinc-200 text-violet-600 shadow-sm group-hover:border-violet-500/30 transition-all">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold block">Email me</span>
-                  <a href="mailto:hello@example.com" className="text-zinc-300 font-medium hover:text-white transition-colors">
+                  <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-wider block">Email</span>
+                  <a href="mailto:hello@example.com" className="text-zinc-700 font-semibold text-sm hover:text-violet-600 transition-colors">
                     hello@example.com
                   </a>
                 </div>
               </div>
 
               <div className="flex items-center gap-4 group">
-                <div className="p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300">
+                <div className="p-3 rounded-xl bg-white border border-zinc-200 text-cyan-600 shadow-sm group-hover:border-cyan-500/30 transition-all">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold block">Call me</span>
-                  <a href="tel:+1234567890" className="text-zinc-300 font-medium hover:text-white transition-colors">
+                  <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-wider block">Phone</span>
+                  <a href="tel:+1234567890" className="text-zinc-700 font-semibold text-sm hover:text-cyan-600 transition-colors">
                     +1 (234) 567-890
                   </a>
                 </div>
               </div>
 
               <div className="flex items-center gap-4 group">
-                <div className="p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-fuchsia-400 group-hover:border-fuchsia-500/30 transition-all duration-300">
+                <div className="p-3 rounded-xl bg-white border border-zinc-200 text-fuchsia-600 shadow-sm group-hover:border-fuchsia-500/30 transition-all">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold block">Location</span>
-                  <span className="text-zinc-300 font-medium">San Francisco, CA</span>
+                  <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-wider block">Location</span>
+                  <span className="text-zinc-700 font-semibold text-sm">San Francisco, CA</span>
                 </div>
               </div>
             </div>
 
             {/* Social Grid block */}
-            <div className="pt-8 border-t border-zinc-900">
-              <h5 className="text-xs font-semibold text-zinc-500 tracking-wider uppercase mb-4">Connect with me</h5>
-              <div className="flex items-center gap-4">
+            <div className="pt-8 border-t border-zinc-200/80 mt-8">
+              <h5 className="text-[10px] font-bold text-zinc-450 uppercase tracking-widest mb-4">Connect with me</h5>
+              <div className="flex flex-wrap gap-2">
                 <a 
                   href={profile.socialLinks.github} 
                   target="_blank" 
                   rel="noreferrer"
-                  className="p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                  className="p-2.5 rounded-xl bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 transition-all shadow-sm flex items-center gap-1.5 text-xs font-bold"
                 >
-                  <GithubIcon className="w-5 h-5" />
+                  <GithubIcon className="w-4 h-4" /> GitHub
                 </a>
                 <a 
                   href={profile.socialLinks.linkedin} 
                   target="_blank" 
                   rel="noreferrer"
-                  className="p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                  className="p-2.5 rounded-xl bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 transition-all shadow-sm flex items-center gap-1.5 text-xs font-bold"
                 >
-                  <LinkedinIcon className="w-5 h-5" />
+                  <LinkedinIcon className="w-4 h-4" /> LinkedIn
                 </a>
-                {profile.socialLinks.twitter && (
+                {profile.socialLinks.kaggle && (
                   <a 
-                    href={profile.socialLinks.twitter} 
+                    href={profile.socialLinks.kaggle} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+                    className="p-2.5 rounded-xl bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 transition-all shadow-sm flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider"
                   >
-                    <TwitterIcon className="w-5 h-5" />
+                    Kaggle
+                  </a>
+                )}
+                {profile.socialLinks.medium && (
+                  <a 
+                    href={profile.socialLinks.medium} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-2.5 rounded-xl bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 transition-all shadow-sm flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider"
+                  >
+                    Medium
                   </a>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Form - Right column */}
-          <div className="lg:col-span-3">
-            <form onSubmit={handleSubmit} className="p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md space-y-6">
+          {/* Form - Right column (Lg: col-span-7) */}
+          <div className="lg:col-span-7">
+            <form onSubmit={handleSubmit} className="p-8 rounded-3xl bg-white border border-zinc-200 shadow-sm space-y-6">
               
               <div>
-                <label htmlFor="name" className="text-xs font-semibold text-zinc-400 tracking-wider uppercase block mb-2">
+                <label htmlFor="name" className="text-[10px] font-bold text-zinc-455 uppercase tracking-widest block mb-2">
                   Full Name
                 </label>
                 <input 
@@ -147,12 +149,12 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   value={formState.name}
                   onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                   placeholder="John Doe"
-                  className="w-full px-5 py-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80 text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500/60 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-violet-500/60 focus:bg-white transition-colors text-sm"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="text-xs font-semibold text-zinc-400 tracking-wider uppercase block mb-2">
+                <label htmlFor="email" className="text-[10px] font-bold text-zinc-455 uppercase tracking-widest block mb-2">
                   Email Address
                 </label>
                 <input 
@@ -162,29 +164,29 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   value={formState.email}
                   onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                   placeholder="john@example.com"
-                  className="w-full px-5 py-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80 text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500/60 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-violet-500/60 focus:bg-white transition-colors text-sm"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="text-xs font-semibold text-zinc-400 tracking-wider uppercase block mb-2">
+                <label htmlFor="message" className="text-[10px] font-bold text-zinc-455 uppercase tracking-widest block mb-2">
                   Message
                 </label>
                 <textarea 
                   id="message" 
                   required
-                  rows={5}
+                  rows={4}
                   value={formState.message}
                   onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  placeholder="Tell me about your project details..."
-                  className="w-full px-5 py-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80 text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500/60 transition-colors resize-none"
+                  placeholder="Describe your project requirements..."
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-violet-500/60 focus:bg-white transition-colors text-sm resize-none"
                 />
               </div>
 
               <button 
                 type="submit"
                 disabled={status === "sending" || status === "success"}
-                className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 hover:brightness-110 text-white font-bold transition-all disabled:opacity-50 disabled:pointer-events-none active:scale-98 shadow-lg shadow-violet-500/10"
+                className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50 disabled:pointer-events-none shadow-md shadow-zinc-900/10 active:scale-98 cursor-pointer"
               >
                 {status === "sending" ? (
                   "Sending Message..."
@@ -192,7 +194,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   "Message Sent Successfully!"
                 ) : (
                   <>
-                    Send Message <Send className="w-4 h-4" />
+                    Send Message <Send className="w-3.5 h-3.5" />
                   </>
                 )}
               </button>

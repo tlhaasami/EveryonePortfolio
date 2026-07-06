@@ -2,21 +2,28 @@
 
 import { motion } from "framer-motion";
 import { Profile } from "@/lib/mockData";
-import { Compass, Lightbulb, GraduationCap } from "lucide-react";
+import { Award, Briefcase, BookmarkCheck } from "lucide-react";
 
 interface AboutSectionProps {
   profile: Profile;
 }
 
 export default function AboutSection({ profile }: AboutSectionProps) {
+  // Map icons for stats
+  const statIcons = [
+    <Briefcase className="w-5 h-5 text-violet-600" />,
+    <BookmarkCheck className="w-5 h-5 text-cyan-600" />,
+    <Award className="w-5 h-5 text-fuchsia-600" />
+  ];
+
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-zinc-950/20">
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="about" className="py-24 relative overflow-hidden bg-white border-b border-zinc-100">
+      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-20">
+        <div className="text-left mb-12">
           <motion.h2 
-            className="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-3"
+            className="text-xs font-bold tracking-widest text-violet-600 uppercase mb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -24,91 +31,56 @@ export default function AboutSection({ profile }: AboutSectionProps) {
             About Me
           </motion.h2>
           <motion.h3 
-            className="text-3xl sm:text-4xl font-bold text-white mb-4"
+            className="text-2xl sm:text-3xl font-black text-zinc-950"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            My Story & Background
+            My Story & Biography
           </motion.h3>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Biography & Focus Details */}
-          <div className="lg:col-span-7 space-y-8">
+          {/* Biography Text - Left side */}
+          <div className="lg:col-span-7">
             <motion.div 
-              className="p-8 rounded-3xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md"
-              initial={{ opacity: 0, x: -30 }}
+              className="space-y-6"
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-xl font-bold text-white mb-4">Professional Profile</h4>
-              <p className="text-zinc-300 text-base sm:text-lg leading-relaxed mb-6">
+              <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
                 {profile.biography}
               </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-zinc-800/60">
-                
-                {/* Current Focus */}
-                <div className="space-y-2">
-                  <h5 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest flex items-center gap-1.5">
-                    <Compass className="w-3.5 h-3.5 text-violet-400" /> Current Focus
-                  </h5>
-                  <p className="text-zinc-300 text-sm leading-relaxed">
-                    {profile.currentFocus}
-                  </p>
-                </div>
-
-                {/* Interests */}
-                <div className="space-y-2.5">
-                  <h5 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest flex items-center gap-1.5">
-                    <Lightbulb className="w-3.5 h-3.5 text-cyan-400" /> Interests
-                  </h5>
-                  <div className="flex flex-wrap gap-1.5">
-                    {profile.interests.map((interest, idx) => (
-                      <span 
-                        key={idx}
-                        className="px-2.5 py-0.5 rounded-full bg-zinc-950/60 border border-zinc-800/50 text-xs font-medium text-zinc-300"
-                      >
-                        {interest}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
+              
+              <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200/60">
+                <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Current Focus</h4>
+                <p className="text-zinc-700 text-xs sm:text-sm font-medium leading-relaxed">{profile.currentFocus}</p>
               </div>
             </motion.div>
           </div>
 
-          {/* Timeline - Right side */}
-          <div className="lg:col-span-5 space-y-6">
-            <h4 className="text-lg font-bold text-white mb-2 pl-4">Milestones</h4>
-            <div className="relative border-l border-zinc-800/80 ml-6 pl-6 space-y-8">
-              {profile.timeline.map((item, idx) => (
-                <motion.div 
-                  key={idx}
-                  className="relative group"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  {/* Dot */}
-                  <div className="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-zinc-900 border-2 border-violet-500 group-hover:bg-violet-400 transition-colors" />
-                  
-                  <span className="text-[10px] font-bold text-violet-400 tracking-wider uppercase block mb-1">
-                    {item.year}
-                  </span>
-                  <h5 className="text-sm font-bold text-white group-hover:text-violet-400 transition-colors">
-                    {item.title}
-                  </h5>
-                  <p className="text-zinc-500 text-xs mt-1.5 leading-relaxed">
-                    {item.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
+          {/* Quick Stats Grid - Right side */}
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
+            {profile.stats.map((stat, idx) => (
+              <motion.div
+                key={idx}
+                className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm flex items-center gap-4 hover:shadow-md hover:border-zinc-300/80 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-100 flex-shrink-0">
+                  {statIcons[idx] || <Award className="w-5 h-5" />}
+                </div>
+                <div>
+                  <span className="text-2xl font-black text-zinc-950 leading-none block">{stat.value}</span>
+                  <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider block mt-1">{stat.label}</span>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
         </div>

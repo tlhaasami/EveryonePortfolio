@@ -30,8 +30,8 @@ export default function ThreeDBackground() {
         this.z = Math.random() * 800;
         this.size = Math.random() * 1.5 + 0.5;
         this.color = Math.random() > 0.5 
-          ? "rgba(139, 92, 246, 0.4)" // Violet
-          : "rgba(6, 182, 212, 0.4)"; // Cyan
+          ? "rgba(109, 40, 217, 0.35)" // Darker Violet
+          : "rgba(3, 105, 120, 0.35)"; // Darker Cyan
       }
 
       update(scrollOffset: number, mouseX: number, mouseY: number) {
@@ -77,11 +77,11 @@ export default function ThreeDBackground() {
     const fov = 350; // Field of View projection factor
 
     const render = () => {
-      ctx.fillStyle = "rgba(9, 9, 11, 0.2)"; // Soft trails
+      ctx.fillStyle = "rgba(249, 249, 251, 0.25)"; // Translucent light trail
       ctx.fillRect(0, 0, width, height);
 
       // Draw grid overlay details
-      ctx.fillStyle = "rgba(255, 255, 255, 0.015)";
+      ctx.fillStyle = "rgba(9, 9, 11, 0.015)";
       for (let x = 0; x < width; x += 40) {
         ctx.fillRect(x, 0, 1, height);
       }
