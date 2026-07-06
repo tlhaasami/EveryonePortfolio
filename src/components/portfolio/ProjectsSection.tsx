@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Code, ShieldAlert, BookOpen, Layers, X } from "lucide-react";
 import { GithubIcon } from "../shared/icons";
 import { Project } from "@/lib/mockData";
-import Image from "next/image";
+import SkeletonImage from "./SkeletonImage";
 
 interface ProjectsSectionProps {
   projects: Project[];
@@ -60,7 +60,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             >
               {/* Thumbnail Container */}
               <div className="relative aspect-video overflow-hidden border-b border-zinc-800/50">
-                <Image 
+                <SkeletonImage 
                   src={project.thumbnail} 
                   alt={project.title}
                   fill
@@ -130,7 +130,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
               {/* Modal Banner */}
               <div className="relative aspect-[21/9] w-full overflow-hidden border-b border-zinc-800">
-                <Image 
+                <SkeletonImage 
                   src={selectedProject.thumbnail}
                   alt={selectedProject.title}
                   fill

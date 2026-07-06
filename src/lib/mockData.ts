@@ -4,6 +4,8 @@ export interface Profile {
   subtitle: string;
   introduction: string;
   biography: string;
+  currentFocus: string;
+  interests: string[];
   heroImage: string;
   backgroundImage: string;
   cvUrl: string;
@@ -81,6 +83,13 @@ export interface Testimonial {
   avatar: string;
 }
 
+export interface Service {
+  name: string;
+  description: string;
+  technologies: string[];
+  pricing: string;
+}
+
 export interface PortfolioData {
   profile: Profile;
   skills: Skill[];
@@ -89,6 +98,7 @@ export interface PortfolioData {
   education: Education[];
   certificates: Certificate[];
   testimonials: Testimonial[];
+  services: Service[];
 }
 
 export const mockPortfolioData: PortfolioData = {
@@ -98,6 +108,8 @@ export const mockPortfolioData: PortfolioData = {
     subtitle: "Crafting beautiful, high-performance web experiences through clean code and immersive 3D interfaces.",
     introduction: "Hi, I'm Alex. I build modern, scalable web applications and interactive 3D digital environments.",
     biography: "I am a software engineer specializing in frontend architecture, real-time interactive rendering, and robust cloud backend integrations. With over 4 years of experience, I bridge the gap between complex engineering requirements and premium visual aesthetics.",
+    currentFocus: "High-performance WebGL rendering and local AI assistant toolchains.",
+    interests: ["3D Web Engine Design", "Autonomous Agents", "HCI & UI Design", "Astronomy"],
     heroImage: "/images/workspace.png",
     backgroundImage: "/images/tech-sphere.png",
     cvUrl: "#",
@@ -264,6 +276,22 @@ export const mockPortfolioData: PortfolioData = {
       credentialId: "META-FED-77561",
       verificationLink: "https://coursera.org",
       skillsEarned: ["React", "CSS Layouts", "UX Principles", "Testing in JavaScript"]
+    },
+    {
+      name: "Associate Cloud Engineer",
+      organization: "Google Cloud",
+      date: "Jan 2025",
+      credentialId: "GCP-ACE-55442",
+      verificationLink: "https://cloud.google.com",
+      skillsEarned: ["Google Kubernetes Engine", "Compute Engine", "VPC Networks", "IAM Roles"]
+    },
+    {
+      name: "Professional Scrum Master I (PSM I)",
+      organization: "Scrum.org",
+      date: "Jun 2023",
+      credentialId: "SCRUM-PSM1-11223",
+      verificationLink: "https://scrum.org",
+      skillsEarned: ["Agile Frameworks", "Scrum Events", "Sprints Planning", "Backlog Grooming"]
     }
   ],
   testimonials: [
@@ -282,6 +310,20 @@ export const mockPortfolioData: PortfolioData = {
       quote: "Working with Alex was seamless. The EcoSphere project was delivered ahead of schedule and the clean architectural design has scaled perfectly as we've onboarded new sensors.",
       rating: 5,
       avatar: "/images/tech-sphere.png"
+    }
+  ],
+  services: [
+    {
+      name: "Interactive 3D Web Development",
+      description: "Custom WebGL interfaces, real-time 3D model loaders, particle systems, and shader integrations inside React applications.",
+      technologies: ["React Three Fiber", "Three.js", "WebGL", "GLSL shaders"],
+      pricing: "$120 / hr"
+    },
+    {
+      name: "Full Stack Web Apps",
+      description: "Developing robust Next.js dashboards, secure data isolation schemas, payment gateways, and real-time synchronization components.",
+      technologies: ["Next.js", "TypeScript", "PostgreSQL", "Supabase", "Stripe"],
+      pricing: "Custom quote"
     }
   ]
 };

@@ -80,23 +80,23 @@ Track the implementation status of features and modules for the EveryonePortfoli
 ---
 
 ## 📄 ATS-Friendly Resume Builder
-- [ ] Dynamic resume version creation
-- [ ] Layout / LaTeX Templates selection
-- [ ] Resume content selection (selectively include specific Skills, Projects, Experience, Certificates)
-- [ ] Live visual preview of resume layout
-- [ ] PDF Generation Pipeline (via Edge Functions / server-side rendering)
-- [ ] PDF Download utility
+- [x] Dynamic resume version creation
+- [x] Layout / LaTeX Templates selection
+- [x] Resume content selection (selectively include specific Skills, Projects, Experience, Certificates)
+- [x] Live visual preview of resume layout
+- [x] PDF Generation Pipeline (via Edge Functions / server-side rendering)
+- [x] PDF Download utility
 
 ---
 
 ## 🎮 3D Experience Engine
-- [ ] Global 3D toggle (Enable/Disable 3D rendering)
+- [x] Global 3D toggle (Enable/Disable 3D rendering)
 - [ ] Theme-matching color synchronizer for 3D elements
-- [ ] Scenes Library:
-  - [ ] Interactive Workspace
+- [x] Scenes Library:
+  - [x] Interactive Workspace
   - [ ] Futuristic Dashboard
   - [ ] Technology Showcase / Skill Orbit
-  - [ ] Particle systems & dynamic lights
+  - [x] Particle systems & dynamic lights
 
 ---
 
@@ -109,12 +109,12 @@ Track the implementation status of features and modules for the EveryonePortfoli
 ---
 
 ## 🧠 Smart Assistant Layer (Zero-cost Local/Rule-based AI)
-- [ ] **Portfolio Knowledge Assistant:** RAG chatbot using user data & local vector store or DB keyword search
-- [ ] **Portfolio Health Analyzer:** Automated rule-based feedback on portfolio completeness & SEO
-- [ ] **Resume Optimizer:** Matching job description keywords with user portfolio skills
-- [ ] **Portfolio Reviewer:** Evaluates sections from a recruiter's viewpoint
-- [ ] **Skill Gap Analyzer:** Career profiles comparison & recommendations
-- [ ] **Career Roadmap Generator:** Career milestones tracker
+- [x] **Portfolio Knowledge Assistant:** RAG chatbot using user data & local vector store or DB keyword search
+- [x] **Portfolio Health Analyzer:** Automated rule-based feedback on portfolio completeness & SEO
+- [x] **Resume Optimizer:** Matching job description keywords with user portfolio skills
+- [x] **Portfolio Reviewer:** Evaluates sections from a recruiter's viewpoint
+- [x] **Skill Gap Analyzer:** Career profiles comparison & recommendations
+- [x] **Career Roadmap Generator:** Career milestones tracker
 
 ---
 

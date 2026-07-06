@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, Download, Award } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "../shared/icons";
 import { Profile } from "@/lib/mockData";
-import Image from "next/image";
+import SkeletonImage from "./SkeletonImage";
+import ThreeDBackground from "./ThreeDBackground";
 
 interface HeroSectionProps {
   profile: Profile;
@@ -12,7 +13,8 @@ interface HeroSectionProps {
 
 export default function HeroSection({ profile }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center py-20 overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center justify-center py-20 overflow-hidden bg-grid-pattern">
+      <ThreeDBackground />
       {/* Background Gradients */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[20%] left-[10%] w-[350px] h-[350px] rounded-full bg-violet-600/10 blur-[100px] animate-pulse" />
@@ -119,7 +121,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
 
             {/* Main Interactive Shape Container */}
             <div className="relative w-[280px] sm:w-[400px] h-[280px] sm:h-[400px] rounded-3xl overflow-hidden border border-zinc-800/80 bg-zinc-950/40 backdrop-blur-md p-4 group">
-              <Image 
+              <SkeletonImage 
                 src={profile.heroImage} 
                 alt={profile.name} 
                 fill 

@@ -3,10 +3,16 @@
 import { useState, useEffect } from "react";
 import { PortfolioData } from "@/lib/mockData";
 import HeroSection from "./HeroSection";
+import AboutSection from "./AboutSection";
 import ProjectsSection from "./ProjectsSection";
 import SkillsSection from "./SkillsSection";
 import ExperienceSection from "./ExperienceSection";
+import CredentialsSection from "./CredentialsSection";
+import ServicesSection from "./ServicesSection";
+import TestimonialsSection from "./TestimonialsSection";
+import ResumeBuilderSection from "./ResumeBuilderSection";
 import ContactSection from "./ContactSection";
+import AssistantPanel from "./AssistantPanel";
 import { Menu, X } from "lucide-react";
 
 interface PortfolioLayoutProps {
@@ -27,10 +33,14 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
 
   const navLinks = [
     { href: "#", label: "Home" },
+    { href: "#about", label: "About" },
     { href: "#projects", label: "Projects" },
     { href: "#skills", label: "Skills" },
     { href: "#experience", label: "Experience" },
-    { href: "#contact", label: "Contact" }
+    { href: "#credentials", label: "Credentials" },
+    { href: "#services", label: "Services" },
+    { href: "#testimonials", label: "Testimonials" },
+    { href: "#resume-builder", label: "Resume Builder" }
   ];
 
   return (
@@ -39,7 +49,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
       {/* Navigation Header */}
       <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? "bg-zinc-950/75 border-b border-zinc-900/80 backdrop-blur-md py-4" 
+          ? "bg-zinc-950/80 border-b border-zinc-900/80 backdrop-blur-md py-4" 
           : "bg-transparent py-6"
       }`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
@@ -50,12 +60,12 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden xl:flex items-center gap-6">
             {navLinks.map((link, idx) => (
               <a 
                 key={idx}
                 href={link.href}
-                className="text-sm font-semibold text-zinc-400 hover:text-white hover:underline transition-all duration-200"
+                className="text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white hover:underline transition-all duration-200"
               >
                 {link.label}
               </a>
@@ -63,10 +73,10 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           </nav>
 
           {/* Call to action header button */}
-          <div className="hidden md:block">
+          <div className="hidden xl:block">
             <a 
               href="#contact"
-              className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-bold uppercase tracking-wider text-white transition-all"
+              className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-bold uppercase tracking-wider text-white transition-all shadow-md shadow-black/50"
             >
               Hire Me
             </a>
@@ -75,7 +85,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
+            className="xl:hidden p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -84,13 +94,13 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-30 bg-zinc-950 flex flex-col justify-center items-center gap-8 md:hidden">
+        <div className="fixed inset-0 z-30 bg-zinc-950 flex flex-col justify-center items-center gap-6 xl:hidden overflow-y-auto py-12">
           {navLinks.map((link, idx) => (
             <a 
               key={idx}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-2xl font-bold text-zinc-400 hover:text-white transition-colors"
+              className="text-lg font-bold text-zinc-400 hover:text-white transition-colors"
             >
               {link.label}
             </a>
@@ -98,7 +108,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           <a 
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
-            className="px-8 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-sm font-bold uppercase tracking-widest text-white shadow-lg"
+            className="px-8 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-xs font-bold uppercase tracking-widest text-white shadow-lg"
           >
             Hire Me
           </a>
@@ -108,11 +118,19 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
       {/* Main Content Layout */}
       <main className="pt-20">
         <HeroSection profile={data.profile} />
+        <AboutSection profile={data.profile} />
         <ProjectsSection projects={data.projects} />
         <SkillsSection skills={data.skills} />
         <ExperienceSection experience={data.experience} />
+        <CredentialsSection education={data.education} certificates={data.certificates} />
+        <ServicesSection services={data.services} />
+        <TestimonialsSection testimonials={data.testimonials} />
+        <ResumeBuilderSection data={data} />
         <ContactSection profile={data.profile} />
       </main>
+
+      {/* Floating Smart Assistant Layer */}
+      <AssistantPanel data={data} />
 
       {/* Footer */}
       <footer className="py-12 border-t border-zinc-900 bg-zinc-950 text-center">
