@@ -123,7 +123,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
         {/* Header */}
         <div className="text-left mb-12">
           <FadeInUp distance={15}>
-            <h2 className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2">My Credentials</h2>
+            <h2 className="text-xs font-bold tracking-widest text-primary uppercase mb-2">My Credentials</h2>
           </FadeInUp>
           <FadeInUp delay={0.1} distance={20}>
             <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Professional Certifications</h3>
@@ -195,7 +195,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
               <div className="space-y-6">
                 {/* Header */}
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-2xl bg-violet-600/10 border border-violet-500/10 text-violet-600">
+                  <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20 text-primary">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>

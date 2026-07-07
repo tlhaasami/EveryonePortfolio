@@ -25,9 +25,9 @@ export default function ContactSection({ profile }: ContactSectionProps) {
   };
 
   const contactDetails = [
-    { icon: <Mail className="w-5 h-5" />, label: "Email", value: "hello@example.com", href: "mailto:hello@example.com", color: "text-[hsl(262,83%,58%)]", borderColor: "group-hover:border-violet-500/30" },
-    { icon: <Phone className="w-5 h-5" />, label: "Phone", value: "+1 (234) 567-890", href: "tel:+1234567890", color: "text-[hsl(175,72%,42%)]", borderColor: "group-hover:border-teal-500/30" },
-    { icon: <MapPin className="w-5 h-5" />, label: "Location", value: "San Francisco, CA", href: null, color: "text-[hsl(35,92%,62%)]", borderColor: "group-hover:border-amber-500/30" },
+    { icon: <Mail className="w-5 h-5" />, label: "Email", value: "hello@example.com", href: "mailto:hello@example.com", color: "text-primary", borderColor: "group-hover:border-primary/30" },
+    { icon: <Phone className="w-5 h-5" />, label: "Phone", value: "+1 (234) 567-890", href: "tel:+1234567890", color: "text-accent", borderColor: "group-hover:border-accent/30" },
+    { icon: <MapPin className="w-5 h-5" />, label: "Location", value: "San Francisco, CA", href: null, color: "text-warm", borderColor: "group-hover:border-warm/30" },
   ];
 
   return (
@@ -36,15 +36,15 @@ export default function ContactSection({ profile }: ContactSectionProps) {
       <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-grid-pattern opacity-50 pointer-events-none" />
       
       {/* Background glows */}
-      <div className="absolute bottom-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-[hsl(262,83%,90%)] opacity-15 blur-[120px] pointer-events-none" />
-      <div className="absolute top-[10%] right-[10%] w-[300px] h-[300px] rounded-full bg-[hsl(175,72%,88%)] opacity-12 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-primary/10 opacity-15 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[10%] right-[10%] w-[300px] h-[300px] rounded-full bg-accent/10 opacity-12 blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10 max-w-6xl">
         
         {/* Header */}
         <div className="text-left mb-16">
           <motion.h2 
-            className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2"
+            className="text-xs font-bold tracking-widest text-primary uppercase mb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -142,7 +142,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   htmlFor="name" 
                   className={`absolute left-4 transition-all duration-300 pointer-events-none font-bold uppercase tracking-wider ${
                     focusedField === "name" || formState.name 
-                      ? "top-1.5 text-[8px] text-[hsl(262,83%,58%)]" 
+                      ? "top-1.5 text-[8px] text-primary" 
                       : "top-3.5 text-[10px] text-zinc-400"
                   }`}
                 >
@@ -156,7 +156,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   onFocus={() => setFocusedField("name")}
                   onBlur={() => setFocusedField(null)}
                   onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                  className="w-full px-4 pt-5 pb-2 rounded-xl bg-zinc-50/80 border border-zinc-200/80 text-zinc-900 focus:outline-none focus:border-[hsl(262,83%,58%)] focus:bg-white focus:shadow-sm transition-all text-sm"
+                  className="w-full px-4 pt-5 pb-2 rounded-xl bg-zinc-50/80 border border-zinc-200/80 text-zinc-900 focus:outline-none focus:border-primary focus:bg-white focus:shadow-sm transition-all text-sm"
                 />
               </div>
 
@@ -166,7 +166,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   htmlFor="email" 
                   className={`absolute left-4 transition-all duration-300 pointer-events-none font-bold uppercase tracking-wider ${
                     focusedField === "email" || formState.email 
-                      ? "top-1.5 text-[8px] text-[hsl(262,83%,58%)]" 
+                      ? "top-1.5 text-[8px] text-primary" 
                       : "top-3.5 text-[10px] text-zinc-400"
                   }`}
                 >
@@ -180,7 +180,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   onFocus={() => setFocusedField("email")}
                   onBlur={() => setFocusedField(null)}
                   onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                  className="w-full px-4 pt-5 pb-2 rounded-xl bg-zinc-50/80 border border-zinc-200/80 text-zinc-900 focus:outline-none focus:border-[hsl(262,83%,58%)] focus:bg-white focus:shadow-sm transition-all text-sm"
+                  className="w-full px-4 pt-5 pb-2 rounded-xl bg-zinc-50/80 border border-zinc-200/80 text-zinc-900 focus:outline-none focus:border-primary focus:bg-white focus:shadow-sm transition-all text-sm"
                 />
               </div>
 
@@ -190,7 +190,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   htmlFor="message" 
                   className={`absolute left-4 transition-all duration-300 pointer-events-none font-bold uppercase tracking-wider ${
                     focusedField === "message" || formState.message 
-                      ? "top-1.5 text-[8px] text-[hsl(262,83%,58%)]" 
+                      ? "top-1.5 text-[8px] text-primary" 
                       : "top-3.5 text-[10px] text-zinc-400"
                   }`}
                 >
@@ -204,7 +204,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   onFocus={() => setFocusedField("message")}
                   onBlur={() => setFocusedField(null)}
                   onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  className="w-full px-4 pt-5 pb-2 rounded-xl bg-zinc-50/80 border border-zinc-200/80 text-zinc-900 focus:outline-none focus:border-[hsl(262,83%,58%)] focus:bg-white focus:shadow-sm transition-all text-sm resize-none"
+                  className="w-full px-4 pt-5 pb-2 rounded-xl bg-zinc-50/80 border border-zinc-200/80 text-zinc-900 focus:outline-none focus:border-primary focus:bg-white focus:shadow-sm transition-all text-sm resize-none"
                 />
               </div>
 
@@ -212,7 +212,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
               <button 
                 type="submit"
                 disabled={status === "sending" || status === "success"}
-                className="relative z-10 w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[hsl(262,83%,58%)] to-[hsl(262,83%,48%)] hover:from-[hsl(262,83%,52%)] hover:to-[hsl(262,83%,42%)] text-white font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50 disabled:pointer-events-none shadow-lg shadow-violet-500/20 active:scale-[0.98] cursor-pointer hover:shadow-xl hover:shadow-violet-500/30"
+                className="relative z-10 w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-light hover:to-primary text-white font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50 disabled:pointer-events-none shadow-lg shadow-primary/20 active:scale-[0.98] cursor-pointer hover:shadow-xl hover:shadow-primary/30"
               >
                 {status === "sending" ? (
                   <><Loader2 className="w-4 h-4 animate-spin" /> Sending Message...</>

@@ -14,7 +14,7 @@ export default function TestimonialCard({ test }: TestimonialCardProps) {
       className="flex-shrink-0 w-[290px] sm:w-[340px] p-6 rounded-2xl bg-white border border-zinc-200/80 relative hover:border-zinc-300/60 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden"
     >
       {/* Left gradient accent border stripe */}
-      <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-gradient-to-b from-[hsl(262,83%,58%)] via-[hsl(175,72%,42%)] to-[hsl(35,92%,62%)] opacity-40 group-hover:opacity-80 transition-opacity" />
+      <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-gradient-to-b from-primary via-accent to-warm opacity-40 group-hover:opacity-80 transition-opacity" />
 
       {/* Quote Mark with faint pulse */}
       <Quote className="absolute top-5 right-6 w-8 h-8 text-zinc-100 pointer-events-none animate-[glow-pulse_4s_ease-in-out_infinite]" />
@@ -23,7 +23,7 @@ export default function TestimonialCard({ test }: TestimonialCardProps) {
         {/* Star rating */}
         <div className="flex items-center gap-0.5 mb-4">
           {[...Array(test.rating)].map((_, starIdx) => (
-            <Star key={starIdx} className="w-3.5 h-3.5 fill-[hsl(35,92%,62%)] text-[hsl(35,92%,62%)]" />
+            <Star key={starIdx} className="w-3.5 h-3.5 fill-warm text-warm" />
           ))}
         </div>
 

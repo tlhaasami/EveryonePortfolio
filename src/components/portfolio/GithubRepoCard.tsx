@@ -36,7 +36,7 @@ export default function GithubRepoCard({ repo }: GithubRepoCardProps) {
 
       <div className="relative z-10">
         <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="font-extrabold text-zinc-900 text-sm line-clamp-1 group-hover:text-[hsl(262,83%,58%)] transition-colors">
+          <span className="font-extrabold text-zinc-900 text-sm line-clamp-1 group-hover:text-primary transition-colors">
             {repo.name}
           </span>
           <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-zinc-50 border border-zinc-100 text-[8px] font-bold text-zinc-500 uppercase">
@@ -51,7 +51,7 @@ export default function GithubRepoCard({ repo }: GithubRepoCardProps) {
 
       <div className="flex items-center gap-4 pt-3 border-t border-zinc-100 text-[10px] text-zinc-400 font-bold relative z-10">
         <span className="flex items-center gap-1">
-          <Star className="w-3.5 h-3.5 fill-[hsl(35,92%,62%)] text-[hsl(35,92%,62%)]" /> {repo.stars}
+          <Star className="w-3.5 h-3.5 fill-warm text-warm" /> {repo.stars}
         </span>
         <span className="flex items-center gap-1">
           <GitFork className="w-3.5 h-3.5 text-zinc-400" /> {repo.forks}

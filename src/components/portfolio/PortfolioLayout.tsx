@@ -69,7 +69,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-zinc-900 selection:bg-violet-500/10 selection:text-violet-900 font-sans">
+    <div className="min-h-screen bg-[#fafafa] text-zinc-900 selection:bg-primary/10 selection:text-primary-dark font-sans">
       {/* Dynamic Font Loader & Style Injections */}
       {data.appearance?.selectedFont && (
         <link 
@@ -92,6 +92,20 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
             font-family: ${data.appearance?.customFontUrl && data.appearance?.customFontName 
               ? `'${data.appearance.customFontName}', sans-serif` 
               : `${data.appearance?.selectedFont || "Inter"}, sans-serif`} !important;
+          }
+          :root {
+            --color-primary: ${data.appearance?.colorPrimary || "#8b5cf6"};
+            --color-primary-light: color-mix(in srgb, var(--color-primary) 75%, white);
+            --color-primary-dark: color-mix(in srgb, var(--color-primary) 70%, black);
+            --color-primary-ultra-light: color-mix(in srgb, var(--color-primary) 6%, white);
+
+            --color-accent: ${data.appearance?.colorAccent || "#14b8a6"};
+            --color-accent-light: color-mix(in srgb, var(--color-accent) 75%, white);
+            --color-accent-dark: color-mix(in srgb, var(--color-accent) 70%, black);
+
+            --color-warm: ${data.appearance?.colorWarm || "#f59e0b"};
+            --color-warm-light: color-mix(in srgb, var(--color-warm) 75%, white);
+            --color-warm-dark: color-mix(in srgb, var(--color-warm) 70%, black);
           }
         `
       }} />
@@ -124,7 +138,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
                 key={idx}
                 href={link.href}
                 onClick={(e) => handleScrollTo(e, link.href)}
-                className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[1.5px] after:bg-[hsl(262,83%,58%)] after:rounded-full after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
+                className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[1.5px] after:bg-primary after:rounded-full after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
               >
                 {link.label}
               </a>
@@ -142,7 +156,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
             </Link>
             <button 
               onClick={() => setIsResumeOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[hsl(262,83%,58%)] to-[hsl(262,83%,48%)] hover:from-[hsl(262,83%,52%)] hover:to-[hsl(262,83%,42%)] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-violet-500/15 cursor-pointer hover:shadow-lg hover:shadow-violet-500/25 active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-light hover:to-primary text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-primary/15 cursor-pointer hover:shadow-lg hover:shadow-primary/25 active:scale-[0.97]"
             >
               Resume <FileDown className="w-3.5 h-3.5" />
             </button>
@@ -217,7 +231,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
                     setMobileMenuOpen(false);
                     setIsResumeOpen(true);
                   }}
-                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[hsl(262,83%,58%)] to-[hsl(262,83%,48%)] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-violet-500/20"
+                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-primary/20"
                 >
                   Download Resume <FileDown className="w-4 h-4" />
                 </button>
@@ -260,8 +274,8 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
       <footer className="relative py-16 border-t border-zinc-200/60 bg-zinc-950 text-zinc-400 overflow-hidden">
         {/* Gradient mesh background */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[400px] h-[200px] bg-[hsl(262,83%,30%)] opacity-10 blur-[120px] rounded-full" />
-          <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-[hsl(175,72%,30%)] opacity-8 blur-[100px] rounded-full" />
+          <div className="absolute top-0 left-1/4 w-[400px] h-[200px] bg-primary-dark opacity-10 blur-[120px] rounded-full" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-accent-dark opacity-8 blur-[100px] rounded-full" />
         </div>
 
         <div className="container mx-auto px-6 max-w-7xl relative z-10">

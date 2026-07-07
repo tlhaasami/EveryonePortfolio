@@ -115,6 +115,30 @@ export interface AppearanceSettings {
   textAnimationStyle: 'fade-in-up' | 'slide-in-left' | 'typewriter' | 'scale-up' | 'none';
   dropdownAnimationStyle: 'slide-down' | 'fade-scale' | 'skew-unroll';
   continuousAnimationStyle: 'none' | 'glowing' | 'pulsing' | 'wiggle';
+  
+  // Custom Color Palette Theme Settings
+  colorScheme: 'purple-haze' | 'midnight-ocean' | 'sunset-rose' | 'forest-moss' | 'cyberpunk' | 'classic-mono' | 'custom';
+  colorPrimary: string;
+  colorAccent: string;
+  colorWarm: string;
+
+  // Background Grid options & customizations
+  bgGridType: 'dots' | 'lines' | 'graph-paper' | 'isometric' | 'none';
+  bgGridSize: number;
+  bgGridOpacity: number;
+  bgGridColor: string;
+  enableParticles: boolean;
+  particleCount: number;
+  enableGlowRings: boolean;
+  glowRingsColor: string;
+  bgMeshGlowOpacity: number;
+
+  // Hero Section Layout settings
+  heroLayout: 'split-right' | 'split-left' | 'centered' | 'split-vertical' | 'banner-overlay' | 'floating-cards';
+  heroPicShape: 'circle' | 'rounded-square' | 'square' | 'hexagon' | 'blob' | 'hidden';
+  heroPicBorder: 'conic-glow' | 'pulse-solid' | 'glow-ring' | 'none';
+  heroTextAlignment: 'left' | 'center' | 'right';
+  heroTitleWeight: 'normal' | 'semibold' | 'bold' | 'black';
 }
 
 export interface PortfolioData {
@@ -370,6 +394,24 @@ export const mockPortfolioData: PortfolioData = {
     selectedFont: "Inter",
     textAnimationStyle: "fade-in-up",
     dropdownAnimationStyle: "slide-down",
-    continuousAnimationStyle: "none"
+    continuousAnimationStyle: "none",
+    colorScheme: "purple-haze",
+    colorPrimary: "#8b5cf6",
+    colorAccent: "#14b8a6",
+    colorWarm: "#f59e0b",
+    bgGridType: "graph-paper",
+    bgGridSize: 48,
+    bgGridOpacity: 0.03,
+    bgGridColor: "#0a0a0a",
+    enableParticles: true,
+    particleCount: 150,
+    enableGlowRings: true,
+    glowRingsColor: "#8b5cf6",
+    bgMeshGlowOpacity: 0.25,
+    heroLayout: "split-right",
+    heroPicShape: "circle",
+    heroPicBorder: "conic-glow",
+    heroTextAlignment: "left",
+    heroTitleWeight: "black"
   }
 };

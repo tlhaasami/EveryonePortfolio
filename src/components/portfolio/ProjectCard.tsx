@@ -51,7 +51,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div 
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0 rounded-2xl"
         style={{
-          background: "radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), hsla(262, 83%, 58%, 0.06), transparent 60%)",
+          background: "radial-gradient(400px circle at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 60%)",
         }}
       />
 
@@ -81,7 +81,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       {/* Body */}
       <div className="p-6 flex-1 flex flex-col justify-between relative z-10" style={{ transform: "translateZ(30px)" }}>
         <div>
-          <h4 className="text-base font-extrabold text-zinc-950 group-hover:text-[hsl(262,83%,58%)] transition-colors duration-300 mb-2">
+          <h4 className="text-base font-extrabold text-zinc-950 group-hover:text-primary transition-colors duration-300 mb-2">
             {project.title}
           </h4>
           <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3">
@@ -90,7 +90,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
-          <span className="text-xs font-bold text-[hsl(262,83%,58%)] group-hover:underline underline-offset-2">
+          <span className="text-xs font-bold text-primary group-hover:underline underline-offset-2">
             View Case Study
           </span>
           <Code className="w-4 h-4 text-zinc-300 group-hover:text-zinc-600 transition-colors" />

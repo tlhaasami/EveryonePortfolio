@@ -3,6 +3,18 @@
 @theme {
   --font-sans: var(--font-sans), "Inter", system-ui, -apple-system, sans-serif;
 
+  /* Custom dynamic theme color variables mapping */
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-ultra-light: var(--color-primary-ultra-light);
+  --color-accent: var(--color-accent);
+  --color-accent-light: var(--color-accent-light);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-warm: var(--color-warm);
+  --color-warm-light: var(--color-warm-light);
+  --color-warm-dark: var(--color-warm-dark);
+
   /* Custom animation keyframes */
   --animate-float: float 6s ease-in-out infinite;
   --animate-shimmer-sweep: shimmer-sweep 2.5s ease-in-out infinite;

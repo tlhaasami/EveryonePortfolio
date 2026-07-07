@@ -39,14 +39,14 @@ export default function CertificateCard({ cert, onClick }: CertificateCardProps)
       {/* Lower Part: Certificate Details */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          <h5 className="font-extrabold text-zinc-950 text-xs sm:text-sm line-clamp-1 leading-snug group-hover:text-[hsl(262,83%,58%)] transition-colors duration-300">
+          <h5 className="font-extrabold text-zinc-950 text-xs sm:text-sm line-clamp-1 leading-snug group-hover:text-primary transition-colors duration-300">
             {cert.name}
           </h5>
           <p className="text-[10px] text-zinc-400 font-bold mt-1">{cert.organization}</p>
         </div>
         <div className="flex items-center justify-between pt-3 border-t border-zinc-100 mt-3 text-[9px] text-zinc-400 font-bold uppercase tracking-wider">
-          <span className="group-hover:text-[hsl(262,83%,58%)] transition-colors">View Details</span>
-          <ChevronRightIcon className="w-3.5 h-3.5 text-zinc-300 group-hover:text-[hsl(262,83%,58%)] group-hover:translate-x-0.5 transition-all" />
+          <span className="group-hover:text-primary transition-colors">View Details</span>
+          <ChevronRightIcon className="w-3.5 h-3.5 text-zinc-300 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
         </div>
       </div>
     </div>

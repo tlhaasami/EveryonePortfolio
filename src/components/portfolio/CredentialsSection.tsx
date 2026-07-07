@@ -52,7 +52,7 @@ export default function CredentialsSection({ education, experience, appearance }
   return (
     <section id="credentials" className="py-28 relative overflow-hidden bg-white border-b border-zinc-200 wave-divider">
       {/* Background decorative glow */}
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[hsl(175,72%,88%)] opacity-15 blur-[130px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/10 opacity-15 blur-[130px] pointer-events-none rounded-full" />
 
       <div className="container mx-auto px-6 relative z-10 max-w-6xl">
         
@@ -84,7 +84,7 @@ export default function CredentialsSection({ education, experience, appearance }
           <div className="lg:col-span-7 space-y-6">
             <h4 className="text-lg font-black text-zinc-950 flex items-center gap-2.5 mb-4 pl-1">
               <div className="p-2 rounded-xl bg-violet-500/8 border border-violet-500/10">
-                <Briefcase className="w-4 h-4 text-[hsl(262,83%,58%)]" />
+                <Briefcase className="w-4 h-4 text-primary" />
               </div>
               Work History
             </h4>
@@ -111,7 +111,7 @@ export default function CredentialsSection({ education, experience, appearance }
                         <div className="space-y-1">
                           <div className="flex flex-wrap items-center gap-2">
                             <h5 className="font-extrabold text-sm sm:text-base text-zinc-950">{job.position}</h5>
-                            <span className="text-[9px] font-bold text-[hsl(262,83%,58%)] bg-violet-500/5 border border-violet-500/10 px-2.5 py-0.5 rounded-full uppercase">
+                            <span className="text-[9px] font-bold text-primary bg-primary/5 border border-primary/10 px-2.5 py-0.5 rounded-full uppercase">
                               {job.company}
                             </span>
                           </div>
@@ -184,14 +184,14 @@ export default function CredentialsSection({ education, experience, appearance }
           <div className="lg:col-span-5 space-y-6">
             <h4 className="text-lg font-black text-zinc-950 flex items-center gap-2.5 mb-4 pl-1">
               <div className="p-2 rounded-xl bg-teal-500/8 border border-teal-500/10">
-                <GraduationCap className="w-4 h-4 text-[hsl(175,72%,42%)]" />
+                <GraduationCap className="w-4 h-4 text-accent" />
               </div>
               Education
             </h4>
 
             <div className="relative ml-4 pl-5 space-y-8">
               {/* Gradient animated timeline border */}
-              <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full bg-gradient-to-b from-[hsl(175,72%,42%)] via-[hsl(262,83%,58%)] to-[hsl(35,92%,62%)] opacity-30" />
+              <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full bg-gradient-to-b from-accent via-primary to-warm opacity-30" />
 
               {education.map((edu, idx) => (
                 <ScrollParallaxWrapper key={idx} offsetY={[-(12 + idx * 5), 12 + idx * 5]} rotateX={[2, 0]}>
@@ -203,12 +203,12 @@ export default function CredentialsSection({ education, experience, appearance }
                     transition={{ delay: idx * 0.15 }}
                   >
                     {/* Dot node with glow */}
-                    <div className="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-white border-2 border-[hsl(175,72%,42%)] shadow-sm shadow-teal-500/30" />
+                    <div className="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-white border-2 border-accent shadow-sm shadow-accent/30" />
                     
-                    <span className="text-[9px] font-bold text-[hsl(175,72%,42%)] uppercase tracking-wider block">
+                    <span className="text-[9px] font-bold text-accent uppercase tracking-wider block">
                       {edu.timeline}
                     </span>
-                    <h5 className="font-extrabold text-zinc-950 text-sm leading-tight group-hover:text-[hsl(175,72%,42%)] transition-colors">
+                    <h5 className="font-extrabold text-zinc-950 text-sm leading-tight group-hover:text-accent transition-colors">
                       {edu.degree}
                     </h5>
                     <p className="text-zinc-400 text-xs font-semibold leading-none">{edu.institution}</p>

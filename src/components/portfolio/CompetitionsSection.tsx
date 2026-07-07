@@ -109,7 +109,7 @@ export default function CompetitionsSection({ competitions }: CompetitionsSectio
         {/* Header */}
         <div className="text-left mb-12">
           <FadeInUp distance={15}>
-            <h2 className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2">My Wins</h2>
+            <h2 className="text-xs font-bold tracking-widest text-primary uppercase mb-2">My Wins</h2>
           </FadeInUp>
           <FadeInUp delay={0.1} distance={20}>
             <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Hackathons & Competitions</h3>
@@ -169,7 +169,7 @@ export default function CompetitionsSection({ competitions }: CompetitionsSectio
 
                 {/* Details */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
-                  <h4 className="font-extrabold text-zinc-950 text-sm sm:text-base leading-tight group-hover:text-[hsl(262,83%,58%)] transition-colors">
+                  <h4 className="font-extrabold text-zinc-950 text-sm sm:text-base leading-tight group-hover:text-primary transition-colors">
                     {comp.title}
                   </h4>
                   <p className="text-zinc-500 text-xs leading-relaxed line-clamp-3">

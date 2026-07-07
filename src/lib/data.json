@@ -629,6 +629,24 @@
     "selectedFont": "Fira Code",
     "textAnimationStyle": "scale-up",
     "dropdownAnimationStyle": "skew-unroll",
-    "continuousAnimationStyle": "pulsing"
+    "continuousAnimationStyle": "pulsing",
+    "colorScheme": "purple-haze",
+    "colorPrimary": "#8b5cf6",
+    "colorAccent": "#14b8a6",
+    "colorWarm": "#f59e0b",
+    "bgGridType": "graph-paper",
+    "bgGridSize": 48,
+    "bgGridOpacity": 0.03,
+    "bgGridColor": "#0a0a0a",
+    "enableParticles": true,
+    "particleCount": 150,
+    "enableGlowRings": true,
+    "glowRingsColor": "#8b5cf6",
+    "bgMeshGlowOpacity": 0.25,
+    "heroLayout": "split-right",
+    "heroPicShape": "circle",
+    "heroPicBorder": "conic-glow",
+    "heroTextAlignment": "left",
+    "heroTitleWeight": "black"
   }
 }

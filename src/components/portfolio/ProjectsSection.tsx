@@ -127,7 +127,7 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
         {/* Header */}
         <div className="text-left mb-16">
           <FadeInUp distance={15}>
-            <h2 className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2">My Showcase</h2>
+            <h2 className="text-xs font-bold tracking-widest text-primary uppercase mb-2">My Showcase</h2>
           </FadeInUp>
           <FadeInUp delay={0.1} distance={20}>
             <h3 className="text-2xl sm:text-3xl font-black text-zinc-950">Featured Projects</h3>
@@ -264,7 +264,7 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
 
                   <div>
                     <h4 className="text-zinc-400 font-bold text-xs tracking-wider uppercase mb-3 flex items-center gap-2">
-                      <Layers className="w-4 h-4 text-violet-600" /> Key Features
+                      <Layers className="w-4 h-4 text-primary" /> Key Features
                     </h4>
                     <ul className="list-disc pl-5 text-zinc-600 space-y-2 text-xs sm:text-sm leading-relaxed">
                       {selectedProject.features.map((feature, idx) => (
@@ -276,13 +276,13 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-zinc-100">
                     <div>
                       <h4 className="text-zinc-400 font-bold text-xs tracking-wider uppercase mb-2.5 flex items-center gap-2">
-                        <ShieldAlert className="w-4 h-4 text-fuchsia-600" /> Engineering Challenges
+                        <ShieldAlert className="w-4 h-4 text-accent" /> Engineering Challenges
                       </h4>
                       <p className="text-zinc-650 text-xs leading-relaxed">{selectedProject.challenges}</p>
                     </div>
                     <div>
                       <h4 className="text-zinc-400 font-bold text-xs tracking-wider uppercase mb-2.5 flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-cyan-600" /> Lessons Learned
+                        <BookOpen className="w-4 h-4 text-warm" /> Lessons Learned
                       </h4>
                       <p className="text-zinc-655 text-xs leading-relaxed">{selectedProject.lessonsLearned}</p>
                     </div>
@@ -326,7 +326,7 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
                         href={selectedProject.liveUrl} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 text-xs font-bold uppercase tracking-wider text-white transition-all shadow-md active:scale-95 shadow-violet-500/10"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-xs font-bold uppercase tracking-wider text-white transition-all shadow-md active:scale-95 shadow-primary/10"
                       >
                         <ExternalLink className="w-4 h-4" /> Live Demo
                       </a>

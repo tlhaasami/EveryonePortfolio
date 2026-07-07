@@ -1104,17 +1104,416 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
               <div className="space-y-8 animate-fade-in text-left">
                 <div>
                   <h2 className="text-xl font-black text-zinc-950">Appearance & Layout Settings</h2>
-                  <p className="text-xs text-zinc-400 mt-1">Customize typography, fonts, and the layout style of your homepage profile picture.</p>
+                  <p className="text-xs text-zinc-400 mt-1">Customize typography, global colors, background animations, and hero layout configuration.</p>
                 </div>
 
-                {/* Profile Pic Settings Grid */}
+                {/* 1. Global Color Schemes & Theme Customizer */}
                 <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
-                  <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Profile Picture Customization</h3>
+                  <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Global Color Settings & Theme Scheme</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    {/* Theme Scheme Presets */}
+                    <div className="md:col-span-2">
+                      <CustomDropdown 
+                        label="Theme Preset"
+                        value={data.appearance?.colorScheme || "purple-haze"}
+                        options={[
+                          { value: "purple-haze", label: "Purple Haze (Default)" },
+                          { value: "midnight-ocean", label: "Midnight Ocean (Deep Blue / Green)" },
+                          { value: "sunset-rose", label: "Sunset Rose (Fuchsia / Orange)" },
+                          { value: "forest-moss", label: "Forest Moss (Emerald / Gold)" },
+                          { value: "cyberpunk", label: "Cyberpunk (Neon Pink / Cyan)" },
+                          { value: "classic-mono", label: "Classic Mono (Zinc Grayscale)" },
+                          { value: "custom", label: "Custom Colors (Pick below)" }
+                        ]}
+                        onChange={(val) => {
+                          const presets: Record<string, { primary: string; accent: string; warm: string }> = {
+                            "purple-haze": { primary: "#8b5cf6", accent: "#14b8a6", warm: "#f59e0b" },
+                            "midnight-ocean": { primary: "#3b82f6", accent: "#10b981", warm: "#06b6d4" },
+                            "sunset-rose": { primary: "#ec4899", accent: "#f97316", warm: "#eab308" },
+                            "forest-moss": { primary: "#059669", accent: "#d97706", warm: "#84cc16" },
+                            "cyberpunk": { primary: "#ff007f", accent: "#00f0ff", warm: "#ffb800" },
+                            "classic-mono": { primary: "#18181b", accent: "#52525b", warm: "#a1a1aa" },
+                          };
+                          
+                          if (val !== "custom") {
+                            const p = presets[val];
+                            setData(prev => ({
+                              ...prev,
+                              appearance: {
+                                ...prev.appearance,
+                                colorScheme: val as any,
+                                colorPrimary: p.primary,
+                                colorAccent: p.accent,
+                                colorWarm: p.warm,
+                                glowRingsColor: p.primary
+                              }
+                            }));
+                          } else {
+                            setData(prev => ({
+                              ...prev,
+                              appearance: {
+                                ...prev.appearance,
+                                colorScheme: "custom"
+                              }
+                            }));
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {/* Color customizers */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Primary Color</label>
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="color" 
+                          value={data.appearance?.colorPrimary || "#8b5cf6"} 
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              colorScheme: "custom",
+                              colorPrimary: e.target.value
+                            }
+                          }))}
+                          className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
+                        />
+                        <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.colorPrimary || "#8b5cf6"}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Accent Color</label>
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="color" 
+                          value={data.appearance?.colorAccent || "#14b8a6"} 
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              colorScheme: "custom",
+                              colorAccent: e.target.value
+                            }
+                          }))}
+                          className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
+                        />
+                        <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.colorAccent || "#14b8a6"}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 md:col-start-3">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Highlight Color</label>
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="color" 
+                          value={data.appearance?.colorWarm || "#f59e0b"} 
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              colorScheme: "custom",
+                              colorWarm: e.target.value
+                            }
+                          }))}
+                          className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
+                        />
+                        <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.colorWarm || "#f59e0b"}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Background Grid Customization */}
+                <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
+                  <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Dynamic Background Customization</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Size slider */}
+                    {/* Grid Type */}
+                    <CustomDropdown 
+                      label="Background Grid Type"
+                      value={data.appearance?.bgGridType || "graph-paper"}
+                      options={[
+                        { value: "graph-paper", label: "Graph Paper Grid" },
+                        { value: "dots", label: "Dots Grid" },
+                        { value: "lines", label: "Vertical Lines Only" },
+                        { value: "isometric", label: "Isometric Grid" },
+                        { value: "none", label: "Clean / Empty" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          bgGridType: val as any
+                        }
+                      }))}
+                    />
+
+                    {/* Sizing slider */}
                     <div className="space-y-2">
-                      <label className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Profile Pic Size ({data.appearance?.profilePicSize || 310}px)</label>
+                      <label className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Grid Size ({data.appearance?.bgGridSize || 48}px)</label>
+                      <input 
+                        type="range" 
+                        min={20} 
+                        max={100} 
+                        step={4} 
+                        value={data.appearance?.bgGridSize || 48} 
+                        onChange={(e) => setData(prev => ({
+                          ...prev,
+                          appearance: {
+                            ...prev.appearance,
+                            bgGridSize: parseInt(e.target.value)
+                          }
+                        }))}
+                        className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900"
+                      />
+                      <div className="flex justify-between text-[9px] text-zinc-400">
+                        <span>Small (20px)</span>
+                        <span>Large (100px)</span>
+                      </div>
+                    </div>
+
+                    {/* Opacity slider */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Grid Line Opacity ({Math.round((data.appearance?.bgGridOpacity || 0.03) * 100)}%)</label>
+                      <input 
+                        type="range" 
+                        min={0.005} 
+                        max={0.15} 
+                        step={0.005} 
+                        value={data.appearance?.bgGridOpacity || 0.03} 
+                        onChange={(e) => setData(prev => ({
+                          ...prev,
+                          appearance: {
+                            ...prev.appearance,
+                            bgGridOpacity: parseFloat(e.target.value)
+                          }
+                        }))}
+                        className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900"
+                      />
+                      <div className="flex justify-between text-[9px] text-zinc-400">
+                        <span>Faint (0.5%)</span>
+                        <span>Dark (15%)</span>
+                      </div>
+                    </div>
+
+                    {/* Grid line color */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Grid Line Color</label>
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="color" 
+                          value={data.appearance?.bgGridColor || "#0a0a0a"} 
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              bgGridColor: e.target.value
+                            }
+                          }))}
+                          className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
+                        />
+                        <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.bgGridColor || "#0a0a0a"}</span>
+                      </div>
+                    </div>
+
+                    {/* Particles toggle */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Floating 3D Particles</label>
+                      <label className="relative inline-flex items-center cursor-pointer pt-1">
+                        <input 
+                          type="checkbox" 
+                          checked={data.appearance?.enableParticles ?? true} 
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              enableParticles: e.target.checked
+                            }
+                          }))}
+                          className="sr-only peer"
+                        />
+                        <div className="w-10 h-5 bg-zinc-250 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-zinc-950"></div>
+                        <span className="ml-3 text-xs font-bold text-zinc-700">{data.appearance?.enableParticles ? "Enabled" : "Disabled"}</span>
+                      </label>
+                    </div>
+
+                    {/* Particles count */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-555 uppercase tracking-wider">Particle Count ({data.appearance?.particleCount || 150})</label>
+                      <input 
+                        type="range" 
+                        min={50} 
+                        max={300} 
+                        step={10} 
+                        value={data.appearance?.particleCount || 150} 
+                        disabled={!data.appearance?.enableParticles}
+                        onChange={(e) => setData(prev => ({
+                          ...prev,
+                          appearance: {
+                            ...prev.appearance,
+                            particleCount: parseInt(e.target.value)
+                          }
+                        }))}
+                        className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900 disabled:opacity-40"
+                      />
+                      <div className="flex justify-between text-[9px] text-zinc-400">
+                        <span>Minimal (50)</span>
+                        <span>Dense (300)</span>
+                      </div>
+                    </div>
+
+                    {/* Glow ring toggle */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Central Pulsing Glow Ring</label>
+                      <label className="relative inline-flex items-center cursor-pointer pt-1">
+                        <input 
+                          type="checkbox" 
+                          checked={data.appearance?.enableGlowRings ?? true} 
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              enableGlowRings: e.target.checked
+                            }
+                          }))}
+                          className="sr-only peer"
+                        />
+                        <div className="w-10 h-5 bg-zinc-250 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-zinc-950"></div>
+                        <span className="ml-3 text-xs font-bold text-zinc-700">{data.appearance?.enableGlowRings ? "Enabled" : "Disabled"}</span>
+                      </label>
+                    </div>
+
+                    {/* Glow ring color picker */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Glow Ring Color</label>
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="color" 
+                          value={data.appearance?.glowRingsColor || "#8b5cf6"} 
+                          disabled={!data.appearance?.enableGlowRings}
+                          onChange={(e) => setData(prev => ({
+                            ...prev,
+                            appearance: {
+                              ...prev.appearance,
+                              glowRingsColor: e.target.value
+                            }
+                          }))}
+                          className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0 disabled:opacity-40"
+                        />
+                        <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.glowRingsColor || "#8b5cf6"}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Hero Layout Configurations */}
+                <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
+                  <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Hero Section Layout & Display Style</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Preset Layout */}
+                    <CustomDropdown 
+                      label="Hero Layout Structure"
+                      value={data.appearance?.heroLayout || "split-right"}
+                      options={[
+                        { value: "split-right", label: "Split (Text Left, Photo Right)" },
+                        { value: "split-left", label: "Split Reversed (Photo Left, Text Right)" },
+                        { value: "centered", label: "Centered Minimal (Vertical Stack)" },
+                        { value: "split-vertical", label: "Split Column Screen (Accent Side Panel)" },
+                        { value: "banner-overlay", label: "Overlay Card Banner (Glass Panel)" },
+                        { value: "floating-cards", label: "Asymmetric Floating Cards" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          heroLayout: val as any
+                        }
+                      }))}
+                    />
+
+                    {/* Text alignment selector */}
+                    <CustomDropdown 
+                      label="Text Alignment"
+                      value={data.appearance?.heroTextAlignment || "left"}
+                      options={[
+                        { value: "left", label: "Align Left" },
+                        { value: "center", label: "Align Center" },
+                        { value: "right", label: "Align Right" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          heroTextAlignment: val as any
+                        }
+                      }))}
+                    />
+
+                    {/* Typography Title Weight */}
+                    <CustomDropdown 
+                      label="Headline Weight"
+                      value={data.appearance?.heroTitleWeight || "black"}
+                      options={[
+                        { value: "normal", label: "Light / Regular" },
+                        { value: "semibold", label: "Semibold" },
+                        { value: "bold", label: "Bold" },
+                        { value: "black", label: "Extra Black (Heavy)" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          heroTitleWeight: val as any
+                        }
+                      }))}
+                    />
+
+                    {/* Pic shape mask selector */}
+                    <CustomDropdown 
+                      label="Profile Photo Shape"
+                      value={data.appearance?.heroPicShape || "circle"}
+                      options={[
+                        { value: "circle", label: "Circle" },
+                        { value: "rounded-square", label: "Rounded Corner Square" },
+                        { value: "square", label: "Perfect Square" },
+                        { value: "hexagon", label: "Hexagon Polygon Mask" },
+                        { value: "blob", label: "Fluid Organic Blob Shape" },
+                        { value: "hidden", label: "No Image (Text Only)" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          heroPicShape: val as any
+                        }
+                      }))}
+                    />
+
+                    {/* Picture border style selector */}
+                    <CustomDropdown 
+                      label="Border Outline Frame"
+                      value={data.appearance?.heroPicBorder || "conic-glow"}
+                      options={[
+                        { value: "conic-glow", label: "Conic Animated Gradient" },
+                        { value: "pulse-solid", label: "Solid Pulsing Outline" },
+                        { value: "glow-ring", label: "Electric Glow Ring Outline" },
+                        { value: "none", label: "No Frame Border" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          heroPicBorder: val as any
+                        }
+                      }))}
+                    />
+
+                    {/* Profile Pic size slider */}
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-bold text-zinc-555 uppercase tracking-wider">Photo Border Box Size ({data.appearance?.profilePicSize || 310}px)</label>
                       <input 
                         type="range" 
                         min={200} 
@@ -1135,42 +1534,6 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                         <span>Large (450px)</span>
                       </div>
                     </div>
-
-                    {/* Shape Selector */}
-                    <CustomDropdown 
-                      label="Pic Shape"
-                      value={data.appearance?.profilePicShape || "circle"}
-                      options={[
-                        { value: "circle", label: "Circle (Default)" },
-                        { value: "rounded-square", label: "Rounded Square" },
-                        { value: "square", label: "Square" }
-                      ]}
-                      onChange={(val) => setData(prev => ({
-                        ...prev,
-                        appearance: {
-                          ...prev.appearance,
-                          profilePicShape: val as any
-                        }
-                      }))}
-                    />
-
-                    {/* Placement Selector */}
-                    <CustomDropdown 
-                      label="Placement (Hero Layout)"
-                      value={data.appearance?.profilePicPlacement || "right"}
-                      options={[
-                        { value: "right", label: "Right (Text Left, Photo Right)" },
-                        { value: "left", label: "Left (Photo Left, Text Right)" },
-                        { value: "center", label: "Center Stacked (Centered Vertical)" }
-                      ]}
-                      onChange={(val) => setData(prev => ({
-                        ...prev,
-                        appearance: {
-                          ...prev.appearance,
-                          profilePicPlacement: val as any
-                        }
-                      }))}
-                    />
                   </div>
                 </div>
 
@@ -1202,7 +1565,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                     {/* Font Upload Box */}
                     <div className="space-y-3 p-4 bg-white border border-zinc-200/80 rounded-2xl relative">
-                      <label className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Upload Custom Font File</label>
+                      <label className="block text-[10px] font-bold text-zinc-555 uppercase tracking-wider">Upload Custom Font File</label>
                       
                       <div className="space-y-3">
                         <div>
@@ -1248,70 +1611,6 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                         </div>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                {/* Animations Options Section */}
-                <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
-                  <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Animation Options</h3>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Text animations */}
-                    <CustomDropdown 
-                      label="Text Entrance Style"
-                      value={data.appearance?.textAnimationStyle || "fade-in-up"}
-                      options={[
-                        { value: "fade-in-up", label: "Fade In Up (Classic)" },
-                        { value: "slide-in-left", label: "Slide In Left (Dynamic)" },
-                        { value: "typewriter", label: "Typewriter Lettering (Interactive)" },
-                        { value: "scale-up", label: "Scale In (Zoom-Reveal)" },
-                        { value: "none", label: "None (Static Display)" }
-                      ]}
-                      onChange={(val) => setData(prev => ({
-                        ...prev,
-                        appearance: {
-                          ...prev.appearance,
-                          textAnimationStyle: val as any
-                        }
-                      }))}
-                    />
-
-                    {/* Dropdown transitions */}
-                    <CustomDropdown 
-                      label="Accordion/Dropdown Style"
-                      value={data.appearance?.dropdownAnimationStyle || "slide-down"}
-                      options={[
-                        { value: "slide-down", label: "Slide Down Unroll (Classic)" },
-                        { value: "fade-scale", label: "Fade & Scale Expand (Premium)" },
-                        { value: "skew-unroll", label: "Skew & Unroll (3D Dynamic)" }
-                      ]}
-                      onChange={(val) => setData(prev => ({
-                        ...prev,
-                        appearance: {
-                          ...prev.appearance,
-                          dropdownAnimationStyle: val as any
-                        }
-                      }))}
-                    />
-
-                    {/* Continuous animations */}
-                    <CustomDropdown 
-                      label="Continuous Text Animation"
-                      value={data.appearance?.continuousAnimationStyle || "none"}
-                      options={[
-                        { value: "none", label: "None (Static Display)" },
-                        { value: "glowing", label: "Glowing Shadow Pulse" },
-                        { value: "pulsing", label: "Breathing Zoom Loop" },
-                        { value: "wiggle", label: "Wiggle Shake Loop" }
-                      ]}
-                      onChange={(val) => setData(prev => ({
-                        ...prev,
-                        appearance: {
-                          ...prev.appearance,
-                          continuousAnimationStyle: val as any
-                        }
-                      }))}
-                    />
                   </div>
                 </div>
 

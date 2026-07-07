@@ -75,7 +75,7 @@ function SkillCard({ skill }: { skill: Skill }) {
       </div>
 
       <div className="space-y-0.5 relative z-10">
-        <h4 className="font-extrabold text-zinc-900 group-hover:text-[hsl(262,83%,58%)] transition-colors text-[11px] sm:text-xs leading-snug">
+        <h4 className="font-extrabold text-zinc-900 group-hover:text-primary transition-colors text-[11px] sm:text-xs leading-snug">
           {skill.name}
         </h4>
         <span className="text-[8px] text-zinc-400 font-bold uppercase tracking-wider block">
@@ -118,14 +118,14 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <section id="skills" className="py-28 relative overflow-hidden bg-[#fafafa] border-b border-zinc-200 wave-divider-white">
       {/* Decorative background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[hsl(262,83%,90%)] opacity-15 blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-primary/10 opacity-15 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.h2 
-            className="text-xs font-bold tracking-widest text-[hsl(262,83%,58%)] uppercase mb-2"
+            className="text-xs font-bold tracking-widest text-primary uppercase mb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
