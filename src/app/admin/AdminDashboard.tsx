@@ -885,14 +885,12 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           <div
                             key={platform.key}
                             style={{ 
-                              borderColor: isActive ? platform.brandColor : undefined,
-                              boxShadow: isActive ? `0 0 12px ${platform.brandColor}20` : undefined,
-                              backgroundColor: isActive ? `${platform.brandColor}06` : undefined
+                              borderColor: platform.brandColor,
+                              boxShadow: isActive ? `0 0 16px ${platform.brandColor}30` : `0 0 6px ${platform.brandColor}10`,
+                              backgroundColor: isActive ? `${platform.brandColor}0a` : `${platform.brandColor}05`
                             }}
-                            className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between space-y-3 min-h-[120px] ${
-                              isActive
-                                ? ""
-                                : "border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-zinc-300 dark:hover:border-zinc-700"
+                            className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between space-y-3 min-h-[120px] hover:shadow-lg ${
+                              isActive ? "opacity-100" : "opacity-75 hover:opacity-100"
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
@@ -903,8 +901,8 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                                 }}
                                 className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-sm ${
                                   isActive
-                                    ? "opacity-100 scale-105 shadow-md"
-                                    : "opacity-45 hover:opacity-70"
+                                    ? "scale-110 shadow-md"
+                                    : ""
                                 }`}
                               >
                                 {SOCIAL_PLATFORM_LOGOS[platform.key as keyof typeof SOCIAL_PLATFORM_LOGOS]}
