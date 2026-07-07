@@ -14,8 +14,8 @@ import AssistantPanel from "./AssistantPanel";
 import ResumeDownloaderModal from "./ResumeDownloaderModal";
 import { Menu, X, FileDown, Heart, Settings } from "lucide-react";
 import Link from "next/link";
-import { GithubIcon, LinkedinIcon } from "../shared/icons";
 import { motion, AnimatePresence } from "framer-motion";
+import { SOCIAL_PLATFORMS, SOCIAL_PLATFORM_LOGOS } from "@/lib/socialConfig";
 import { ScrollProgress } from "./Animations";
 
 interface PortfolioLayoutProps {
@@ -125,10 +125,15 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
           <a 
             href="#" 
             onClick={(e) => handleScrollTo(e, "#")}
-            className="text-lg font-black tracking-wider text-zinc-950 uppercase flex items-center gap-1"
+            className="text-lg font-black tracking-wider text-zinc-950 uppercase flex items-center gap-1.5"
           >
             <span className="gradient-text">{data.profile.name.split(" ")[0]}</span>
             <span className="text-zinc-300 font-medium">.Dev</span>
+            {data.profile.username && (
+              <span className="text-[9px] font-bold text-zinc-400 bg-zinc-100 border border-zinc-200/60 px-2 py-0.5 rounded-full lowercase tracking-normal">
+                @{data.profile.username}
+              </span>
+            )}
           </a>
 
           {/* Desktop Nav */}
@@ -289,13 +294,23 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
               <p className="text-xs text-zinc-500 leading-relaxed">
                 Full Stack Engineer focusing on WebGL interactive layouts, scalable backend APIs, and multi-tenant applications.
               </p>
-              <div className="flex items-center gap-2 pt-2">
-                <a href={data.profile.socialLinks.github} target="_blank" rel="noreferrer" className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white hover:border-zinc-700 transition-all">
-                  <GithubIcon className="w-4 h-4" />
-                </a>
-                <a href={data.profile.socialLinks.linkedin} target="_blank" rel="noreferrer" className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white hover:border-zinc-700 transition-all">
-                  <LinkedinIcon className="w-4 h-4" />
-                </a>
+              <div className="flex items-center flex-wrap gap-2 pt-2">
+                {SOCIAL_PLATFORMS.map((platform) => {
+                  const href = data.profile.socialLinks[platform.key as keyof typeof data.profile.socialLinks];
+                  if (!href) return null;
+                  return (
+                    <a 
+                      key={platform.key}
+                      href={href} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white hover:border-zinc-700 transition-all flex items-center justify-center"
+                      title={platform.label}
+                    >
+                      {SOCIAL_PLATFORM_LOGOS[platform.key]}
+                    </a>
+                  );
+                })}
               </div>
             </div>
 

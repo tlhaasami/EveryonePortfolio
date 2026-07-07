@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "../shared/icons";
 import { Profile } from "@/lib/mockData";
+import { SOCIAL_PLATFORMS, SOCIAL_PLATFORM_LOGOS } from "@/lib/socialConfig";
 
 interface ContactSectionProps {
   profile: Profile;
@@ -96,36 +96,26 @@ export default function ContactSection({ profile }: ContactSectionProps) {
 
             {/* Social Grid */}
             <div className="pt-8 border-t border-zinc-200/60 mt-8">
-              <h5 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-4">Connect with me</h5>
-              <div className="flex flex-wrap gap-2">
-                <a 
-                  href={profile.socialLinks.github} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="p-2.5 rounded-xl bg-white border border-zinc-200/80 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 hover:shadow-sm transition-all flex items-center gap-1.5 text-xs font-bold"
-                >
-                  <GithubIcon className="w-4 h-4" /> GitHub
-                </a>
-                <a 
-                  href={profile.socialLinks.linkedin} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="p-2.5 rounded-xl bg-white border border-zinc-200/80 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 hover:shadow-sm transition-all flex items-center gap-1.5 text-xs font-bold"
-                >
-                  <LinkedinIcon className="w-4 h-4" /> LinkedIn
-                </a>
-                {profile.socialLinks.kaggle && (
-                  <a href={profile.socialLinks.kaggle} target="_blank" rel="noreferrer"
-                    className="p-2.5 rounded-xl bg-white border border-zinc-200/80 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 hover:shadow-sm transition-all flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
-                    Kaggle
-                  </a>
-                )}
-                {profile.socialLinks.medium && (
-                  <a href={profile.socialLinks.medium} target="_blank" rel="noreferrer"
-                    className="p-2.5 rounded-xl bg-white border border-zinc-200/80 text-zinc-500 hover:text-zinc-900 hover:border-zinc-300 hover:shadow-sm transition-all flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
-                    Medium
-                  </a>
-                )}
+              <h5 className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4">Connect with me</h5>
+              <div className="flex flex-wrap gap-2.5">
+                {SOCIAL_PLATFORMS.map((platform) => {
+                  const href = profile.socialLinks[platform.key as keyof typeof profile.socialLinks];
+                  if (!href) return null;
+                  return (
+                    <a 
+                      key={platform.key}
+                      href={href} 
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-zinc-500 dark:text-zinc-450 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-sm transition-all flex items-center gap-2 text-xs font-bold"
+                    >
+                      <span className="text-zinc-500 dark:text-zinc-400">
+                        {SOCIAL_PLATFORM_LOGOS[platform.key]}
+                      </span>
+                      {platform.label}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>

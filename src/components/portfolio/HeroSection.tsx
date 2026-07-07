@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, MessageSquare } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "../shared/icons";
 import { Profile, AppearanceSettings } from "@/lib/mockData";
+import { SOCIAL_PLATFORMS, SOCIAL_PLATFORM_LOGOS } from "@/lib/socialConfig";
 import SkeletonImage from "./SkeletonImage";
 import ThreeDBackground from "./ThreeDBackground";
 import { Magnetic, TextReveal, FadeInUp, StaggerContainer, StaggerItem, TextAnimationWrapper } from "./Animations";
@@ -159,11 +159,11 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
           }`}>
             {appearance?.textAnimationStyle === "typewriter" ? (
               <TextAnimationWrapper style="typewriter" delay={0.3}>
-                {profile.name}
+                {profile.name} {profile.username && <span className="text-sm font-semibold opacity-60 ml-2">@{profile.username}</span>}
               </TextAnimationWrapper>
             ) : (
               <TextAnimationWrapper style={appearance?.textAnimationStyle} delay={0.3} distance={30}>
-                {profile.name}
+                {profile.name} {profile.username && <span className="text-xs sm:text-sm font-semibold opacity-50 block sm:inline sm:ml-2">@{profile.username}</span>}
               </TextAnimationWrapper>
             )}
           </h1>
@@ -216,24 +216,25 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
 
         {/* Social Links */}
         <StaggerContainer className={socialsAlign} staggerDelay={0.06}>
-          {[
-            { href: profile.socialLinks.github, icon: <GithubIcon className="w-4.5 h-4.5" />, label: "GitHub" },
-            { href: profile.socialLinks.linkedin, icon: <LinkedinIcon className="w-4.5 h-4.5" />, label: "LinkedIn" },
-          ].map((social, idx) => (
-            <StaggerItem key={idx}>
-              <Magnetic strength={0.25}>
-                <a 
-                  href={social.href} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className={`${isInSplitVertical ? "text-white/60 hover:text-white hover:bg-white/10" : "text-zinc-400 hover:text-zinc-950 hover:bg-zinc-100"} transition-all duration-300 p-2.5 rounded-xl hover:shadow-sm`}
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </a>
-              </Magnetic>
-            </StaggerItem>
-          ))}
+          {SOCIAL_PLATFORMS.map((platform) => {
+            const href = profile.socialLinks[platform.key as keyof typeof profile.socialLinks];
+            if (!href) return null;
+            return (
+              <StaggerItem key={platform.key}>
+                <Magnetic strength={0.25}>
+                  <a 
+                    href={href} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className={`${isInSplitVertical ? "text-white/60 hover:text-white hover:bg-white/10" : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"} transition-all duration-300 p-2.5 rounded-xl hover:shadow-sm`}
+                    aria-label={platform.label}
+                  >
+                    {SOCIAL_PLATFORM_LOGOS[platform.key]}
+                  </a>
+                </Magnetic>
+              </StaggerItem>
+            );
+          })}
         </StaggerContainer>
       </div>
     );

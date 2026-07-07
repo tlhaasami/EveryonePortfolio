@@ -1,6 +1,7 @@
 {
   "profile": {
     "name": "Talha Sami",
+    "username": "tlhasami",
     "title": "Software Engineer | Flutter Developer | UI/UX Enthusiast",
     "subtitle": "Passionate Flutter developer focused on clean architecture, smooth UI/UX, and solving real-world problems through code.",
     "introduction": "Hi, I'm Talha Sami. I build cross-platform mobile apps, desktop systems, and interactive experiences.",
@@ -19,7 +20,18 @@
     "socialLinks": {
       "github": "https://github.com/tlhaasami",
       "linkedin": "https://linkedin.com",
-      "twitter": "https://twitter.com"
+      "twitter": "https://twitter.com",
+      "facebook": "",
+      "instagram": "",
+      "youtube": "",
+      "twitch": "",
+      "kaggle": "",
+      "medium": "",
+      "stackoverflow": "",
+      "dribbble": "",
+      "behance": "",
+      "whatsapp": "",
+      "email": "hello@example.com"
     },
     "stats": [
       {

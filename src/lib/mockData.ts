@@ -1,5 +1,6 @@
 export interface Profile {
   name: string;
+  username: string;
   title: string;
   subtitle: string;
   introduction: string;
@@ -14,9 +15,18 @@ export interface Profile {
     github: string;
     linkedin: string;
     twitter?: string;
-    portfolio?: string;
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    twitch?: string;
     kaggle?: string;
     medium?: string;
+    stackoverflow?: string;
+    dribbble?: string;
+    behance?: string;
+    whatsapp?: string;
+    email?: string;
+    portfolio?: string;
   };
   stats: { label: string; value: string }[];
   timeline: { year: string; title: string; description: string }[];
@@ -157,6 +167,7 @@ export interface PortfolioData {
 export const mockPortfolioData: PortfolioData = {
   profile: {
     name: "Talha Sami",
+    username: "tlhasami",
     title: "Software Engineer | Flutter Developer | UI/UX Enthusiast",
     subtitle: "Passionate Flutter developer focused on clean architecture, smooth UI/UX, and solving real-world problems through code.",
     introduction: "Hi, I'm Talha Sami. I build cross-platform mobile apps, desktop systems, and interactive experiences.",
@@ -171,6 +182,17 @@ export const mockPortfolioData: PortfolioData = {
       github: "https://github.com/tlhasami",
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
+      facebook: "",
+      instagram: "",
+      youtube: "",
+      twitch: "",
+      kaggle: "",
+      medium: "",
+      stackoverflow: "",
+      dribbble: "",
+      behance: "",
+      whatsapp: "",
+      email: "hello@example.com"
     },
     stats: [
       { label: "LeetCode Problems", value: "550+" },
