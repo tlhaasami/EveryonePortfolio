@@ -4,23 +4,24 @@ export interface SocialPlatform {
   key: string;
   label: string;
   placeholder: string;
+  brandColor: string;
 }
 
 export const SOCIAL_PLATFORMS: SocialPlatform[] = [
-  { key: "github", label: "GitHub", placeholder: "https://github.com/..." },
-  { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/..." },
-  { key: "twitter", label: "Twitter / X", placeholder: "https://twitter.com/..." },
-  { key: "facebook", label: "Facebook", placeholder: "https://facebook.com/..." },
-  { key: "instagram", label: "Instagram", placeholder: "https://instagram.com/..." },
-  { key: "youtube", label: "YouTube", placeholder: "https://youtube.com/c/..." },
-  { key: "twitch", label: "Twitch", placeholder: "https://twitch.tv/..." },
-  { key: "kaggle", label: "Kaggle", placeholder: "https://kaggle.com/..." },
-  { key: "medium", label: "Medium", placeholder: "https://medium.com/@..." },
-  { key: "stackoverflow", label: "Stack Overflow", placeholder: "https://stackoverflow.com/users/..." },
-  { key: "dribbble", label: "Dribbble", placeholder: "https://dribbble.com/..." },
-  { key: "behance", label: "Behance", placeholder: "https://behance.net/..." },
-  { key: "whatsapp", label: "WhatsApp Link", placeholder: "https://wa.me/..." },
-  { key: "email", label: "Email Address", placeholder: "mailto:..." }
+  { key: "github", label: "GitHub", placeholder: "https://github.com/...", brandColor: "#181717" },
+  { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/...", brandColor: "#0077B5" },
+  { key: "twitter", label: "Twitter / X", placeholder: "https://twitter.com/...", brandColor: "#000000" },
+  { key: "facebook", label: "Facebook", placeholder: "https://facebook.com/...", brandColor: "#1877F2" },
+  { key: "instagram", label: "Instagram", placeholder: "https://instagram.com/...", brandColor: "#E4405F" },
+  { key: "youtube", label: "YouTube", placeholder: "https://youtube.com/c/...", brandColor: "#FF0000" },
+  { key: "twitch", label: "Twitch", placeholder: "https://twitch.tv/...", brandColor: "#9146FF" },
+  { key: "kaggle", label: "Kaggle", placeholder: "https://kaggle.com/...", brandColor: "#20BEFF" },
+  { key: "medium", label: "Medium", placeholder: "https://medium.com/@...", brandColor: "#00AB6C" },
+  { key: "stackoverflow", label: "Stack Overflow", placeholder: "https://stackoverflow.com/users/...", brandColor: "#F48024" },
+  { key: "dribbble", label: "Dribbble", placeholder: "https://dribbble.com/...", brandColor: "#EA4C89" },
+  { key: "behance", label: "Behance", placeholder: "https://behance.net/...", brandColor: "#1769FF" },
+  { key: "whatsapp", label: "WhatsApp Link", placeholder: "https://wa.me/...", brandColor: "#25D366" },
+  { key: "email", label: "Email Address", placeholder: "mailto:...", brandColor: "#10B981" }
 ];
 
 export const SOCIAL_PLATFORM_LOGOS: Record<string, React.ReactNode> = {

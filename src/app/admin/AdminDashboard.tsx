@@ -104,22 +104,245 @@ function AutoResizingTextarea({ label, value, onChange, className = "", ...props
   };
 
   useEffect(() => {
-    resize();
+    const timer = setTimeout(resize, 0);
+    return () => clearTimeout(timer);
   }, [value]);
 
   return (
-    <div className="space-y-2 text-left">
-      <label className="text-[10px] font-bold text-zinc-450 dark:text-zinc-550 uppercase tracking-widest block">{label}</label>
+    <div className="space-y-1.5 text-left w-full">
+      <label className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider block">{label}</label>
       <textarea
         ref={textareaRef}
         value={value}
+        rows={props.rows || 1}
         onChange={(e) => {
           if (onChange) onChange(e);
           resize();
         }}
-        className={`w-full px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-850 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-850 transition-colors overflow-hidden resize-none ${className}`}
+        className={`w-full px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-850 transition-colors overflow-hidden resize-none leading-relaxed ${className}`}
         {...props}
       />
+    </div>
+  );
+}
+
+const getDeviconUrl = (techName: string): string => {
+  const normalized = techName.toLowerCase().trim().replace(/[^a-z0-9+#]/g, "");
+  const overrides: Record<string, string> = {
+    "c++": "cplusplus",
+    "c#": "csharp",
+    "dotnet": "dot-net",
+    "js": "javascript",
+    "ts": "typescript",
+    "node": "nodejs",
+    "next": "nextjs",
+    "next.js": "nextjs",
+    "react": "react",
+    "react.js": "react",
+    "vue": "vuejs",
+    "postgres": "postgresql",
+    "postgresql": "postgresql",
+    "mysql": "mysql",
+    "mongo": "mongodb",
+    "mongodb": "mongodb",
+    "aws": "amazonwebservices",
+    "gcp": "googlecloud",
+    "docker": "docker",
+    "kubernetes": "kubernetes",
+    "git": "git",
+    "firebase": "firebase",
+    "supabase": "supabase",
+    "html": "html5",
+    "css": "css3",
+    "sass": "sass",
+    "tailwind": "tailwindcss",
+    "tailwindcss": "tailwindcss",
+    "python": "python",
+    "django": "django",
+    "flask": "flask",
+    "java": "java",
+    "spring": "spring",
+    "flutter": "flutter",
+    "dart": "dart",
+    "swift": "swift",
+    "kotlin": "kotlin",
+    "rust": "rust",
+    "golang": "go",
+    "go": "go"
+  };
+  const name = overrides[normalized] || normalized;
+  return `https://raw.githubusercontent.com/devicons/devicon/master/icons/${name}/${name}-original.svg`;
+};
+
+interface PreviewSimulatorProps {
+  appearance: any;
+  profile: any;
+}
+
+function LivePreviewSimulator({ appearance, profile }: PreviewSimulatorProps) {
+  const [key, setKey] = useState(0);
+
+  const colorPrimary = appearance?.colorPrimary || "#8b5cf6";
+  const colorAccent = appearance?.colorAccent || "#14b8a6";
+  const colorWarm = appearance?.colorWarm || "#f59e0b";
+  const bgGridType = appearance?.bgGridType || "graph-paper";
+  const bgGridSize = appearance?.bgGridSize || 48;
+  const bgGridOpacity = appearance?.bgGridOpacity || 0.03;
+  const bgGridColor = appearance?.bgGridColor || "#0a0a0a";
+  const heroLayout = appearance?.heroLayout || "split-right";
+  const heroTextAlignment = appearance?.heroTextAlignment || "left";
+  const heroTitleWeight = appearance?.heroTitleWeight || "black";
+  const heroPicShape = appearance?.heroPicShape || "circle";
+  const heroPicBorder = appearance?.heroPicBorder || "conic-glow";
+  const continuousAnim = appearance?.continuousAnimationStyle || "pulsing";
+
+  let gridStyle: React.CSSProperties = {};
+  if (bgGridType !== "none") {
+    let svgString = "";
+    const size = bgGridSize / 2;
+    if (bgGridType === "graph-paper") {
+      svgString = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="${size}" height="${size}" patternUnits="userSpaceOnUse"><path d="M ${size} 0 L 0 0 0 ${size}" fill="none" stroke="${bgGridColor}" stroke-width="0.5" opacity="${bgGridOpacity}"/></pattern></defs><rect width="100%" height="100%" fill="url(#grid)"/></svg>`;
+    } else if (bgGridType === "dots") {
+      svgString = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1.5" fill="${bgGridColor}" opacity="${bgGridOpacity * 2}"/><rect width="100%" height="100%" fill="none"/></svg>`;
+    } else if (bgGridType === "lines") {
+      svgString = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="0" y2="${size}" stroke="${bgGridColor}" stroke-width="0.5" opacity="${bgGridOpacity}"/><rect width="100%" height="100%" fill="none"/></svg>`;
+    } else if (bgGridType === "isometric") {
+      svgString = `<svg width="${size * 1.73}" height="${size}" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 l${size * 0.86} ${size * 0.5} l-${size * 0.86} ${size * 0.5} Z M${size * 1.73} 0 l-${size * 0.86} ${size * 0.5} l${size * 0.86} ${size * 0.5} Z" fill="none" stroke="${bgGridColor}" stroke-width="0.5" opacity="${bgGridOpacity}"/></svg>`;
+    }
+    if (svgString) {
+      gridStyle.backgroundImage = `url("data:image/svg+xml;utf8,${encodeURIComponent(svgString)}")`;
+    }
+  }
+
+  const picShapeClasses: Record<string, string> = {
+    circle: "rounded-full",
+    "rounded-square": "rounded-2xl",
+    square: "rounded-none",
+    hexagon: "clip-polygon-hexagon",
+    blob: "rounded-[40%_60%_70%_30%_/_40%_50%_60%_50%] animate-[blob-skew_6s_ease-in-out_infinite]",
+    hidden: "hidden"
+  };
+
+  const alignClasses: Record<string, string> = {
+    left: "text-left items-start",
+    center: "text-center items-center",
+    right: "text-right items-end"
+  };
+
+  const titleWeightClasses: Record<string, string> = {
+    normal: "font-normal text-lg",
+    semibold: "font-semibold text-lg",
+    bold: "font-bold text-lg",
+    black: "font-black text-xl"
+  };
+
+  return (
+    <div className="bg-zinc-950 text-white rounded-3xl border border-zinc-800 shadow-xl overflow-hidden flex flex-col h-full sticky top-6">
+      <div className="px-5 py-3 border-b border-zinc-850 bg-zinc-900/60 flex items-center justify-between">
+        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Interactive Simulator Preview</span>
+        <button
+          type="button"
+          onClick={() => setKey(prev => prev + 1)}
+          className="p-1 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+          title="Re-run animation"
+        >
+          <RefreshCw className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
+      <div 
+        key={key} 
+        style={gridStyle}
+        className="flex-grow p-6 min-h-[300px] flex flex-col justify-center relative overflow-hidden bg-zinc-950 transition-all duration-300 select-none"
+      >
+        {appearance?.enableGlowRings && (
+          <div 
+            style={{ 
+              borderColor: colorPrimary,
+              boxShadow: `0 0 40px ${colorPrimary}33`
+            }} 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-dashed opacity-40 animate-spin-slow pointer-events-none"
+          />
+        )}
+
+        {appearance?.enableParticles && (
+          <div className="absolute inset-0 pointer-events-none opacity-20 flex flex-wrap justify-around p-4 gap-4">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <span 
+                key={i} 
+                style={{ backgroundColor: colorAccent, animationDelay: `${i * 0.3}s` }}
+                className="w-1.5 h-1.5 rounded-full animate-ping" 
+              />
+            ))}
+          </div>
+        )}
+
+        <div className={`w-full flex flex-col gap-4 items-center justify-between ${
+          heroLayout === "split-left" ? "flex-col-reverse md:flex-row-reverse" : 
+          heroLayout === "centered" ? "flex-col justify-center" : 
+          heroLayout === "split-vertical" ? "flex-col md:flex-row border-l-4 border-emerald-500 pl-3" :
+          "flex-col md:flex-row"
+        }`}>
+          
+          <div className={`space-y-2 flex-grow ${alignClasses[heroTextAlignment] || "items-start text-left"}`}>
+            <h1 className={`${titleWeightClasses[heroTitleWeight]} tracking-tight leading-none ${
+              continuousAnim === "glowing" ? "animate-[textGlow_3s_ease-in-out_infinite]" :
+              continuousAnim === "pulsing" ? "animate-pulse" :
+              continuousAnim === "wiggle" ? "animate-bounce" : ""
+            }`} style={{ color: colorPrimary }}>
+              <span className="duration-700 animate-in fade-in slide-in-from-left-4">
+                {profile.name || "Alex Carter"}
+              </span>
+            </h1>
+            
+            <p className="text-[10px] font-bold tracking-wide uppercase transition-colors" style={{ color: colorAccent }}>
+              {profile.title ? profile.title.split("|")[0].trim() : "Software Engineer"}
+            </p>
+
+            <p className="text-[9px] text-zinc-400 max-w-[180px] leading-relaxed">
+              Interactive preview simulation matches configuration edits dynamically.
+            </p>
+
+            <div className="flex gap-1.5 pt-2">
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colorPrimary }} />
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colorAccent }} />
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colorWarm }} />
+            </div>
+          </div>
+
+          {heroPicShape !== "hidden" && (
+            <div className="flex-shrink-0">
+              <div 
+                style={{ 
+                  borderColor: heroPicBorder === "pulse-solid" ? colorAccent : 
+                               heroPicBorder === "glow-ring" ? colorPrimary : "transparent",
+                  boxShadow: heroPicBorder === "glow-ring" ? `0 0 15px ${colorPrimary}` : undefined
+                }}
+                className={`w-20 h-20 overflow-hidden flex items-center justify-center p-1 border-2 transition-all ${
+                  picShapeClasses[heroPicShape] || "rounded-full"
+                } ${heroPicBorder === "pulse-solid" ? "animate-pulse" : ""} ${
+                  heroPicBorder === "conic-glow" ? "bg-gradient-to-tr from-violet-500 via-emerald-400 to-pink-500 p-0.5 animate-spin-slow" : ""
+                }`}
+              >
+                <div className={`w-full h-full overflow-hidden bg-zinc-800 flex items-center justify-center ${
+                  heroPicShape === "blob" ? "rounded-[40%_60%_70%_30%_/_40%_50%_60%_50%]" : 
+                  picShapeClasses[heroPicShape] || "rounded-full"
+                }`}>
+                  {profile.heroImage ? (
+                    <img 
+                      src={profile.heroImage} 
+                      alt="Avatar" 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    <User className="w-6 h-6 text-zinc-650" />
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -320,9 +543,18 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
   const addSkill = () => {
     if (!newSkill.name) return;
+    const resolvedLogo = getDeviconUrl(newSkill.name);
     setData(prev => ({
       ...prev,
-      skills: [...prev.skills, { ...newSkill, featured: true, displayOrder: prev.skills.length + 1 } as Skill]
+      skills: [
+        ...prev.skills,
+        { 
+          ...newSkill, 
+          logoUrl: resolvedLogo, 
+          featured: true, 
+          displayOrder: prev.skills.length + 1 
+        } as Skill
+      ]
     }));
     setNewSkill({ name: "", category: "languages", level: 80, years: 1 });
   };
@@ -399,13 +631,21 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
         key={tab.id}
         type="button"
         onClick={() => setActiveTab(tab.id)}
-        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${active
-          ? "bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 shadow-md shadow-zinc-900/10 dark:shadow-black/20"
-          : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-850/60"
-          }`}
+        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer group relative ${
+          active
+            ? "bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 shadow-md shadow-zinc-950/10 dark:shadow-white/5"
+            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/50 dark:hover:bg-zinc-850/40"
+        }`}
       >
-        {tab.icon}
-        {tab.label}
+        <div className="flex items-center gap-3">
+          <span className={`transition-transform duration-300 ${active ? "scale-110" : "group-hover:scale-110"}`}>
+            {tab.icon}
+          </span>
+          <span>{tab.label}</span>
+        </div>
+        {active && (
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981] animate-pulse" />
+        )}
       </button>
     );
   };
@@ -465,35 +705,35 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
           {/* Tab Layout Grids */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-            {/* Left Tabs Bar */}
-            <div className="lg:col-span-3 flex flex-col gap-5 bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 shadow-sm text-left">
-              {/* Group 1: Profile Configuration */}
-              <div>
-                <h3 className="text-[9px] font-black text-zinc-400 dark:text-zinc-550 uppercase tracking-widest px-3 mb-2">Profile Config</h3>
-                <div className="space-y-1">
-                  {renderTabButton({ id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> })}
-                </div>
-              </div>
+             {/* Left Tabs Bar */}
+             <div className="lg:col-span-3 flex flex-col gap-6 bg-white/60 dark:bg-zinc-900/40 backdrop-blur-xl p-5 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-md text-left sticky top-6">
+               {/* Group 1: Profile Configuration */}
+               <div className="space-y-2">
+                 <h3 className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest px-3">Profile Config</h3>
+                 <div className="space-y-1">
+                   {renderTabButton({ id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> })}
+                 </div>
+               </div>
 
-              {/* Group 2: Website Settings */}
-              <div>
-                <h3 className="text-[9px] font-black text-zinc-400 dark:text-zinc-555 uppercase tracking-widest px-3 mb-2">Website Settings</h3>
-                <div className="space-y-1">
-                  {renderTabButton({ id: "appearance", label: "Appearance", icon: <Palette className="w-4 h-4" /> })}
-                  {renderTabButton({ id: "github-sync", label: "GitHub Sync", icon: <GithubIcon className="w-4 h-4" /> })}
-                </div>
-              </div>
+               {/* Group 2: Website Settings */}
+               <div className="space-y-2">
+                 <h3 className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest px-3">Website Settings</h3>
+                 <div className="space-y-1">
+                   {renderTabButton({ id: "appearance", label: "Appearance", icon: <Palette className="w-4 h-4" /> })}
+                   {renderTabButton({ id: "github-sync", label: "GitHub Sync", icon: <GithubIcon className="w-4 h-4" /> })}
+                 </div>
+               </div>
 
-              {/* Group 3: Portfolio Content */}
-              <div>
-                <h3 className="text-[9px] font-black text-zinc-400 dark:text-zinc-555 uppercase tracking-widest px-3 mb-2">Portfolio Content</h3>
-                <div className="space-y-1">
-                  {renderTabButton({ id: "skills-projects", label: "Skills & Projects", icon: <Code className="w-4 h-4" /> })}
-                  {renderTabButton({ id: "experience-education", label: "Experience & Edu", icon: <Briefcase className="w-4 h-4" /> })}
-                  {renderTabButton({ id: "certs-wins", label: "Certs & Wins", icon: <Award className="w-4 h-4" /> })}
-                </div>
-              </div>
-            </div>
+               {/* Group 3: Portfolio Content */}
+               <div className="space-y-2">
+                 <h3 className="text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest px-3">Portfolio Content</h3>
+                 <div className="space-y-1">
+                   {renderTabButton({ id: "skills-projects", label: "Skills & Projects", icon: <Code className="w-4 h-4" /> })}
+                   {renderTabButton({ id: "experience-education", label: "Experience & Edu", icon: <Briefcase className="w-4 h-4" /> })}
+                   {renderTabButton({ id: "certs-wins", label: "Certs & Wins", icon: <Award className="w-4 h-4" /> })}
+                 </div>
+               </div>
+             </div>
 
             {/* Right Tabs Content Panels */}
             <div className="lg:col-span-9 bg-white dark:bg-zinc-900 p-8 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 shadow-sm space-y-6">
@@ -507,25 +747,31 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* Profile Pic Centered Prominent Upload */}
-                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-4 max-w-xl mx-auto shadow-sm">
-                    <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-white dark:border-zinc-800 shadow-lg bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 group">
+                  <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-805 bg-zinc-50/50 dark:bg-zinc-900/20 p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-5 max-w-xl mx-auto shadow-sm transition-all duration-300 hover:border-emerald-500/50">
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-zinc-850 shadow-md bg-zinc-100 dark:bg-zinc-850 flex-shrink-0 group">
                       {data.profile.heroImage ? (
-                        <img src={data.profile.heroImage} alt="Avatar Preview" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                        <>
+                          <img src={data.profile.heroImage} alt="Avatar Preview" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-[10px] font-bold uppercase tracking-wider">
+                            Change Pic
+                          </div>
+                        </>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 text-xs">No Avatar</div>
                       )}
                       {isUploadingAvatar && (
-                        <div className="absolute inset-0 bg-black/55 flex items-center justify-center text-white">
-                          <RefreshCw className="w-6 h-6 animate-spin text-emerald-400" />
+                        <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white space-y-1">
+                          <RefreshCw className="w-5 h-5 animate-spin text-emerald-400" />
+                          <span className="text-[8px] font-bold uppercase tracking-widest text-emerald-400">Uploading</span>
                         </div>
                       )}
                     </div>
-                    <div className="space-y-1">
-                      <h3 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-155">Upload Profile Photo</h3>
-                      <p className="text-[10px] text-zinc-450 dark:text-zinc-500 max-w-xs leading-relaxed">Select a high-resolution square JPG, PNG, or WebP. This is the main focal point of your portfolio landing section.</p>
+                    <div className="space-y-1 max-w-sm">
+                      <h3 className="font-extrabold text-xs text-zinc-900 dark:text-zinc-150 uppercase tracking-wider">Profile Photo</h3>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-normal">Upload a square JPG, PNG, or WebP picture. The profile image displays in the Hero section of the homepage.</p>
                     </div>
-                    <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 text-[10px] font-bold uppercase tracking-wider cursor-pointer transition-all active:scale-[0.97] shadow-sm">
-                      <Upload className="w-3.5 h-3.5" />
+                    <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-850 dark:hover:bg-white text-white dark:text-zinc-900 text-[10px] font-extrabold uppercase tracking-widest cursor-pointer transition-all active:scale-[0.97] shadow-sm">
+                      <Upload className="w-3 h-3" />
                       Choose Image File
                       <input
                         type="file"
@@ -638,21 +884,34 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                         return (
                           <div
                             key={platform.key}
-                            className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between space-y-3 ${isActive
-                              ? "border-emerald-500 bg-emerald-500/[0.03] dark:bg-emerald-500/[0.02] shadow-sm"
-                              : "border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-zinc-300 dark:hover:border-zinc-700"
-                              }`}
+                            style={{ 
+                              borderColor: isActive ? platform.brandColor : undefined,
+                              boxShadow: isActive ? `0 0 12px ${platform.brandColor}20` : undefined,
+                              backgroundColor: isActive ? `${platform.brandColor}06` : undefined
+                            }}
+                            className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between space-y-3 min-h-[120px] ${
+                              isActive
+                                ? ""
+                                : "border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-zinc-300 dark:hover:border-zinc-700"
+                            }`}
                           >
                             <div className="flex items-center gap-2.5">
-                              <div className={`p-2 rounded-xl transition-colors ${isActive
-                                ? "bg-emerald-600 dark:bg-emerald-500 text-white"
-                                : "bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400"
-                                }`}>
+                              <div 
+                                style={{ 
+                                  backgroundColor: platform.brandColor,
+                                  color: "#ffffff"
+                                }}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition-all shadow-sm ${
+                                  isActive
+                                    ? "opacity-100 scale-105 shadow-md"
+                                    : "opacity-45 hover:opacity-70"
+                                }`}
+                              >
                                 {SOCIAL_PLATFORM_LOGOS[platform.key as keyof typeof SOCIAL_PLATFORM_LOGOS]}
                               </div>
                               <div className="text-left">
-                                <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-wider block">Platform</span>
-                                <span className="text-xs font-bold text-zinc-850 dark:text-zinc-200">{platform.label}</span>
+                                <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">Platform</span>
+                                <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200">{platform.label}</span>
                               </div>
                             </div>
                             <input
@@ -666,7 +925,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                                   socialLinks: { ...data.profile.socialLinks, [platform.key]: e.target.value }
                                 }
                               })}
-                              className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-800 dark:text-zinc-200 placeholder-zinc-300 dark:placeholder-zinc-650 focus:outline-none focus:border-emerald-500/70"
+                              className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-850 dark:text-zinc-200 placeholder-zinc-300 dark:placeholder-zinc-650 focus:outline-none focus:ring-1 focus:ring-zinc-300 dark:focus:ring-zinc-700"
                             />
                           </div>
                         );
@@ -1147,15 +1406,16 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
               )}
 
               {activeTab === "appearance" && (
-                <div className="space-y-8 animate-fade-in text-left">
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start animate-fade-in text-left">
+                  <div className="xl:col-span-7 space-y-8">
                   <div>
-                    <h2 className="text-xl font-black text-zinc-950">Appearance & Layout Settings</h2>
-                    <p className="text-xs text-zinc-400 mt-1">Customize typography, global colors, background animations, and hero layout configuration.</p>
+                    <h2 className="text-xl font-black text-zinc-900 dark:text-white">Appearance & Layout Settings</h2>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">Customize typography, global colors, background animations, and hero layout configuration.</p>
                   </div>
 
                   {/* 1. Global Color Schemes & Theme Customizer */}
-                  <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
-                    <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Global Color Settings & Theme Scheme</h3>
+                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 p-6 rounded-3xl space-y-6">
+                    <h3 className="font-extrabold text-zinc-900 dark:text-zinc-100 text-sm border-b border-zinc-200 dark:border-zinc-800 pb-2">Global Color Settings & Theme Scheme</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                       {/* Theme Scheme Presets */}
@@ -1210,7 +1470,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                       {/* Color customizers */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Primary Color</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Primary Color</label>
                         <div className="flex items-center gap-2">
                           <input
                             type="color"
@@ -1225,12 +1485,12 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
                           />
-                          <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.colorPrimary || "#8b5cf6"}</span>
+                          <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.colorPrimary || "#8b5cf6"}</span>
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Accent Color</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Accent Color</label>
                         <div className="flex items-center gap-2">
                           <input
                             type="color"
@@ -1245,12 +1505,12 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
                           />
-                          <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.colorAccent || "#14b8a6"}</span>
+                          <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.colorAccent || "#14b8a6"}</span>
                         </div>
                       </div>
 
                       <div className="space-y-2 md:col-start-3">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Highlight Color</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Highlight Color</label>
                         <div className="flex items-center gap-2">
                           <input
                             type="color"
@@ -1265,15 +1525,15 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
                           />
-                          <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.colorWarm || "#f59e0b"}</span>
+                          <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.colorWarm || "#f59e0b"}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* 2. Background Grid Customization */}
-                  <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
-                    <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Dynamic Background Customization</h3>
+                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 p-6 rounded-3xl space-y-6">
+                    <h3 className="font-extrabold text-zinc-900 dark:text-zinc-100 text-sm border-b border-zinc-200 dark:border-zinc-800 pb-2">Dynamic Background Customization</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* Grid Type */}
@@ -1298,7 +1558,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                       {/* Sizing slider */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Grid Size ({data.appearance?.bgGridSize || 48}px)</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Grid Size ({data.appearance?.bgGridSize || 48}px)</label>
                         <input
                           type="range"
                           min={20}
@@ -1312,9 +1572,9 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               bgGridSize: parseInt(e.target.value)
                             }
                           }))}
-                          className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900"
+                          className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
                         />
-                        <div className="flex justify-between text-[9px] text-zinc-400">
+                        <div className="flex justify-between text-[9px] text-zinc-450 dark:text-zinc-500">
                           <span>Small (20px)</span>
                           <span>Large (100px)</span>
                         </div>
@@ -1322,7 +1582,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                       {/* Opacity slider */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Grid Line Opacity ({Math.round((data.appearance?.bgGridOpacity || 0.03) * 100)}%)</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Grid Line Opacity ({Math.round((data.appearance?.bgGridOpacity || 0.03) * 100)}%)</label>
                         <input
                           type="range"
                           min={0.005}
@@ -1336,9 +1596,9 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               bgGridOpacity: parseFloat(e.target.value)
                             }
                           }))}
-                          className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900"
+                          className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
                         />
-                        <div className="flex justify-between text-[9px] text-zinc-400">
+                        <div className="flex justify-between text-[9px] text-zinc-455 dark:text-zinc-500">
                           <span>Faint (0.5%)</span>
                           <span>Dark (15%)</span>
                         </div>
@@ -1346,7 +1606,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                       {/* Grid line color */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Grid Line Color</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Grid Line Color</label>
                         <div className="flex items-center gap-2">
                           <input
                             type="color"
@@ -1358,15 +1618,15 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                                 bgGridColor: e.target.value
                               }
                             }))}
-                            className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0"
+                            className="w-8 h-8 rounded border border-zinc-200 dark:border-zinc-700 cursor-pointer p-0"
                           />
-                          <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.bgGridColor || "#0a0a0a"}</span>
+                          <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.bgGridColor || "#0a0a0a"}</span>
                         </div>
                       </div>
 
                       {/* Particles toggle */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Floating 3D Particles</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Floating 3D Particles</label>
                         <label className="relative inline-flex items-center cursor-pointer pt-1">
                           <input
                             type="checkbox"
@@ -1380,14 +1640,14 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="sr-only peer"
                           />
-                          <div className="w-10 h-5 bg-zinc-250 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-zinc-950"></div>
-                          <span className="ml-3 text-xs font-bold text-zinc-700">{data.appearance?.enableParticles ? "Enabled" : "Disabled"}</span>
+                          <div className="w-10 h-5 bg-zinc-200 dark:bg-zinc-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                          <span className="ml-3 text-xs font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.enableParticles ? "Enabled" : "Disabled"}</span>
                         </label>
                       </div>
 
                       {/* Particles count */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-555 uppercase tracking-wider">Particle Count ({data.appearance?.particleCount || 150})</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Particle Count ({data.appearance?.particleCount || 150})</label>
                         <input
                           type="range"
                           min={50}
@@ -1402,9 +1662,9 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               particleCount: parseInt(e.target.value)
                             }
                           }))}
-                          className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900 disabled:opacity-40"
+                          className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-white disabled:opacity-40"
                         />
-                        <div className="flex justify-between text-[9px] text-zinc-400">
+                        <div className="flex justify-between text-[9px] text-zinc-455 dark:text-zinc-500">
                           <span>Minimal (50)</span>
                           <span>Dense (300)</span>
                         </div>
@@ -1412,7 +1672,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                       {/* Glow ring toggle */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Central Pulsing Glow Ring</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Central Pulsing Glow Ring</label>
                         <label className="relative inline-flex items-center cursor-pointer pt-1">
                           <input
                             type="checkbox"
@@ -1426,14 +1686,14 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="sr-only peer"
                           />
-                          <div className="w-10 h-5 bg-zinc-250 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-zinc-950"></div>
-                          <span className="ml-3 text-xs font-bold text-zinc-700">{data.appearance?.enableGlowRings ? "Enabled" : "Disabled"}</span>
+                          <div className="w-10 h-5 bg-zinc-200 dark:bg-zinc-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                          <span className="ml-3 text-xs font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.enableGlowRings ? "Enabled" : "Disabled"}</span>
                         </label>
                       </div>
 
                       {/* Glow ring color picker */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-455 uppercase tracking-wider">Glow Ring Color</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Glow Ring Color</label>
                         <div className="flex items-center gap-2">
                           <input
                             type="color"
@@ -1446,17 +1706,17 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                                 glowRingsColor: e.target.value
                               }
                             }))}
-                            className="w-8 h-8 rounded border border-zinc-200 cursor-pointer p-0 disabled:opacity-40"
+                            className="w-8 h-8 rounded border border-zinc-200 dark:border-zinc-700 cursor-pointer p-0 disabled:opacity-40"
                           />
-                          <span className="text-xs font-mono font-bold text-zinc-650">{data.appearance?.glowRingsColor || "#8b5cf6"}</span>
+                          <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.glowRingsColor || "#8b5cf6"}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* 3. Hero Layout Configurations */}
-                  <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
-                    <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Hero Section Layout & Display Style</h3>
+                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 p-6 rounded-3xl space-y-6">
+                    <h3 className="font-extrabold text-zinc-900 dark:text-zinc-100 text-sm border-b border-zinc-200 dark:border-zinc-800 pb-2">Hero Section Layout & Display Style</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* Preset Layout */}
@@ -1559,7 +1819,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                       {/* Profile Pic size slider */}
                       <div className="space-y-2">
-                        <label className="block text-[10px] font-bold text-zinc-555 uppercase tracking-wider">Photo Border Box Size ({data.appearance?.profilePicSize || 310}px)</label>
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Photo Border Box Size ({data.appearance?.profilePicSize || 310}px)</label>
                         <input
                           type="range"
                           min={200}
@@ -1573,9 +1833,9 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               profilePicSize: parseInt(e.target.value)
                             }
                           }))}
-                          className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-zinc-900"
+                          className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
                         />
-                        <div className="flex justify-between text-[9px] text-zinc-400">
+                        <div className="flex justify-between text-[9px] text-zinc-450 dark:text-zinc-500">
                           <span>Small (200px)</span>
                           <span>Large (450px)</span>
                         </div>
@@ -1584,8 +1844,8 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* Typography and Fonts Section */}
-                  <div className="bg-zinc-50 border border-zinc-200/60 p-6 rounded-3xl space-y-6">
-                    <h3 className="font-extrabold text-zinc-900 text-sm border-b border-zinc-250 pb-2">Typography & Custom Fonts</h3>
+                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 p-6 rounded-3xl space-y-6">
+                    <h3 className="font-extrabold text-zinc-900 dark:text-zinc-100 text-sm border-b border-zinc-200 dark:border-zinc-800 pb-2">Typography & Custom Fonts</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Google Font Selector */}
@@ -1610,8 +1870,8 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                       />
 
                       {/* Font Upload Box */}
-                      <div className="space-y-3 p-4 bg-white border border-zinc-200/80 rounded-2xl relative">
-                        <label className="block text-[10px] font-bold text-zinc-555 uppercase tracking-wider">Upload Custom Font File</label>
+                      <div className="space-y-3 p-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl relative">
+                        <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Upload Custom Font File</label>
 
                         <div className="space-y-3">
                           <div>
@@ -1620,13 +1880,13 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               placeholder="e.g. MyBrandFont"
                               value={customFontNameInput}
                               onChange={(e) => setCustomFontNameInput(e.target.value)}
-                              className="w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-zinc-400"
+                              className="w-full px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:text-white"
                             />
                             <span className="text-[8px] text-zinc-400 mt-1 block">Input font family name first.</span>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <label className="flex-grow flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-xs font-bold text-zinc-700 cursor-pointer transition-all">
+                            <label className="flex-grow flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-all">
                               <Upload className="w-3.5 h-3.5" />
                               Choose .ttf / .woff / .woff2
                               <input
@@ -1642,15 +1902,15 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                         {/* Display Custom Font Status */}
                         {data.appearance?.customFontName && (
-                          <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
-                            <div className="text-zinc-650">
+                          <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+                            <div className="text-zinc-700 dark:text-zinc-300">
                               <span className="font-bold block text-[10px] uppercase text-zinc-400 tracking-wider">Active Custom Font:</span>
-                              <span className="font-extrabold text-zinc-900">{data.appearance.customFontName}</span>
+                              <span className="font-extrabold text-zinc-900 dark:text-zinc-105">{data.appearance.customFontName}</span>
                             </div>
                             <button
                               type="button"
                               onClick={clearCustomFont}
-                              className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 hover:bg-rose-50 rounded-lg transition-all cursor-pointer"
+                              className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-lg transition-all cursor-pointer"
                             >
                               Clear
                             </button>
@@ -1658,6 +1918,12 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                         )}
                       </div>
                     </div>
+                  </div>
+                  </div>
+
+                  {/* Right column: sticky Live Preview Simulator */}
+                  <div className="xl:col-span-5 xl:sticky xl:top-6">
+                    <LivePreviewSimulator appearance={data.appearance} profile={data.profile} />
                   </div>
 
                 </div>
