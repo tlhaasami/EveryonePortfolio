@@ -131,6 +131,16 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabType>("profile");
   const [githubUsername, setGithubUsername] = useState("");
   const [isScraping, setIsScraping] = useState(false);
+
+  useEffect(() => {
+    if (data.profile.socialLinks.github && !githubUsername) {
+      const username = data.profile.socialLinks.github
+        .replace(/^https:\/\/github\.com\//, "")
+        .replace(/^\//, "")
+        .replace(/\/$/, "");
+      setGithubUsername(username);
+    }
+  }, [data.profile.socialLinks.github]);
   const [isSaving, setIsSaving] = useState(false);
   const [customFontNameInput, setCustomFontNameInput] = useState("");
   const [isUploadingFont, setIsUploadingFont] = useState(false);

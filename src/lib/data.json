@@ -17,7 +17,7 @@
     "cvUrl": "/assets/resume.pdf",
     "availabilityStatus": "available",
     "socialLinks": {
-      "github": "https://github.com/tlhasami",
+      "github": "https://github.com/tlhaasami",
       "linkedin": "https://linkedin.com",
       "twitter": "https://twitter.com"
     },
@@ -54,15 +54,6 @@
     ]
   },
   "skills": [
-    {
-      "name": "C++",
-      "category": "languages",
-      "level": 95,
-      "years": 2,
-      "featured": true,
-      "displayOrder": 1,
-      "logoUrl": "https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg"
-    },
     {
       "name": "Dart",
       "category": "languages",
@@ -116,6 +107,14 @@
       "featured": true,
       "displayOrder": 7,
       "logoUrl": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg"
+    },
+    {
+      "name": "C++",
+      "category": "languages",
+      "level": 80,
+      "years": 1,
+      "featured": true,
+      "displayOrder": 7
     }
   ],
   "projects": [
@@ -365,13 +364,271 @@
       "avatar": "/images/tech-sphere.png"
     }
   ],
-  "githubRepos": [],
+  "githubRepos": [
+    {
+      "name": "EveryonePortfolio",
+      "description": "No description provided.",
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/EveryonePortfolio"
+    },
+    {
+      "name": "Machine-Learning",
+      "description": "No description provided.",
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/Machine-Learning"
+    },
+    {
+      "name": "QuickHolidaysGoHighLevelWebsite",
+      "description": "No description provided.",
+      "language": "Unknown",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/QuickHolidaysGoHighLevelWebsite"
+    },
+    {
+      "name": "tlhaasami",
+      "description": "Software Engineering student passionate about building real-world software and mastering core CS fundamentals. Currently focused on Flutter development while consistently improving problem-solving and system understanding.",
+      "language": "Unknown",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/tlhaasami"
+    },
+    {
+      "name": "Codes",
+      "description": "No description provided.",
+      "language": "C++",
+      "stars": 1,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/Codes"
+    },
+    {
+      "name": "Snake-and-Ladder",
+      "description": "No description provided.",
+      "language": "Unknown",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/Snake-and-Ladder"
+    },
+    {
+      "name": "LeetCodePractice",
+      "description": "This repository contains my solutions to LeetCode problems solved during Data Structures and Algorithms practice. Each problem is organized in its own folder using the respective LeetCode question number, making the repository easy to navigate and reference.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/LeetCodePractice"
+    },
+    {
+      "name": "portfolio",
+      "description": "This portfolio is designed to present technical expertise and project achievements in a minimalist, accessible format. It serves as a central hub for my professional profile, including project repositories, certifications, and contact information.",
+      "language": "CSS",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/portfolio"
+    },
+    {
+      "name": "RaceNetToZero",
+      "description": "No description provided.",
+      "language": "Java",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/RaceNetToZero"
+    },
+    {
+      "name": "ExpenseTracker",
+      "description": "Flutter application with offline-first personal finance management system with optional cloud synchronization, secure local storage, and analytical insights.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/ExpenseTracker"
+    },
+    {
+      "name": "shoesShopApp",
+      "description": "A lightweight, educational Flutter shopping app built to explore UI layout, state management with Provider, and basic e-commerce flows. This repository contains a small catalogue UI, product details, and a cart flow implemented for learning and experimentation.",
+      "language": "Dart",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/shoesShopApp"
+    },
+    {
+      "name": "weatherApp",
+      "description": "A small, focused Weather App built with Flutter — a practice project while learning Flutter. It demonstrates networking, JSON parsing, simple state management, and a responsive UI.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/weatherApp"
+    },
+    {
+      "name": "my_chat_app",
+      "description": "My Chat App is a modern, user-friendly chat application built with Flutter. It allows users to communicate in real-time, share images, and manage their profiles seamlessly. The app is designed to provide a smooth user experience with a clean and intuitive interface.",
+      "language": "Dart",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/my_chat_app"
+    },
+    {
+      "name": "taskSimulation",
+      "description": "A compact C++ OOP demo implementing a role-based task and messaging system with policy enforcement, authentication (OTP + simple hashing), auditing, and basic anomaly detection — ideal as a learning/demo project or a starter for a production-ready system.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/taskSimulation"
+    },
+    {
+      "name": "XonicGamePF",
+      "description": "Xonic is a compact 2D game implemented in C++ using the SFML library. This repository contains the game source, assets, and helper files to compile and run locally inside a Linux development environment or container.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/XonicGamePF"
+    },
+    {
+      "name": "RushHour",
+      "description": "RushHour is a compact C++ graphical project that demonstrates basic object management and rendering using the header-only CImg library. The codebase is intended as a small demo and learning resource for working with simple game-like objects, rendering, and lightweight asset usage.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/RushHour"
+    },
+    {
+      "name": "ManagementSystems",
+      "description": "Collection of console-based management system projects in C++ using OOP, including Library, Banking, Student Records, Inventory, Voting, Calculator, and Flight Reservation systems.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/ManagementSystems"
+    },
+    {
+      "name": "WebScraping_PredictionModel",
+      "description": "Two data science projects: house price prediction using web-scraped data from Zameen.com, and PUBG player statistics analysis with exploratory and statistical insights.",
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/WebScraping_PredictionModel"
+    },
+    {
+      "name": "TicTacToeGUI",
+      "description": "This project is a Tic Tac Toe game developed in C++ using the SFML graphics library. It provides a modern GUI with multiple gameplay modes including AI, classic, tournament, and speed battles. The game also supports user login and sign-up functionality with persistent score tracking.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/TicTacToeGUI"
+    },
+    {
+      "name": "ShopingPortalOnline",
+      "description": "An Online console based shopping portal along with all options vendor admin manager and product addition and many more options",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/ShopingPortalOnline"
+    },
+    {
+      "name": "practiceGit",
+      "description": "This is for my personal practice",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/practiceGit"
+    },
+    {
+      "name": "Space-Shooter",
+      "description": "A dynamic, graphics-based space shooter game built with C++ and SFML (Simple and Fast Multimedia Library). Battle waves of enemies, dodge obstacles, and survive increasingly challenging levels with intuitive gamepad and keyboard controls.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/Space-Shooter"
+    },
+    {
+      "name": "PredictionModel",
+      "description": "A comprehensive C++ application for store analytics, sales forecasting, and data-driven decision making. This project implements advanced algorithms for clustering stores, predicting sales trends, and analyzing operational performance.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/PredictionModel"
+    },
+    {
+      "name": "2048_GAME",
+      "description": "2048 is a single-player sliding tile puzzle game. The objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/2048_GAME"
+    },
+    {
+      "name": "LUDO_SFML_GRAPHIC",
+      "description": "A compact Ludo board game using SFML for graphics, audio and window management. The project is suitable as a learning exercise for C++ and SFML.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/LUDO_SFML_GRAPHIC"
+    },
+    {
+      "name": "SonicGameClone",
+      "description": "This project is a 2D platformer game featuring Sonic the Hedgehog, implemented with a focus on OOP concepts such as inheritance, polymorphism, and encapsulation. The game includes various game objects, levels, scoring, and a leaderboard system.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/SonicGameClone"
+    },
+    {
+      "name": "MagicalPetKingdomGame",
+      "description": "Magical Pet Kingdom is a simple, self-contained 2D game implemented in C++ that uses the SFML library for graphics, windowing, and audio. The game includes player data, guilds, a menu system, inven…",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/MagicalPetKingdomGame"
+    },
+    {
+      "name": "Software-Testing",
+      "description": "A C++ programming assignment framework designed for educational purposes, featuring a structured template system for algorithm problem-solving with integrated test case validation.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/Software-Testing"
+    },
+    {
+      "name": "UNO_GAME",
+      "description": "This project is a terminal implementation of the classic UNO card game. It allows two players to play against each other using standard UNO mechanics such as number cards, action cards, and wild cards. Game results are automatically stored in a file for record keeping.",
+      "language": "C++",
+      "stars": 1,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/UNO_GAME"
+    },
+    {
+      "name": "Mini-Jarvis",
+      "description": "Mini Jarvis is a simple voice assistant built using Python that can perform basic voice-controlled tasks like opening Google, playing music, and retrieving system information.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/Mini-Jarvis"
+    },
+    {
+      "name": "MINESWEEPER_CONSOLE",
+      "description": "Minesweeper Console is a console-based implementation of the classic Minesweeper game. This project allows you to play Minesweeper directly from your terminal.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/MINESWEEPER_CONSOLE"
+    },
+    {
+      "name": "MINESWEEPER_GRAPHICS_SFML",
+      "description": "This project is a graphical implementation of the classic Minesweeper game using SFML (Simple and Fast Multimedia Library). It aims to provide an enjoyable experience with smooth graphics and intuitive gameplay.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/tlhaasami/MINESWEEPER_GRAPHICS_SFML"
+    }
+  ],
   "appearance": {
     "profilePicSize": 310,
     "profilePicShape": "circle",
     "profilePicPlacement": "right",
     "selectedFont": "Fira Code",
     "textAnimationStyle": "scale-up",
-    "dropdownAnimationStyle": "fade-scale"
+    "dropdownAnimationStyle": "skew-unroll",
+    "continuousAnimationStyle": "pulsing"
   }
 }
