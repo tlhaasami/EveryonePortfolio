@@ -649,7 +649,7 @@
     "bgGridType": "lines",
     "bgGridSize": 48,
     "bgGridOpacity": 0.03,
-    "bgGridColor": "#0a0a0a",
+    "bgGridColor": "#d31717",
     "enableParticles": true,
     "particleCount": 150,
     "enableGlowRings": true,

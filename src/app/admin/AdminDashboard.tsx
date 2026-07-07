@@ -44,7 +44,7 @@ function CustomDropdown({ label, value, options, onChange }: CustomDropdownProps
 
   return (
     <div className="space-y-2 relative text-left" ref={dropdownRef}>
-      <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider">{label}</label>
+      <label className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider">{label}</label>
       <div className="relative">
         <button
           type="button"
@@ -52,7 +52,7 @@ function CustomDropdown({ label, value, options, onChange }: CustomDropdownProps
           className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-bold text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 cursor-pointer shadow-sm text-left transition-all"
         >
           <span>{selectedOption?.label}</span>
-          <ChevronDown className={`w-4 h-4 text-zinc-400 dark:text-zinc-550 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 h-4 text-zinc-400 dark:text-zinc-600 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
         </button>
 
         <AnimatePresence>
@@ -110,7 +110,7 @@ function AutoResizingTextarea({ label, value, onChange, className = "", ...props
 
   return (
     <div className="space-y-1.5 text-left w-full">
-      <label className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider block">{label}</label>
+      <label className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-wider block">{label}</label>
       <textarea
         ref={textareaRef}
         value={value}
@@ -119,7 +119,7 @@ function AutoResizingTextarea({ label, value, onChange, className = "", ...props
           if (onChange) onChange(e);
           resize();
         }}
-        className={`w-full px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-850 transition-colors overflow-hidden resize-none leading-relaxed ${className}`}
+        className={`w-full px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-800 transition-colors overflow-hidden resize-none leading-relaxed ${className}`}
         {...props}
       />
     </div>
@@ -238,7 +238,7 @@ function LivePreviewSimulator({ appearance, profile }: PreviewSimulatorProps) {
 
   return (
     <div className="bg-zinc-950 text-white rounded-3xl border border-zinc-800 shadow-xl overflow-hidden flex flex-col h-full sticky top-6">
-      <div className="px-5 py-3 border-b border-zinc-850 bg-zinc-900/60 flex items-center justify-between">
+      <div className="px-5 py-3 border-b border-zinc-900 bg-zinc-900/60 flex items-center justify-between">
         <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Interactive Simulator Preview</span>
         <button
           type="button"
@@ -335,7 +335,7 @@ function LivePreviewSimulator({ appearance, profile }: PreviewSimulatorProps) {
                       className="w-full h-full object-cover" 
                     />
                   ) : (
-                    <User className="w-6 h-6 text-zinc-650" />
+                    <User className="w-6 h-6 text-zinc-700" />
                   )}
                 </div>
               </div>
@@ -634,7 +634,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
         className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer group relative ${
           active
             ? "bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 shadow-md shadow-zinc-950/10 dark:shadow-white/5"
-            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/50 dark:hover:bg-zinc-850/40"
+            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/50 dark:hover:bg-zinc-900/40"
         }`}
       >
         <div className="flex items-center gap-3">
@@ -662,7 +662,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
           {/* Navigation / Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-200/80 dark:border-zinc-800 pb-6">
             <div className="space-y-2">
-              <Link href="/" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm active:scale-[0.98]">
+              <Link href="/" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm active:scale-[0.98]">
                 <ArrowLeft className="w-4 h-4" /> Back to Live Portfolio
               </Link>
               <h1 className="text-3xl font-black text-zinc-950 dark:text-white tracking-tight flex items-center gap-2">
@@ -674,7 +674,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
               <button
                 type="button"
                 onClick={() => setIsDark(!isDark)}
-                className="p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-650 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-850 transition-all shadow-sm cursor-pointer"
+                className="p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all shadow-sm cursor-pointer"
                 aria-label="Toggle Theme"
               >
                 {isDark ? <Sun className="w-5 h-5 text-emerald-500" /> : <Moon className="w-5 h-5" />}
@@ -742,13 +742,13 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
               {activeTab === "profile" && (
                 <div className="space-y-8 animate-fade-in text-left">
                   <div>
-                    <h2 className="text-xl font-black text-zinc-900 dark:text-white border-b border-zinc-150 dark:border-zinc-800 pb-3">Personal Profile Wizard</h2>
-                    <p className="text-xs text-zinc-450 dark:text-zinc-500 mt-1">Configure your personal brand identity, unique handle, profile picture and interactive connections matrix.</p>
+                    <h2 className="text-xl font-black text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-zinc-800 pb-3">Personal Profile Wizard</h2>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">Configure your personal brand identity, unique handle, profile picture and interactive connections matrix.</p>
                   </div>
 
                   {/* Profile Pic Centered Prominent Upload */}
-                  <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-805 bg-zinc-50/50 dark:bg-zinc-900/20 p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-5 max-w-xl mx-auto shadow-sm transition-all duration-300 hover:border-emerald-500/50">
-                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-zinc-850 shadow-md bg-zinc-100 dark:bg-zinc-850 flex-shrink-0 group">
+                  <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/20 p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-5 max-w-xl mx-auto shadow-sm transition-all duration-300 hover:border-emerald-500/50">
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-zinc-900 shadow-md bg-zinc-100 dark:bg-zinc-900 flex-shrink-0 group">
                       {data.profile.heroImage ? (
                         <>
                           <img src={data.profile.heroImage} alt="Avatar Preview" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
@@ -767,10 +767,10 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                       )}
                     </div>
                     <div className="space-y-1 max-w-sm">
-                      <h3 className="font-extrabold text-xs text-zinc-900 dark:text-zinc-150 uppercase tracking-wider">Profile Photo</h3>
+                      <h3 className="font-extrabold text-xs text-zinc-900 dark:text-zinc-200 uppercase tracking-wider">Profile Photo</h3>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-normal">Upload a square JPG, PNG, or WebP picture. The profile image displays in the Hero section of the homepage.</p>
                     </div>
-                    <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-850 dark:hover:bg-white text-white dark:text-zinc-900 text-[10px] font-extrabold uppercase tracking-widest cursor-pointer transition-all active:scale-[0.97] shadow-sm">
+                    <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-900 dark:hover:bg-white text-white dark:text-zinc-900 text-[10px] font-extrabold uppercase tracking-widest cursor-pointer transition-all active:scale-[0.97] shadow-sm">
                       <Upload className="w-3 h-3" />
                       Choose Image File
                       <input
@@ -785,7 +785,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-widest block mb-2">Full Name</label>
+                      <label className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest block mb-2">Full Name</label>
                       <input
                         type="text"
                         value={data.profile.name}
@@ -793,11 +793,11 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           ...data,
                           profile: { ...data.profile, name: e.target.value }
                         })}
-                        className="w-full px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-855 transition-colors"
+                        className="w-full px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-800 transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-widest block mb-2">Unique Username</label>
+                      <label className="text-[10px] font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-widest block mb-2">Unique Username</label>
                       <div className="relative flex items-center">
                         <span className="absolute left-4 text-sm font-bold text-zinc-400 dark:text-zinc-500">@</span>
                         <input
@@ -808,7 +808,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             ...data,
                             profile: { ...data.profile, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "") }
                           })}
-                          className="w-full pl-8 pr-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-855 transition-colors"
+                          className="w-full pl-8 pr-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-emerald-500/70 focus:bg-white dark:focus:bg-zinc-800 transition-colors"
                         />
                       </div>
                     </div>
@@ -875,8 +875,8 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                     />
                   </div>
 
-                  <div className="border-t border-zinc-150 dark:border-zinc-800 pt-6 space-y-4">
-                    <h3 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-150">Social Handles & Connections</h3>
+                  <div className="border-t border-zinc-200 dark:border-zinc-800 pt-6 space-y-4">
+                    <h3 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-200">Social Handles & Connections</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {SOCIAL_PLATFORMS.map((platform) => {
                         const linkVal = data.profile.socialLinks[platform.key as keyof typeof data.profile.socialLinks] || "";
@@ -923,7 +923,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                                   socialLinks: { ...data.profile.socialLinks, [platform.key]: e.target.value }
                                 }
                               })}
-                              className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-850 dark:text-zinc-200 placeholder-zinc-300 dark:placeholder-zinc-650 focus:outline-none focus:ring-1 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                              className="w-full px-3 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-900 dark:text-zinc-200 placeholder-zinc-300 dark:placeholder-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-300 dark:focus:ring-zinc-700"
                             />
                           </div>
                         );
@@ -947,7 +947,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                       {data.skills.map((skill, idx) => (
                         <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-100 rounded-full text-xs font-bold text-zinc-700">
                           {skill.name} ({skill.level}%)
-                          <button type="button" onClick={() => removeSkill(idx)} className="text-zinc-450 hover:text-rose-500">
+                          <button type="button" onClick={() => removeSkill(idx)} className="text-zinc-500 hover:text-rose-500">
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </span>
@@ -1001,7 +1001,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* PROJECTS */}
-                  <div className="space-y-4 pt-6 border-t border-zinc-150">
+                  <div className="space-y-4 pt-6 border-t border-zinc-200">
                     <h2 className="text-xl font-black text-zinc-900 border-b border-zinc-100 pb-3">Projects</h2>
 
                     {/* Current Projects list */}
@@ -1124,7 +1124,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* EDUCATION */}
-                  <div className="space-y-4 pt-6 border-t border-zinc-150">
+                  <div className="space-y-4 pt-6 border-t border-zinc-200">
                     <h2 className="text-xl font-black text-zinc-900 border-b border-zinc-100 pb-3">Education</h2>
 
                     {/* Current list */}
@@ -1213,7 +1213,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               <p className="text-[10px] font-bold text-zinc-400 uppercase">{cert.organization}</p>
                             </div>
                           </div>
-                          <button type="button" onClick={() => removeCert(idx)} className="p-1.5 text-zinc-450 hover:text-rose-500">
+                          <button type="button" onClick={() => removeCert(idx)} className="p-1.5 text-zinc-500 hover:text-rose-500">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -1271,7 +1271,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* COMPETITIONS */}
-                  <div className="space-y-4 pt-6 border-t border-zinc-150">
+                  <div className="space-y-4 pt-6 border-t border-zinc-200">
                     <h2 className="text-xl font-black text-zinc-900 border-b border-zinc-100 pb-3">Competitions & Wins</h2>
 
                     {/* Current list */}
@@ -1287,7 +1287,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                               <span className="text-[9px] px-2 py-0.5 bg-yellow-100 text-yellow-800 font-bold rounded uppercase">{comp.badge}</span>
                             </div>
                           </div>
-                          <button type="button" onClick={() => removeComp(idx)} className="p-1.5 text-zinc-450 hover:text-rose-500">
+                          <button type="button" onClick={() => removeComp(idx)} className="p-1.5 text-zinc-500 hover:text-rose-500">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -1389,7 +1389,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           <div key={idx} className="p-4 bg-white border border-zinc-200 rounded-xl space-y-2 text-left relative group shadow-sm">
                             <h4 className="font-extrabold text-zinc-950 text-xs">{repo.name}</h4>
                             <p className="text-[10px] text-zinc-400 line-clamp-1">{repo.description}</p>
-                            <div className="flex gap-3 text-[9px] font-bold text-zinc-450">
+                            <div className="flex gap-3 text-[9px] font-bold text-zinc-500">
                               <span>★ {repo.stars}</span>
                               <span>⌥ {repo.forks}</span>
                               <span>{repo.language}</span>
@@ -1572,7 +1572,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           }))}
                           className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
                         />
-                        <div className="flex justify-between text-[9px] text-zinc-450 dark:text-zinc-500">
+                        <div className="flex justify-between text-[9px] text-zinc-500 dark:text-zinc-500">
                           <span>Small (20px)</span>
                           <span>Large (100px)</span>
                         </div>
@@ -1638,7 +1638,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="sr-only peer"
                           />
-                          <div className="w-10 h-5 bg-zinc-200 dark:bg-zinc-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                          <div className="w-10 h-5 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
                           <span className="ml-3 text-xs font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.enableParticles ? "Enabled" : "Disabled"}</span>
                         </label>
                       </div>
@@ -1684,7 +1684,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                             }))}
                             className="sr-only peer"
                           />
-                          <div className="w-10 h-5 bg-zinc-200 dark:bg-zinc-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                          <div className="w-10 h-5 bg-zinc-200 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
                           <span className="ml-3 text-xs font-bold text-zinc-700 dark:text-zinc-300">{data.appearance?.enableGlowRings ? "Enabled" : "Disabled"}</span>
                         </label>
                       </div>
@@ -1833,7 +1833,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           }))}
                           className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
                         />
-                        <div className="flex justify-between text-[9px] text-zinc-450 dark:text-zinc-500">
+                        <div className="flex justify-between text-[9px] text-zinc-500 dark:text-zinc-500">
                           <span>Small (200px)</span>
                           <span>Large (450px)</span>
                         </div>
@@ -1903,7 +1903,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs">
                             <div className="text-zinc-700 dark:text-zinc-300">
                               <span className="font-bold block text-[10px] uppercase text-zinc-400 tracking-wider">Active Custom Font:</span>
-                              <span className="font-extrabold text-zinc-900 dark:text-zinc-105">{data.appearance.customFontName}</span>
+                              <span className="font-extrabold text-zinc-900 dark:text-zinc-100">{data.appearance.customFontName}</span>
                             </div>
                             <button
                               type="button"
