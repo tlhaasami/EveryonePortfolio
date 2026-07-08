@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PortfolioData, Project, Skill, Experience, Education, Certificate, Competition, GithubRepo } from "@/lib/mockData";
 import {
-  User, Code, Briefcase, Award, Save, Plus, Trash2, ArrowLeft, RefreshCw, CheckCircle, AlertCircle, Palette, Upload, ChevronDown, Sun, Moon, Star
+  User, Code, Briefcase, Award, Save, Plus, Trash2, ArrowLeft, RefreshCw, CheckCircle, AlertCircle, Palette, Upload, ChevronDown, Sun, Moon, Star, FileText
 } from "lucide-react";
 import { GithubIcon } from "@/components/shared/icons";
 import Link from "next/link";
@@ -211,6 +211,57 @@ const getLanguageColor = (lang: string): string => {
   }
 };
 
+const parseLatexToHtml = (latex: string) => {
+  if (!latex) return [];
+  const lines = latex.split("\n");
+  const elements: any[] = [];
+  let currentSection: string | null = null;
+  let sectionText: string[] = [];
+
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("\\section*{")) {
+      if (currentSection) {
+        elements.push({ type: "section", title: currentSection, content: sectionText.join("\n") });
+      }
+      currentSection = trimmed.replace("\\section*{", "").replace("}", "");
+      sectionText = [];
+    } else if (trimmed.startsWith("\\begin{center}") || trimmed.startsWith("\\end{center}")) {
+      // ignore center wrapper
+    } else if (
+      trimmed.startsWith("\\documentclass") || 
+      trimmed.startsWith("\\usepackage") || 
+      trimmed.startsWith("\\geometry") || 
+      trimmed.startsWith("\\begin{document}") || 
+      trimmed.startsWith("\\end{document}")
+    ) {
+      // meta commands, ignore
+    } else {
+      let cleaned = trimmed
+        .replace(/\\textbf{([^}]+)}/g, "$1")
+        .replace(/\\textit{([^}]+)}/g, "$1")
+        .replace(/\\LARGE/g, "")
+        .replace(/\\textbf/g, "")
+        .replace(/\\textit/g, "")
+        .replace(/\\hfill/g, "  ")
+        .replace(/\\\\/g, "")
+        .replace(/[{}]/g, "");
+      if (cleaned) {
+        if (currentSection) {
+          sectionText.push(cleaned);
+        } else {
+          elements.push({ type: "text", content: cleaned });
+        }
+      }
+    }
+  });
+
+  if (currentSection) {
+    elements.push({ type: "section", title: currentSection, content: sectionText.join("\n") });
+  }
+  return elements;
+};
+
 interface PreviewSimulatorProps {
   appearance: any;
   profile: any;
@@ -385,7 +436,7 @@ function LivePreviewSimulator({ appearance, profile }: PreviewSimulatorProps) {
   );
 }
 
-type TabType = "profile" | "skills-projects" | "experience-education" | "certs-wins" | "github-sync" | "appearance";
+type TabType = "profile" | "skills-projects" | "experience-education" | "certs-wins" | "github-sync" | "resume-cv" | "appearance";
 
 // Social media constants imported from '@/lib/socialConfig'
 
@@ -783,6 +834,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
             {renderTabButton({ id: "skills-projects", label: "Skills & Projects", icon: <Code className="w-3.5 h-3.5" /> })}
             {renderTabButton({ id: "experience-education", label: "Experience & Edu", icon: <Briefcase className="w-3.5 h-3.5" /> })}
             {renderTabButton({ id: "certs-wins", label: "Certs & Wins", icon: <Award className="w-3.5 h-3.5" /> })}
+            {renderTabButton({ id: "resume-cv", label: "Resume & CV", icon: <FileText className="w-3.5 h-3.5" /> })}
           </div>
 
           {/* Tabs Content Panels wrapper */}
@@ -992,14 +1044,14 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
 
                 {/* SKILLS */}
                 <div className="space-y-4">
-                  <h2 className="text-xl font-black text-zinc-900 border-b border-zinc-100 pb-3">Technical Skills</h2>
+                  <h2 className="text-xl font-black text-zinc-900 dark:text-white border-b border-zinc-155 dark:border-zinc-800 pb-3">Technical Skills</h2>
 
                   {/* Skills tags list */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {data.skills.map((skill, idx) => (
-                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-100 rounded-full text-xs font-bold text-zinc-700">
+                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-xs font-bold text-zinc-700 dark:text-zinc-300 border border-transparent dark:border-zinc-700">
                         {skill.logoUrl && (
-                          <img src={skill.logoUrl} alt="" className="w-4 h-4 object-contain rounded-full bg-white border border-zinc-200" />
+                          <img src={skill.logoUrl} alt="" className="w-4 h-4 object-contain rounded-full bg-white border border-zinc-200 dark:border-zinc-800" />
                         )}
                         {skill.name} ({skill.level}%)
                         <button type="button" onClick={() => removeSkill(idx)} className="text-zinc-500 hover:text-rose-500 cursor-pointer">
@@ -1010,23 +1062,23 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* Add skill form */}
-                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 items-end bg-zinc-50 p-4 rounded-2xl border border-zinc-200/60">
+                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 items-end bg-zinc-50 dark:bg-zinc-900/40 p-4 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80">
                     <div>
-                      <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Skill Name</label>
+                      <label className="text-[9px] font-bold text-zinc-400 dark:text-zinc-505 uppercase block mb-1">Skill Name</label>
                       <input
                         type="text"
                         placeholder="e.g. React"
                         value={newSkill.name}
                         onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
+                        className="w-full px-3 py-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-905 dark:text-zinc-100 focus:outline-none placeholder-zinc-400 dark:placeholder-zinc-500"
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Category</label>
+                      <label className="text-[9px] font-bold text-zinc-400 dark:text-zinc-505 uppercase block mb-1">Category</label>
                       <select
                         value={newSkill.category}
                         onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value as any })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
+                        className="w-full px-3 py-2 bg-white dark:bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-905 dark:text-zinc-100 focus:outline-none"
                       >
                         <option value="languages">Languages</option>
                         <option value="frontend">Frontend</option>
@@ -1037,18 +1089,18 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Level (0-100)</label>
+                      <label className="text-[9px] font-bold text-zinc-400 dark:text-zinc-505 uppercase block mb-1">Level (0-100)</label>
                       <input
                         type="number"
                         value={newSkill.level}
                         onChange={(e) => setNewSkill({ ...newSkill, level: parseInt(e.target.value) })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
+                        className="w-full px-3 py-2 bg-white dark:bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-905 dark:text-zinc-100 focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Custom Icon / Pic</label>
+                      <label className="text-[9px] font-bold text-zinc-400 dark:text-zinc-505 uppercase block mb-1">Custom Icon / Pic</label>
                       <div className="flex items-center gap-2">
-                        <label className="px-3 py-2 border border-zinc-200 bg-white hover:bg-zinc-50 rounded-xl text-[10px] font-bold text-zinc-700 cursor-pointer transition-all">
+                        <label className="px-3 py-2 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-955 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-xl text-[10px] font-bold text-zinc-707 dark:text-zinc-300 cursor-pointer transition-all">
                           Upload Pic
                           <input
                             type="file"
@@ -1064,14 +1116,14 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           />
                         </label>
                         {newSkill.logoUrl && (
-                          <img src={newSkill.logoUrl} alt="Preview" className="w-7 h-7 object-contain rounded border border-zinc-200 bg-white" />
+                          <img src={newSkill.logoUrl} alt="Preview" className="w-7 h-7 object-contain rounded border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-955" />
                         )}
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={addSkill}
-                      className="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+                      className="px-4 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md cursor-pointer transition-colors"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add
                     </button>
@@ -1524,6 +1576,191 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                     >
                       <Plus className="w-3.5 h-3.5" /> Add Competition
                     </button>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* 4.7 Resume & CV Tab */}
+            {activeTab === "resume-cv" && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in text-left">
+                
+                {/* Left Column: Form & Editor */}
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-black text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-zinc-800 pb-3">Resume & CV Manager</h2>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Upload your official static CV PDF and write your custom LaTeX template code for generation.</p>
+                  </div>
+
+                  {/* CV PDF Upload Box */}
+                  <div className="p-6 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/80 rounded-3xl space-y-4">
+                    <h3 className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Static CV Document (.pdf)</h3>
+                    
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-950 p-4 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                      <div className="space-y-1">
+                        <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 block">Uploaded CV File</span>
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-mono block truncate max-w-[250px]">
+                          {data.profile.cvUrl || "No CV PDF uploaded yet."}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center gap-3">
+                        <label className="px-4 py-2 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 rounded-xl text-xs font-bold cursor-pointer transition-all active:scale-[0.98]">
+                          Upload PDF CV
+                          <input
+                            type="file"
+                            accept=".pdf"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadFile(file);
+                                if (url) {
+                                  setData(prev => ({
+                                    ...prev,
+                                    profile: { ...prev.profile, cvUrl: url }
+                                  }));
+                                  showNotification("success", "CV PDF uploaded successfully!");
+                                }
+                              }
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                        {data.profile.cvUrl && (
+                          <a 
+                            href={data.profile.cvUrl} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-xl text-xs font-bold transition-all"
+                          >
+                            View
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* LaTeX Customization Parameters */}
+                  <div className="p-6 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/80 rounded-3xl space-y-4">
+                    <h3 className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Compiler Properties</h3>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Font Family Selection */}
+                      <CustomDropdown
+                        label="Resume Font Family"
+                        value={data.profile.resumeFontFamily || "sans"}
+                        options={[
+                          { value: "sans", label: "Helvetica (Sans-Serif)" },
+                          { value: "serif", label: "Times New Roman (Serif)" },
+                          { value: "mono", label: "Courier (Monospace)" }
+                        ]}
+                        onChange={(val) => setData(prev => ({
+                          ...prev,
+                          profile: { ...prev.profile, resumeFontFamily: val }
+                        }))}
+                      />
+
+                      {/* Font Size Selection */}
+                      <CustomDropdown
+                        label="Resume Base Font Size"
+                        value={data.profile.resumeFontSize || "medium"}
+                        options={[
+                          { value: "small", label: "Small (9pt)" },
+                          { value: "medium", label: "Medium (10.5pt)" },
+                          { value: "large", label: "Large (12pt)" }
+                        ]}
+                        onChange={(val) => setData(prev => ({
+                          ...prev,
+                          profile: { ...prev.profile, resumeFontSize: val }
+                        }))}
+                      />
+                    </div>
+                  </div>
+
+                  {/* LaTeX Source Code Editor */}
+                  <div className="p-6 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/80 rounded-3xl space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">LaTeX Template Editor</h3>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (confirm("Are you sure you want to reset the LaTeX template to default?")) {
+                            setData(prev => ({
+                              ...prev,
+                              profile: {
+                                ...prev.profile,
+                                resumeLatex: `\\documentclass[10pt,a4paper]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage{geometry}\n\\geometry{left=0.75in,top=0.75in,right=0.75in,bottom=0.75in}\n\n\\begin{document}\n\n\\begin{center}\n    {\\LARGE \\textbf{TALHA SAMI}} \\\\\n    Software Engineer | Flutter Developer | UI/UX Enthusiast \\\\\n    Islamabad, Pakistan | hello@example.com | github.com/tlhasami\n\\end{center}\n\n\\section*{Summary}\nPassionate Software Engineering student with strong foundations in object-oriented programming, mobile application development, and algorithms. Experienced in Flutter cross-platform architecture, UI/UX implementation, and teaching programming.\n\n\\section*{Education}\n\\textbf{FAST-NUCES, Islamabad} \\hfill 2024 -- Present \\\\\nBachelor of Science in Software Engineering \\\\\nCGPA: 3.8 / 4.0\n\n\\section*{Experience}\n\\textbf{FAST-NUCES} \\hfill 2025 -- Present \\\\\n\\textit{Lab Demonstrator (Object-Oriented Programming)} \\\\\nClarify concepts, guide student projects, and design programming problems.\n\n\\section*{Projects}\n\\textbf{EveryonePortfolio CMS} \\hfill 2026 \\\\\nBuilt a dynamic custom portfolio manager dashboard with real-time scaling previews and 3D grid layout configurations.\n\n\\section*{Skills}\nFlutter, Dart, C++, OOP, Data Structures, Algorithms, UI/UX, Git\n\n\\end{document}`
+                              }
+                            }));
+                            showNotification("success", "Template reset to default student layout!");
+                          }
+                        }}
+                        className="text-[10px] font-extrabold uppercase tracking-widest text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+                      >
+                        Reset Template
+                      </button>
+                    </div>
+
+                    <div className="relative">
+                      <textarea
+                        rows={16}
+                        value={data.profile.resumeLatex || ""}
+                        onChange={(e) => setData(prev => ({
+                          ...prev,
+                          profile: { ...prev.profile, resumeLatex: e.target.value }
+                        }))}
+                        className="w-full p-4 bg-zinc-950 text-zinc-100 font-mono text-xs rounded-2xl border border-zinc-850 focus:outline-none focus:border-violet-500 leading-relaxed resize-y"
+                        placeholder="Input LaTeX resume code here..."
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Print Simulator Preview */}
+                <div className="flex flex-col items-center justify-start bg-zinc-100/50 dark:bg-zinc-950/40 p-8 rounded-3xl border border-zinc-200/80 dark:border-zinc-850 min-h-[500px]">
+                  <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-violet-500" /> Simulated A4 Sheet Rendering
+                  </span>
+
+                  {/* Simulated Paper */}
+                  <div 
+                    className={`w-full max-w-[390px] aspect-[1/1.41] bg-white text-zinc-850 shadow-xl border border-zinc-200 rounded-lg p-8 flex flex-col justify-start overflow-hidden relative ${
+                      data.profile.resumeFontFamily === "sans" 
+                        ? "font-sans" 
+                        : data.profile.resumeFontFamily === "serif" 
+                        ? "font-serif" 
+                        : "font-mono"
+                    } ${
+                      data.profile.resumeFontSize === "small" 
+                        ? "text-[7px] leading-snug" 
+                        : data.profile.resumeFontSize === "large" 
+                        ? "text-[11px] leading-relaxed" 
+                        : "text-[9px] leading-normal"
+                    }`}
+                  >
+                    {/* LaTeX parse nodes list */}
+                    <div className="space-y-4">
+                      {parseLatexToHtml(data.profile.resumeLatex || "").map((item: any, itemIdx: number) => {
+                        if (item.type === "section") {
+                          return (
+                            <div key={itemIdx} className="space-y-1.5">
+                              <h4 className="font-extrabold uppercase border-b border-zinc-300 pb-0.5 text-zinc-900 tracking-wide text-[10px]">
+                                {item.title}
+                              </h4>
+                              <p className="text-zinc-650 whitespace-pre-line text-justify font-medium">
+                                {item.content}
+                              </p>
+                            </div>
+                          );
+                        }
+                        return (
+                          <p key={itemIdx} className="text-center font-semibold text-zinc-600 whitespace-pre-line">
+                            {item.content}
+                          </p>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 

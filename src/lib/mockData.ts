@@ -10,6 +10,9 @@ export interface Profile {
   heroImage: string;
   backgroundImage: string;
   cvUrl: string;
+  resumeLatex?: string;
+  resumeFontSize?: string;
+  resumeFontFamily?: string;
   availabilityStatus: 'available' | 'busy' | 'hiring';
   socialLinks: {
     github: string;
@@ -185,6 +188,42 @@ export const mockPortfolioData: PortfolioData = {
     heroImage: "/assets/images/profilePic.jpeg",
     backgroundImage: "/images/tech-sphere.png",
     cvUrl: "/assets/resume.pdf",
+    resumeLatex: `\\documentclass[10pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage{geometry}
+\\geometry{left=0.75in,top=0.75in,right=0.75in,bottom=0.75in}
+
+\\begin{document}
+
+\\begin{center}
+    {\\LARGE \\textbf{TALHA SAMI}} \\\\
+    Software Engineer | Flutter Developer | UI/UX Enthusiast \\\\
+    Islamabad, Pakistan | hello@example.com | github.com/tlhasami
+\\end{center}
+
+\\section*{Summary}
+Passionate Software Engineering student with strong foundations in object-oriented programming, mobile application development, and algorithms. Experienced in Flutter cross-platform architecture, UI/UX implementation, and teaching programming.
+
+\\section*{Education}
+\\textbf{FAST-NUCES, Islamabad} \\hfill 2024 -- Present \\\\
+Bachelor of Science in Software Engineering \\\\
+CGPA: 3.8 / 4.0
+
+\\section*{Experience}
+\\textbf{FAST-NUCES} \\hfill 2025 -- Present \\\\
+\\textit{Lab Demonstrator (Object-Oriented Programming)} \\\\
+Clarify concepts, guide student projects, and design programming problems.
+
+\\section*{Projects}
+\\textbf{EveryonePortfolio CMS} \\hfill 2026 \\\\
+Built a dynamic custom portfolio manager dashboard with real-time scaling previews and 3D grid layout configurations.
+
+\\section*{Skills}
+Flutter, Dart, C++, OOP, Data Structures, Algorithms, UI/UX, Git
+
+\\end{document}`,
+    resumeFontSize: "medium",
+    resumeFontFamily: "sans",
     availabilityStatus: "available",
     socialLinks: {
       github: "https://github.com/tlhasami",

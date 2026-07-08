@@ -11,9 +11,60 @@ interface ResumeDownloaderModalProps {
   data: PortfolioData;
 }
 
+const parseLatexToHtml = (latex: string) => {
+  if (!latex) return [];
+  const lines = latex.split("\n");
+  const elements: any[] = [];
+  let currentSection: string | null = null;
+  let sectionText: string[] = [];
+
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("\\section*{")) {
+      if (currentSection) {
+        elements.push({ type: "section", title: currentSection, content: sectionText.join("\n") });
+      }
+      currentSection = trimmed.replace("\\section*{", "").replace("}", "");
+      sectionText = [];
+    } else if (trimmed.startsWith("\\begin{center}") || trimmed.startsWith("\\end{center}")) {
+      // ignore
+    } else if (
+      trimmed.startsWith("\\documentclass") || 
+      trimmed.startsWith("\\usepackage") || 
+      trimmed.startsWith("\\geometry") || 
+      trimmed.startsWith("\\begin{document}") || 
+      trimmed.startsWith("\\end{document}")
+    ) {
+      // ignore
+    } else {
+      let cleaned = trimmed
+        .replace(/\\textbf{([^}]+)}/g, "$1")
+        .replace(/\\textit{([^}]+)}/g, "$1")
+        .replace(/\\LARGE/g, "")
+        .replace(/\\textbf/g, "")
+        .replace(/\\textit/g, "")
+        .replace(/\\hfill/g, "  ")
+        .replace(/\\\\/g, "")
+        .replace(/[{}]/g, "");
+      if (cleaned) {
+        if (currentSection) {
+          sectionText.push(cleaned);
+        } else {
+          elements.push({ type: "text", content: cleaned });
+        }
+      }
+    }
+  });
+
+  if (currentSection) {
+    elements.push({ type: "section", title: currentSection, content: sectionText.join("\n") });
+  }
+  return elements;
+};
+
 export default function ResumeDownloaderModal({ isOpen, onClose, data }: ResumeDownloaderModalProps) {
-  const [fontFamily, setFontFamily] = useState("sans");
-  const [fontSize, setFontSize] = useState("medium");
+  const [fontFamily, setFontFamily] = useState(data.profile.resumeFontFamily || "sans");
+  const [fontSize, setFontSize] = useState(data.profile.resumeFontSize || "medium");
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileSteps, setCompileSteps] = useState<string[]>([]);
   const [downloadReady, setDownloadReady] = useState(false);
@@ -172,72 +223,35 @@ export default function ResumeDownloaderModal({ isOpen, onClose, data }: ResumeD
           <div className="flex-1 p-8 bg-zinc-100/50 flex flex-col items-center justify-center min-h-[400px]">
             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5" /> A4 Print Preview
-            </span>
-
-            {/* Document sheet */}
+            </span>            {/* Document sheet */}
             <div 
-              className={`w-full max-w-[340px] aspect-[1/1.41] bg-white border border-zinc-200 shadow-xl p-6 flex flex-col justify-between overflow-hidden text-zinc-800 leading-normal ${
+              className={`w-full max-w-[340px] aspect-[1/1.41] bg-white border border-zinc-200 shadow-xl p-6 flex flex-col justify-start overflow-hidden text-zinc-800 leading-normal text-left ${
                 fontFamily === "sans" ? "font-sans" : fontFamily === "serif" ? "font-serif" : "font-mono"
               } ${
                 fontSize === "small" ? "text-[6px]" : fontSize === "medium" ? "text-[8px]" : "text-[10px]"
               }`}
             >
-              {/* Header */}
-              <div className="text-center border-b border-zinc-300 pb-2 mb-2">
-                <h4 className="font-extrabold uppercase text-zinc-950 text-[10px] sm:text-xs leading-none">{data.profile.name}</h4>
-                <p className="text-[7px] text-violet-600 font-bold mt-1 leading-none">{data.profile.title}</p>
-                <p className="text-[6px] text-zinc-400 mt-1 leading-none">hello@example.com | +1 (234) 567-890 | github.com/example</p>
-              </div>
-
-              {/* Bio snippet */}
-              <p className="text-zinc-500 text-[6.5px] italic leading-normal mb-2">
-                {data.profile.biography.slice(0, 150)}...
-              </p>
-
-              {/* Experience */}
-              <div className="space-y-1.5">
-                <h5 className="font-black text-zinc-900 border-b border-zinc-200 pb-0.5 uppercase tracking-wide text-[7px] sm:text-[8px]">Experience</h5>
-                {data.experience.map((job, idx) => (
-                  <div key={idx} className="space-y-0.5">
-                    <div className="flex justify-between font-bold text-zinc-950 text-[7px]">
-                      <span>{job.position} @ {job.company}</span>
-                      <span className="text-zinc-400 font-normal">{job.timeline}</span>
-                    </div>
-                    <p className="text-zinc-500 text-[6.5px] leading-tight">{job.responsibilities[0]}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Projects */}
-              <div className="space-y-1.5 mt-2">
-                <h5 className="font-black text-zinc-900 border-b border-zinc-200 pb-0.5 uppercase tracking-wide text-[7px] sm:text-[8px]">Projects</h5>
-                {data.projects.slice(0, 2).map((project, idx) => (
-                  <div key={idx} className="space-y-0.5">
-                    <div className="flex justify-between font-bold text-zinc-950 text-[7px]">
-                      <span>{project.title}</span>
-                      <span className="text-zinc-400 font-normal">{project.duration}</span>
-                    </div>
-                    <p className="text-zinc-500 text-[6.5px] leading-tight">{project.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Education */}
-              <div className="space-y-1.5 mt-2">
-                <h5 className="font-black text-zinc-900 border-b border-zinc-200 pb-0.5 uppercase tracking-wide text-[7px] sm:text-[8px]">Education</h5>
-                {data.education.map((edu, idx) => (
-                  <div key={idx} className="flex justify-between font-bold text-zinc-950 text-[7px]">
-                    <span>{edu.institution} | {edu.degree}</span>
-                    <span className="text-zinc-400 font-normal">GPA: {edu.cgpa}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Skills footer */}
-              <div className="pt-2 border-t border-zinc-200">
-                <p className="text-zinc-600 text-[6px] font-semibold leading-relaxed">
-                  <span className="font-bold uppercase text-zinc-950">Technical Skills:</span> {data.skills.map(s => s.name).join(", ")}
-                </p>
+              {/* LaTeX parse nodes list */}
+              <div className="space-y-3">
+                {parseLatexToHtml(data.profile.resumeLatex || "").map((item: any, itemIdx: number) => {
+                  if (item.type === "section") {
+                    return (
+                      <div key={itemIdx} className="space-y-1">
+                        <h4 className="font-extrabold uppercase border-b border-zinc-300 pb-0.5 text-zinc-900 tracking-wide text-[8px]">
+                          {item.title}
+                        </h4>
+                        <p className="text-zinc-655 whitespace-pre-line text-justify font-medium">
+                          {item.content}
+                        </p>
+                      </div>
+                    );
+                  }
+                  return (
+                    <p key={itemIdx} className="text-center font-semibold text-zinc-600 whitespace-pre-line">
+                      {item.content}
+                    </p>
+                  );
+                })}
               </div>
             </div>
           </div>

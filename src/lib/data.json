@@ -16,6 +16,9 @@
     "heroImage": "/assets/images/profilePic.jpeg",
     "backgroundImage": "/images/tech-sphere.png",
     "cvUrl": "/assets/resume.pdf",
+    "resumeLatex": "\\documentclass[10pt,a4paper]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage{geometry}\n\\geometry{left=0.75in,top=0.75in,right=0.75in,bottom=0.75in}\n\n\\begin{document}\n\n\\begin{center}\n    {\\LARGE \\textbf{TALHA SAMI}} \\\\\n    Software Engineer | Flutter Developer | UI/UX Enthusiast \\\\\n    Islamabad, Pakistan | hello@example.com | github.com/tlhasami\n\\end{center}\n\n\\section*{Summary}\nPassionate Software Engineering student with strong foundations in object-oriented programming, mobile application development, and algorithms. Experienced in Flutter cross-platform architecture, UI/UX implementation, and teaching programming.\n\n\\section*{Education}\n\\textbf{FAST-NUCES, Islamabad} \\hfill 2024 -- Present \\\\\nBachelor of Science in Software Engineering \\\\\nCGPA: 3.8 / 4.0\n\n\\section*{Experience}\n\\textbf{FAST-NUCES} \\hfill 2025 -- Present \\\\\n\\textit{Lab Demonstrator (Object-Oriented Programming)} \\\\\nClarify concepts, guide student projects, and design programming problems.\n\n\\section*{Projects}\n\\textbf{EveryonePortfolio CMS} \\hfill 2026 \\\\\nBuilt a dynamic custom portfolio manager dashboard with real-time scaling previews and 3D grid layout configurations.\n\n\\section*{Skills}\nFlutter, Dart, C++, OOP, Data Structures, Algorithms, UI/UX, Git\n\n\\end{document}",
+    "resumeFontSize": "medium",
+    "resumeFontFamily": "sans",
     "availabilityStatus": "available",
     "socialLinks": {
       "github": "https://github.com/tlhaasami",
