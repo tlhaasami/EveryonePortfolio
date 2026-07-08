@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PortfolioData, Project, Skill, Experience, Education, Certificate, Competition, GithubRepo } from "@/lib/mockData";
 import {
-  User, Code, Briefcase, Award, Save, Plus, Trash2, ArrowLeft, RefreshCw, CheckCircle, AlertCircle, Palette, Upload, ChevronDown, Sun, Moon
+  User, Code, Briefcase, Award, Save, Plus, Trash2, ArrowLeft, RefreshCw, CheckCircle, AlertCircle, Palette, Upload, ChevronDown, Sun, Moon, Star
 } from "lucide-react";
 import { GithubIcon } from "@/components/shared/icons";
 import Link from "next/link";
@@ -177,6 +177,40 @@ const getDeviconUrl = (techName: string): string => {
   return `https://raw.githubusercontent.com/devicons/devicon/master/icons/${name}/${name}-original.svg`;
 };
 
+const getLanguageColor = (lang: string): string => {
+  const normalized = lang?.toLowerCase().trim();
+  switch (normalized) {
+    case "javascript":
+    case "js":
+      return "#eab308"; // yellow-500
+    case "typescript":
+    case "ts":
+      return "#3b82f6"; // blue-500
+    case "python":
+      return "#0284c7"; // sky-600
+    case "go":
+    case "golang":
+      return "#06b6d4"; // cyan-500
+    case "rust":
+      return "#f97316"; // orange-500
+    case "html":
+    case "html5":
+      return "#ef4444"; // red-500
+    case "css":
+    case "css3":
+      return "#6366f1"; // indigo-500
+    case "java":
+      return "#b45309"; // amber-700
+    case "c++":
+    case "cplusplus":
+      return "#ec4899"; // pink-500
+    case "dart":
+      return "#14b8a6"; // teal-500
+    default:
+      return "#8b5cf6"; // purple-500 theme accent
+  }
+};
+
 interface PreviewSimulatorProps {
   appearance: any;
   profile: any;
@@ -206,6 +240,20 @@ function LivePreviewSimulator({ appearance, profile }: PreviewSimulatorProps) {
   const colorWarm = appearance?.colorWarm || "#f59e0b";
 
   const previewColorsStyle = `
+    ${appearance?.selectedFont ? `
+      @import url('https://fonts.googleapis.com/css2?family=${appearance.selectedFont.replace(/\s+/g, "+")}:wght@300;400;500;600;700;800;900&display=swap');
+    ` : ""}
+
+    ${appearance?.customFontUrl && appearance?.customFontName ? `
+      @font-face {
+        font-family: '${appearance.customFontName}';
+        src: url('${appearance.customFontUrl}') format('${appearance.customFontFormat || "truetype"}');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+    ` : ""}
+
     .preview-container-root {
       --color-primary: ${colorPrimary};
       --color-primary-light: color-mix(in srgb, ${colorPrimary} 75%, white);
@@ -219,6 +267,12 @@ function LivePreviewSimulator({ appearance, profile }: PreviewSimulatorProps) {
       --color-warm: ${colorWarm};
       --color-warm-light: color-mix(in srgb, ${colorWarm} 75%, white);
       --color-warm-dark: color-mix(in srgb, ${colorWarm} 70%, black);
+    }
+
+    .preview-container-root, .preview-container-root *, .preview-container-root h1, .preview-container-root h2, .preview-container-root h3, .preview-container-root p, .preview-container-root span, .preview-container-root button {
+      font-family: ${appearance?.customFontUrl && appearance?.customFontName 
+        ? `'${appearance.customFontName}', sans-serif` 
+        : `${appearance?.selectedFont || "Inter"}, sans-serif`} !important;
     }
   `;
 
@@ -534,9 +588,33 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
     }
   };
 
+  const uploadFile = async (file: File): Promise<string | null> => {
+    const formData = new FormData();
+    formData.append("avatarFile", file);
+    try {
+      const res = await fetch("/api/upload-avatar", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      if (result.success) {
+        return result.imageUrl;
+      }
+      showNotification("error", result.error || "Failed to upload file.");
+      return null;
+    } catch (error) {
+      showNotification("error", "Error uploading file.");
+      return null;
+    }
+  };
+
   // Helper functions to update arrays
   const removeSkill = (index: number) => {
     setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }));
+  };
+
+  const removeGithubRepo = (index: number) => {
+    setData(prev => ({ ...prev, githubRepos: prev.githubRepos.filter((_, i) => i !== index) }));
   };
 
   const addSkill = () => {
@@ -548,13 +626,13 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
         ...prev.skills,
         {
           ...newSkill,
-          logoUrl: resolvedLogo,
+          logoUrl: newSkill.logoUrl || resolvedLogo,
           featured: true,
           displayOrder: prev.skills.length + 1
         } as Skill
       ]
     }));
-    setNewSkill({ name: "", category: "languages", level: 80, years: 1 });
+    setNewSkill({ name: "", category: "languages", level: 80, years: 1, logoUrl: "" });
   };
 
   const removeProject = (index: number) => {
@@ -567,7 +645,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
       ...prev,
       projects: [...prev.projects, { ...newProject, technologies: [], tags: [], featured: true } as Project]
     }));
-    setNewProject({ title: "", description: "", technologies: [], tags: [], githubUrl: "", thumbnail: "/images/workspace.png", status: "completed" });
+    setNewProject({ title: "", description: "", technologies: [], tags: [], githubUrl: "", videoUrl: "", thumbnail: "/images/workspace.png", status: "completed" });
   };
 
   const removeExperience = (index: number) => {
@@ -606,7 +684,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
       ...prev,
       certificates: [...prev.certificates, { ...newCert, skillsEarned: [] } as Certificate]
     }));
-    setNewCert({ name: "", organization: "", date: "", credentialId: "", verificationLink: "", skillsEarned: [], image: "/assets/Certificates/GoogleAiEssentials.png" });
+    setNewCert({ name: "", organization: "", date: "", credentialId: "", verificationLink: "", skillsEarned: [], image: "/assets/Certificates/GoogleAiEssentials.png", description: "" });
   };
 
   const removeComp = (index: number) => {
@@ -920,8 +998,11 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   <div className="flex flex-wrap gap-2 mb-4">
                     {data.skills.map((skill, idx) => (
                       <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-100 rounded-full text-xs font-bold text-zinc-700">
+                        {skill.logoUrl && (
+                          <img src={skill.logoUrl} alt="" className="w-4 h-4 object-contain rounded-full bg-white border border-zinc-200" />
+                        )}
                         {skill.name} ({skill.level}%)
-                        <button type="button" onClick={() => removeSkill(idx)} className="text-zinc-500 hover:text-rose-500">
+                        <button type="button" onClick={() => removeSkill(idx)} className="text-zinc-500 hover:text-rose-500 cursor-pointer">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </span>
@@ -929,7 +1010,7 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   </div>
 
                   {/* Add skill form */}
-                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end bg-zinc-50 p-4 rounded-2xl border border-zinc-200/60">
+                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 items-end bg-zinc-50 p-4 rounded-2xl border border-zinc-200/60">
                     <div>
                       <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Skill Name</label>
                       <input
@@ -964,10 +1045,33 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                         className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
                       />
                     </div>
+                    <div>
+                      <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Custom Icon / Pic</label>
+                      <div className="flex items-center gap-2">
+                        <label className="px-3 py-2 border border-zinc-200 bg-white hover:bg-zinc-50 rounded-xl text-[10px] font-bold text-zinc-700 cursor-pointer transition-all">
+                          Upload Pic
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = await uploadFile(file);
+                                if (url) setNewSkill(prev => ({ ...prev, logoUrl: url }));
+                              }
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                        {newSkill.logoUrl && (
+                          <img src={newSkill.logoUrl} alt="Preview" className="w-7 h-7 object-contain rounded border border-zinc-200 bg-white" />
+                        )}
+                      </div>
+                    </div>
                     <button
                       type="button"
                       onClick={addSkill}
-                      className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md"
+                      className="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add
                     </button>
@@ -982,11 +1086,19 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   <div className="space-y-3">
                     {data.projects.map((proj, idx) => (
                       <div key={idx} className="flex items-center justify-between p-4 bg-zinc-50 rounded-2xl border border-zinc-200/60">
-                        <div>
-                          <h4 className="font-extrabold text-zinc-900 text-sm">{proj.title}</h4>
-                          <p className="text-xs text-zinc-400 line-clamp-1">{proj.description}</p>
+                        <div className="flex items-center gap-4">
+                          {proj.thumbnail && (
+                            <img src={proj.thumbnail} alt="" className="w-16 h-10 object-cover rounded border border-zinc-200 bg-white" />
+                          )}
+                          <div>
+                            <h4 className="font-extrabold text-zinc-900 text-sm flex items-center gap-2">
+                              {proj.title}
+                              {proj.videoUrl && <span className="px-1.5 py-0.5 bg-rose-500 text-white rounded text-[8px] uppercase tracking-wider font-extrabold">Video</span>}
+                            </h4>
+                            <p className="text-xs text-zinc-400 line-clamp-1">{proj.description}</p>
+                          </div>
                         </div>
-                        <button type="button" onClick={() => removeProject(idx)} className="p-2 text-zinc-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
+                        <button type="button" onClick={() => removeProject(idx)} className="p-2 text-zinc-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all cursor-pointer">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -998,34 +1110,75 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                     <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">New Project Form</h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        placeholder="Project Title"
-                        value={newProject.title}
-                        onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
-                      <input
-                        type="text"
-                        placeholder="GitHub URL"
-                        value={newProject.githubUrl}
-                        onChange={(e) => setNewProject({ ...newProject, githubUrl: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Project Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. My Portfolio"
+                          value={newProject.title}
+                          onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">GitHub URL</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. https://github.com/..."
+                          value={newProject.githubUrl}
+                          onChange={(e) => setNewProject({ ...newProject, githubUrl: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
                     </div>
 
-                    <textarea
-                      placeholder="Short description..."
-                      rows={2}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">YouTube Video / Embed URL</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. https://www.youtube.com/embed/..."
+                          value={newProject.videoUrl || ""}
+                          onChange={(e) => setNewProject({ ...newProject, videoUrl: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Project Screenshot / Thumbnail</label>
+                        <div className="flex items-center gap-3">
+                          <label className="px-3 py-1.5 border border-zinc-200 bg-white hover:bg-zinc-50 rounded-xl text-[10px] font-bold text-zinc-700 cursor-pointer transition-all">
+                            Upload Thumbnail
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const url = await uploadFile(file);
+                                  if (url) setNewProject(prev => ({ ...prev, thumbnail: url }));
+                                }
+                              }}
+                              className="hidden"
+                            />
+                          </label>
+                          {newProject.thumbnail && (
+                            <img src={newProject.thumbnail} alt="Thumbnail Preview" className="w-14 h-9 object-cover rounded border border-zinc-200 bg-white" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <AutoResizingTextarea
+                      label="Project Description"
+                      placeholder="Short description of the project..."
                       value={newProject.description}
                       onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
-                      className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs resize-none"
                     />
 
                     <button
                       type="button"
                       onClick={addProject}
-                      className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md"
+                      className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add Project
                     </button>
@@ -1177,17 +1330,20 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   {/* Current Certifications */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {data.certificates.map((cert, idx) => (
-                      <div key={idx} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-200/60 flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
+                      <div key={idx} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-200/60 flex items-start justify-between gap-3 relative group">
+                        <div className="flex items-start gap-3">
                           {cert.image && (
-                            <img src={cert.image} alt="" className="w-10 h-7 object-cover rounded border border-zinc-200 flex-shrink-0" />
+                            <img src={cert.image} alt="" className="w-14 h-10 object-cover rounded border border-zinc-200 bg-white flex-shrink-0" />
                           )}
                           <div>
-                            <h4 className="font-extrabold text-zinc-900 text-xs sm:text-sm line-clamp-1">{cert.name}</h4>
-                            <p className="text-[10px] font-bold text-zinc-400 uppercase">{cert.organization}</p>
+                            <h4 className="font-extrabold text-zinc-900 text-xs sm:text-sm">{cert.name}</h4>
+                            <p className="text-[10px] font-bold text-zinc-450 uppercase">{cert.organization} ({cert.date})</p>
+                            {cert.description && (
+                              <p className="text-[10px] text-zinc-400 mt-1 leading-relaxed line-clamp-2">{cert.description}</p>
+                            )}
                           </div>
                         </div>
-                        <button type="button" onClick={() => removeCert(idx)} className="p-1.5 text-zinc-500 hover:text-rose-500">
+                        <button type="button" onClick={() => removeCert(idx)} className="p-1.5 text-zinc-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 cursor-pointer transition-all flex-shrink-0">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -1199,45 +1355,75 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                     <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">New Certification Form</h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        placeholder="Certification Name"
-                        value={newCert.name}
-                        onChange={(e) => setNewCert({ ...newCert, name: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Organization / Issuer"
-                        value={newCert.organization}
-                        onChange={(e) => setNewCert({ ...newCert, organization: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Certification Name</label>
+                        <input
+                          type="text"
+                          placeholder="Certification Name"
+                          value={newCert.name}
+                          onChange={(e) => setNewCert({ ...newCert, name: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Organization / Issuer</label>
+                        <input
+                          type="text"
+                          placeholder="Organization / Issuer"
+                          value={newCert.organization}
+                          onChange={(e) => setNewCert({ ...newCert, organization: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
                     </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        placeholder="Verification Link"
-                        value={newCert.verificationLink}
-                        onChange={(e) => setNewCert({ ...newCert, verificationLink: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
-                      <select
-                        value={newCert.image}
-                        onChange={(e) => setNewCert({ ...newCert, image: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      >
-                        <option value="/assets/Certificates/GoogleAiEssentials.png">Google AI Essentials Image</option>
-                        <option value="/assets/Certificates/GooglePromptingEssentials.png">Prompting Essentials Image</option>
-                        <option value="/assets/Certificates/CrashCourseOnPython.png">Crash Course Python Image</option>
-                        <option value="/assets/Certificates/GetStartedWithPython.png">Get Started Python Image</option>
-                      </select>
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Verification Link</label>
+                        <input
+                          type="text"
+                          placeholder="Verification Link"
+                          value={newCert.verificationLink}
+                          onChange={(e) => setNewCert({ ...newCert, verificationLink: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Upload Certificate Badge Image</label>
+                        <div className="flex items-center gap-3">
+                          <label className="px-3 py-1.5 border border-zinc-200 bg-white hover:bg-zinc-50 rounded-xl text-[10px] font-bold text-zinc-700 cursor-pointer transition-all">
+                            Upload Pic
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const url = await uploadFile(file);
+                                  if (url) setNewCert(prev => ({ ...prev, image: url }));
+                                }
+                              }}
+                              className="hidden"
+                            />
+                          </label>
+                          {newCert.image && (
+                            <img src={newCert.image} alt="Preview" className="w-14 h-9 object-cover rounded border border-zinc-200 bg-white" />
+                          )}
+                        </div>
+                      </div>
                     </div>
+
+                    <AutoResizingTextarea
+                      label="Certificate Description"
+                      placeholder="e.g. In-depth professional specialization covering React design systems..."
+                      value={newCert.description || ""}
+                      onChange={(e) => setNewCert({ ...newCert, description: e.target.value })}
+                    />
 
                     <button
                       type="button"
                       onClick={addCert}
-                      className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md"
+                      className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add Certification
                     </button>
@@ -1251,17 +1437,20 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                   {/* Current list */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {data.competitions?.map((comp, idx) => (
-                      <div key={idx} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-200/60 flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
+                      <div key={idx} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-200/60 flex items-start justify-between gap-3 relative group">
+                        <div className="flex items-start gap-3">
                           {comp.image && (
-                            <img src={comp.image} alt="" className="w-10 h-7 object-cover rounded border border-zinc-200 flex-shrink-0" />
+                            <img src={comp.image} alt="" className="w-14 h-10 object-cover rounded border border-zinc-200 bg-white flex-shrink-0" />
                           )}
                           <div>
-                            <h4 className="font-extrabold text-zinc-900 text-xs sm:text-sm line-clamp-1">{comp.title}</h4>
-                            <span className="text-[9px] px-2 py-0.5 bg-yellow-100 text-yellow-800 font-bold rounded uppercase">{comp.badge}</span>
+                            <h4 className="font-extrabold text-zinc-900 text-xs sm:text-sm">{comp.title}</h4>
+                            <span className="text-[9px] px-1.5 py-0.5 bg-yellow-100 text-yellow-800 font-bold rounded uppercase mt-1 inline-block">{comp.badge}</span>
+                            {comp.description && (
+                              <p className="text-[10px] text-zinc-400 mt-2 leading-relaxed line-clamp-2">{comp.description}</p>
+                            )}
                           </div>
                         </div>
-                        <button type="button" onClick={() => removeComp(idx)} className="p-1.5 text-zinc-500 hover:text-rose-500">
+                        <button type="button" onClick={() => removeComp(idx)} className="p-1.5 text-zinc-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 cursor-pointer transition-all flex-shrink-0">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -1273,45 +1462,65 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                     <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">New Competition Achievement Form</h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        placeholder="Competition/Award Title"
-                        value={newComp.title}
-                        onChange={(e) => setNewComp({ ...newComp, title: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Badge / Rank (e.g. Winner)"
-                        value={newComp.badge}
-                        onChange={(e) => setNewComp({ ...newComp, badge: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      />
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Competition/Award Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. FEC Hackathon 2026"
+                          value={newComp.title}
+                          onChange={(e) => setNewComp({ ...newComp, title: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Badge / Rank (e.g. Winner)</label>
+                        <input
+                          type="text"
+                          placeholder="Badge / Rank (e.g. Winner)"
+                          value={newComp.badge}
+                          onChange={(e) => setNewComp({ ...newComp, badge: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs focus:outline-none"
+                        />
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <textarea
-                        placeholder="Description of the win..."
-                        rows={2}
-                        value={newComp.description}
-                        onChange={(e) => setNewComp({ ...newComp, description: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs resize-none"
-                      />
-                      <select
-                        value={newComp.image}
-                        onChange={(e) => setNewComp({ ...newComp, image: e.target.value })}
-                        className="w-full px-3 py-2 bg-white border border-zinc-200 rounded-xl text-xs"
-                      >
-                        <option value="/assets/CompetitionsWinner/FETX_Winner.png">FETX Winner Image</option>
-                        <option value="/assets/CompetitionsWinner/BugBuster.png">Bug Buster Image</option>
-                        <option value="/assets/CompetitionsWinner/CodeAir.png">Code Air Image</option>
-                        <option value="/assets/CompetitionsWinner/Nascon.png">Code Craft Image</option>
-                      </select>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+                      <div>
+                        <label className="text-[9px] font-bold text-zinc-400 uppercase block mb-1">Upload Winner Badge / Trophy Image</label>
+                        <div className="flex items-center gap-3">
+                          <label className="px-3 py-1.5 border border-zinc-200 bg-white hover:bg-zinc-50 rounded-xl text-[10px] font-bold text-zinc-700 cursor-pointer transition-all">
+                            Upload Pic
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const url = await uploadFile(file);
+                                  if (url) setNewComp(prev => ({ ...prev, image: url }));
+                                }
+                              }}
+                              className="hidden"
+                            />
+                          </label>
+                          {newComp.image && (
+                            <img src={newComp.image} alt="Preview" className="w-14 h-9 object-cover rounded border border-zinc-200 bg-white" />
+                          )}
+                        </div>
+                      </div>
                     </div>
+
+                    <AutoResizingTextarea
+                      label="Description of the win"
+                      placeholder="Explain what the competition was and how you won..."
+                      value={newComp.description}
+                      onChange={(e) => setNewComp({ ...newComp, description: e.target.value })}
+                    />
 
                     <button
                       type="button"
                       onClick={addComp}
-                      className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md"
+                      className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add Competition
                     </button>
@@ -1358,18 +1567,49 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                       Scraped Repositories ({data.githubRepos.length})
                     </h3>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
-                      {data.githubRepos.map((repo, idx) => (
-                        <div key={idx} className="p-4 bg-white border border-zinc-200 rounded-xl space-y-2 text-left relative group shadow-sm">
-                          <h4 className="font-extrabold text-zinc-950 text-xs">{repo.name}</h4>
-                          <p className="text-[10px] text-zinc-400 line-clamp-1">{repo.description}</p>
-                          <div className="flex gap-3 text-[9px] font-bold text-zinc-500">
-                            <span>★ {repo.stars}</span>
-                            <span>⌥ {repo.forks}</span>
-                            <span>{repo.language}</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {data.githubRepos.map((repo, idx) => {
+                        const borderColor = getLanguageColor(repo.language);
+                        return (
+                          <div 
+                            key={idx} 
+                            style={{ borderColor: borderColor }}
+                            className="p-4 bg-white border-l-4 border-t border-r border-b border-zinc-200 rounded-xl space-y-2.5 text-left relative group shadow-sm hover:shadow transition-all"
+                          >
+                            <div className="pr-6">
+                              <h4 className="font-extrabold text-zinc-950 text-xs truncate">{repo.name}</h4>
+                              <p className="text-[10px] text-zinc-400 line-clamp-2 mt-0.5">{repo.description || "No description provided."}</p>
+                            </div>
+                            
+                            <div className="flex flex-wrap items-center gap-2.5 text-[9px] font-bold text-zinc-500 pt-1">
+                              <span className="flex items-center gap-0.5 text-amber-500 font-extrabold">
+                                <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> {repo.stars}
+                              </span>
+                              <span>⌥ {repo.forks} forks</span>
+                              {repo.language && (
+                                <span className="flex items-center gap-1 px-1.5 py-0.5 bg-zinc-50 border border-zinc-200 rounded text-[8px]">
+                                  <img
+                                    src={getDeviconUrl(repo.language)}
+                                    alt=""
+                                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                    className="w-3 h-3 object-contain"
+                                  />
+                                  <span>{repo.language}</span>
+                                </span>
+                              )}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => removeGithubRepo(idx)}
+                              className="absolute top-2.5 right-2.5 p-1.5 rounded-lg text-zinc-400 hover:text-rose-600 hover:bg-rose-50 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+                              title="Remove repository"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -1997,6 +2237,35 @@ export default function AdminDashboard({ initialData }: AdminDashboardProps) {
                           </button>
                         </div>
                       )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Interactive Cursor FX */}
+                <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 p-6 rounded-3xl space-y-6">
+                  <h3 className="font-extrabold text-zinc-900 dark:text-zinc-100 text-sm border-b border-zinc-200 dark:border-zinc-800 pb-2">Site-wide Custom Mouse Cursor Effects</h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <CustomDropdown
+                      label="Mouse Pointer Theme"
+                      value={data.appearance?.cursorStyle || "default"}
+                      options={[
+                        { value: "default", label: "Browser Default Cursor" },
+                        { value: "magnetic-glow", label: "Magnetic Purple Glow Orb" },
+                        { value: "liquid-bubble", label: "Liquid Teal Jelly Bubble" },
+                        { value: "sparkles", label: "Trailing Colorful Sparkles" },
+                        { value: "cyberpunk-crosshair", label: "Cyberpunk Glow Crosshair (Custom)" }
+                      ]}
+                      onChange={(val) => setData(prev => ({
+                        ...prev,
+                        appearance: {
+                          ...prev.appearance,
+                          cursorStyle: val as any
+                        }
+                      }))}
+                    />
+                    <div className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed flex items-center bg-white dark:bg-zinc-900/30 p-4 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl">
+                      Choose an interactive cursor theme to replace the standard browser arrow pointer on your public portfolio page. Hover over clickable assets to trigger context animations!
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ShieldAlert, BookOpen, Layers, X, Star, GitFork, ArrowRightLeft } from "lucide-react";
 import { GithubIcon } from "../shared/icons";
@@ -17,6 +18,7 @@ interface ProjectsSectionProps {
 }
 
 export default function ProjectsSection({ projects, githubRepos, githubProfileUrl }: ProjectsSectionProps) {
+  const router = useRouter();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollPosRef = useRef(0);
@@ -139,7 +141,17 @@ export default function ProjectsSection({ projects, githubRepos, githubProfileUr
           {projects.slice(0, 4).map((project, idx) => (
             <StaggerItem key={idx}>
               <ScaleIn delay={idx * 0.05}>
-              <ProjectCard project={project} onClick={() => setSelectedProject(project)} />
+              <ProjectCard 
+                project={project} 
+                onClick={() => {
+                  const isAdmin = typeof window !== "undefined" && window.location.pathname.includes("/admin");
+                  if (isAdmin) {
+                    setSelectedProject(project);
+                  } else {
+                    router.push(`/projects?id=${idx}`);
+                  }
+                }} 
+              />
               </ScaleIn>
             </StaggerItem>
           ))}

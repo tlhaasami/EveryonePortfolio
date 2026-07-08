@@ -55,6 +55,7 @@ export interface Project {
   status: 'completed' | 'in-progress' | 'planned';
   githubUrl: string;
   liveUrl?: string;
+  videoUrl?: string;
   thumbnail: string;
   tags: string[];
   featured: boolean;
@@ -86,6 +87,7 @@ export interface Certificate {
   verificationLink: string;
   skillsEarned: string[];
   image?: string;
+  description?: string;
 }
 
 export interface Competition {
@@ -125,6 +127,7 @@ export interface AppearanceSettings {
   textAnimationStyle: 'fade-in-up' | 'slide-in-left' | 'typewriter' | 'scale-up' | 'none';
   dropdownAnimationStyle: 'slide-down' | 'fade-scale' | 'skew-unroll';
   continuousAnimationStyle: 'none' | 'glowing' | 'pulsing' | 'wiggle';
+  cursorStyle?: 'default' | 'magnetic-glow' | 'liquid-bubble' | 'sparkles' | 'cyberpunk-crosshair';
   
   // Custom Color Palette Theme Settings
   colorScheme: 'purple-haze' | 'midnight-ocean' | 'sunset-rose' | 'forest-moss' | 'cyberpunk' | 'classic-mono' | 'custom';

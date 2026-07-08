@@ -17,9 +17,126 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { SOCIAL_PLATFORMS, SOCIAL_PLATFORM_LOGOS } from "@/lib/socialConfig";
 import { ScrollProgress } from "./Animations";
-
 interface PortfolioLayoutProps {
   data: PortfolioData;
+}
+
+function CustomCursor({ cursorStyle }: { cursorStyle?: string }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [trail, setTrail] = useState<{ x: number; y: number; id: number }[]>([]);
+  const [isHoveringClickable, setIsHoveringClickable] = useState(false);
+  const [clickScale, setClickScale] = useState(1);
+
+  useEffect(() => {
+    if (!cursorStyle || cursorStyle === "default") return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+
+      if (cursorStyle === "sparkles") {
+        setTrail((prev) => [
+          ...prev.slice(-12),
+          { x: e.clientX, y: e.clientY, id: Math.random() },
+        ]);
+      }
+
+      // Check if hovering clickable elements
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const isClickable =
+          target.tagName === "BUTTON" ||
+          target.tagName === "A" ||
+          target.tagName === "INPUT" ||
+          target.tagName === "SELECT" ||
+          target.tagName === "TEXTAREA" ||
+          target.closest("button") ||
+          target.closest("a") ||
+          target.classList.contains("cursor-pointer");
+        setIsHoveringClickable(!!isClickable);
+      }
+    };
+
+    const handleMouseDown = () => setClickScale(0.85);
+    const handleMouseUp = () => setClickScale(1);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    if (cursorStyle === "cyberpunk-crosshair") {
+      document.body.classList.add("cursor-none-active");
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      document.body.classList.remove("cursor-none-active");
+    };
+  }, [cursorStyle]);
+
+  if (!cursorStyle || cursorStyle === "default") return null;
+
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .cursor-none-active, .cursor-none-active *, .cursor-none-active a, .cursor-none-active button {
+          cursor: none !important;
+        }
+      `}} />
+
+      {/* Trailing sparkles emitter */}
+      {cursorStyle === "sparkles" && (
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+          {trail.map((pt, index) => {
+            const ageRatio = index / trail.length; // newer is larger/brighter
+            return (
+              <div
+                key={pt.id}
+                style={{
+                  left: pt.x,
+                  top: pt.y,
+                  transform: `translate(-50%, -50%) scale(${ageRatio})`,
+                  opacity: ageRatio * 0.7,
+                }}
+                className="absolute w-2.5 h-2.5 bg-gradient-to-br from-violet-500 to-teal-400 rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(139,92,246,0.6)]"
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Main Cursor Element */}
+      <div
+        style={{
+          left: position.x,
+          top: position.y,
+          transform: `translate(-50%, -50%) scale(${isHoveringClickable ? 1.4 : 1}) scale(${clickScale})`,
+          transition: "transform 0.08s ease-out",
+        }}
+        className="fixed pointer-events-none z-50 select-none mix-blend-difference"
+      >
+        {cursorStyle === "magnetic-glow" && (
+          <div className="w-8 h-8 rounded-full border border-violet-400 bg-violet-400/10 shadow-[0_0_15px_rgba(139,92,246,0.4)]" />
+        )}
+
+        {cursorStyle === "liquid-bubble" && (
+          <div className="w-12 h-12 bg-teal-400/20 backdrop-blur-[1px] rounded-full border border-teal-400 shadow-[0_0_12px_rgba(20,184,166,0.3)] animate-pulse" />
+        )}
+
+        {cursorStyle === "cyberpunk-crosshair" && (
+          <div className="relative w-6 h-6 flex items-center justify-center">
+            {/* Horizontal line */}
+            <div className="absolute w-6 h-0.5 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+            {/* Vertical line */}
+            <div className="absolute w-0.5 h-6 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+            {/* Inner dot */}
+            <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_#f43f5e]" />
+          </div>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
@@ -70,6 +187,7 @@ export default function PortfolioLayout({ data }: PortfolioLayoutProps) {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-zinc-900 selection:bg-primary/10 selection:text-primary-dark font-sans">
+      <CustomCursor cursorStyle={data.appearance?.cursorStyle} />
       {/* Dynamic Font Loader & Style Injections */}
       {data.appearance?.selectedFont && (
         <link 
