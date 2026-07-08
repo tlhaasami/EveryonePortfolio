@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *):not(.light-preview, .light-preview *));
+
 @theme {
   --font-sans: var(--font-sans), "Inter", system-ui, -apple-system, sans-serif;
 

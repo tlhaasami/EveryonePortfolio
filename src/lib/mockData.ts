@@ -131,14 +131,19 @@ export interface AppearanceSettings {
   colorPrimary: string;
   colorAccent: string;
   colorWarm: string;
+  textColorPrimary?: string;
+  textColorMuted?: string;
 
   // Background Grid options & customizations
-  bgGridType: 'dots' | 'lines' | 'graph-paper' | 'isometric' | 'none';
+  bgGridType: 'dots' | 'lines' | 'graph-paper' | 'isometric' | 'radial-waves' | 'honeycomb' | 'crosshatch' | 'waves' | 'none';
   bgGridSize: number;
   bgGridOpacity: number;
   bgGridColor: string;
   enableParticles: boolean;
   particleCount: number;
+  particleStyle?: 'stars' | 'bubbles' | 'floating-cubes' | 'vortex' | 'spiral';
+  particleSpeed?: 'slow' | 'normal' | 'fast' | 'interactive';
+  geometryMeshStyle?: 'none' | 'wireframe-globe' | 'floating-shapes';
   enableGlowRings: boolean;
   glowRingsColor: string;
   bgMeshGlowOpacity: number;

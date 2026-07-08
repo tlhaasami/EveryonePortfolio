@@ -3,12 +3,15 @@
 import { useEffect, useRef } from "react";
 
 interface ThreeDBackgroundProps {
-  gridType?: 'dots' | 'lines' | 'graph-paper' | 'isometric' | 'none';
+  gridType?: 'dots' | 'lines' | 'graph-paper' | 'isometric' | 'radial-waves' | 'honeycomb' | 'crosshatch' | 'waves' | 'none';
   gridSize?: number;
   gridOpacity?: number;
   gridColor?: string;
   enableParticles?: boolean;
   particleCount?: number;
+  particleStyle?: 'stars' | 'bubbles' | 'floating-cubes' | 'vortex' | 'spiral';
+  particleSpeed?: 'slow' | 'normal' | 'fast' | 'interactive';
+  geometryMeshStyle?: 'none' | 'wireframe-globe' | 'floating-shapes';
   enableGlowRings?: boolean;
   glowRingsColor?: string;
   colorPrimary?: string;
@@ -22,6 +25,9 @@ export default function ThreeDBackground({
   gridColor = '#0a0a0a',
   enableParticles = true,
   particleCount = 150,
+  particleStyle = 'stars',
+  particleSpeed = 'normal',
+  geometryMeshStyle = 'none',
   enableGlowRings = true,
   glowRingsColor = '#8b5cf6',
   colorPrimary = '#8b5cf6',
@@ -85,25 +91,58 @@ export default function ThreeDBackground({
       z: number;
       baseSize: number;
       hue: number;
+      angle: number;       // For spiral/vortex movements
+      baseRadius: number;  // For vortex radius
+      rotation: number;    // For floating cubes
+      speedOffset: number; // Random speed variations
 
       constructor() {
         this.x = (Math.random() - 0.5) * 900;
         this.y = (Math.random() - 0.5) * 900;
         this.z = Math.random() * 900;
         this.baseSize = Math.random() * 1.8 + 0.4;
-        // Dynamically assign theme hues
         this.hue = Math.random() > 0.5 ? primaryHue : accentHue;
+        this.angle = Math.random() * Math.PI * 2;
+        this.baseRadius = Math.sqrt(this.x * this.x + this.y * this.y);
+        this.rotation = Math.random() * Math.PI * 2;
+        this.speedOffset = Math.random() * 0.4 + 0.8;
       }
 
-      update(scrollOffset: number, mouseX: number, mouseY: number) {
-        this.z -= 0.4 + scrollOffset * 0.03;
+      update(scrollOffset: number, mouseX: number, mouseY: number, currentMouseX: number, currentMouseY: number) {
+        let speedMult = 0.4;
+        if (particleSpeed === 'slow') speedMult = 0.15;
+        else if (particleSpeed === 'fast') speedMult = 1.2;
+        else if (particleSpeed === 'interactive') speedMult = 0.4;
+
+        this.z -= (speedMult + scrollOffset * 0.03) * this.speedOffset;
         if (this.z <= 0) {
           this.z = 900;
           this.x = (Math.random() - 0.5) * 900;
           this.y = (Math.random() - 0.5) * 900;
+          this.baseRadius = Math.sqrt(this.x * this.x + this.y * this.y);
         }
-        this.x += mouseX * 0.015;
-        this.y += mouseY * 0.015;
+
+        if (particleStyle === 'vortex') {
+          this.angle += 0.003 * (particleSpeed === 'fast' ? 2.5 : particleSpeed === 'slow' ? 0.4 : 1.0);
+          this.x = Math.cos(this.angle) * this.baseRadius;
+          this.y = Math.sin(this.angle) * this.baseRadius;
+        } else if (particleStyle === 'spiral') {
+          this.angle += 0.001 * (900 - this.z) * 0.005;
+          this.x = Math.cos(this.angle) * this.baseRadius;
+          this.y = Math.sin(this.angle) * this.baseRadius;
+        }
+
+        if (particleSpeed === 'interactive') {
+          const targetX = currentMouseX - width / 2;
+          const targetY = currentMouseY - height / 2;
+          this.x += (targetX - this.x) * 0.003;
+          this.y += (targetY - this.y) * 0.003;
+        } else {
+          this.x += mouseX * 0.015;
+          this.y += mouseY * 0.015;
+        }
+
+        this.rotation += 0.01;
       }
     }
 
@@ -111,12 +150,16 @@ export default function ThreeDBackground({
 
     let mouseX = 0;
     let mouseY = 0;
+    let currentMouseX = width / 2;
+    let currentMouseY = height / 2;
     let scrollY = 0;
     let glowPhase = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = (e.clientX - window.innerWidth / 2) / 120;
       mouseY = (e.clientY - window.innerHeight / 2) / 120;
+      currentMouseX = e.clientX;
+      currentMouseY = e.clientY;
     };
 
     const handleScroll = () => {
@@ -182,17 +225,153 @@ export default function ThreeDBackground({
         ctx.lineWidth = 1;
         const gap = gridSize * 1.732;
         for (let x = -height; x < width + height; x += gap) {
-          // 30 degree line
           ctx.beginPath();
           ctx.moveTo(x, 0);
           ctx.lineTo(x + height * 0.577, height);
           ctx.stroke();
           
-          // 150 degree line
           ctx.beginPath();
           ctx.moveTo(x, 0);
           ctx.lineTo(x - height * 0.577, height);
           ctx.stroke();
+        }
+      } else if (gridType === "radial-waves") {
+        ctx.strokeStyle = gridRgba;
+        ctx.lineWidth = 1;
+        const maxRadius = Math.sqrt(width * width + height * height);
+        const flow = (glowPhase * 20) % (gridSize * 1.5);
+        for (let r = gridSize; r < maxRadius; r += gridSize * 1.5) {
+          ctx.beginPath();
+          ctx.arc(width / 2, height / 2, r + flow, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      } else if (gridType === "honeycomb") {
+        ctx.strokeStyle = gridRgba;
+        ctx.lineWidth = 1;
+        const hexRadius = gridSize * 0.6;
+        const hexWidth = hexRadius * Math.sqrt(3);
+        const hexHeight = hexRadius * 2;
+        for (let y = 0; y < height + hexHeight; y += hexHeight * 0.75) {
+          const isOdd = Math.floor(y / (hexHeight * 0.75)) % 2 === 1;
+          for (let x = isOdd ? -hexWidth/2 : 0; x < width + hexWidth; x += hexWidth) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+              const angle = (Math.PI / 3) * i + (Math.PI / 6);
+              const px = x + hexRadius * Math.cos(angle);
+              const py = y + hexRadius * Math.sin(angle);
+              if (i === 0) ctx.moveTo(px, py);
+              else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.stroke();
+          }
+        }
+      } else if (gridType === "crosshatch") {
+        ctx.strokeStyle = gridRgba;
+        ctx.lineWidth = 0.5;
+        for (let x = -height; x < width; x += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x + height, height);
+          ctx.stroke();
+        }
+        for (let x = 0; x < width + height; x += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x - height, height);
+          ctx.stroke();
+        }
+      } else if (gridType === "waves") {
+        ctx.strokeStyle = gridRgba;
+        ctx.lineWidth = 1;
+        for (let y = 0; y < height + gridSize; y += gridSize) {
+          ctx.beginPath();
+          for (let x = 0; x < width; x += 15) {
+            const waveY = y + Math.sin(x * 0.008 + glowPhase * 1.5) * (gridSize * 0.25);
+            if (x === 0) ctx.moveTo(x, waveY);
+            else ctx.lineTo(x, waveY);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // ─── GEOMETRY MESH STYLE RENDERING ───
+      if (geometryMeshStyle && geometryMeshStyle !== 'none') {
+        const strokeColor = `rgba(${primaryHue === 0 ? 120 : primaryHue}, 80%, 60%, 0.12)`;
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 0.8;
+
+        if (geometryMeshStyle === 'wireframe-globe') {
+          const globeX = width - 150;
+          const globeY = height - 150;
+          const radius = 100;
+          const rotationAngle = glowPhase * 0.15;
+
+          // Latitudes
+          for (let i = 1; i < 6; i++) {
+            const lat = (Math.PI / 6) * i;
+            const r = radius * Math.sin(lat);
+            const cy = globeY + radius * Math.cos(lat);
+            ctx.beginPath();
+            ctx.ellipse(globeX, cy, r, r * 0.25, rotationAngle, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+
+          // Longitudes
+          for (let i = 0; i < 6; i++) {
+            const lon = (Math.PI / 3) * i + rotationAngle;
+            ctx.beginPath();
+            ctx.ellipse(globeX, globeY, radius * Math.abs(Math.sin(lon)), radius, rotationAngle, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        } else if (geometryMeshStyle === 'floating-shapes') {
+          const shapes = [
+            { x: width * 0.15, y: height * 0.35, r: 45, speed: 0.2 },
+            { x: width * 0.85, y: height * 0.25, r: 60, speed: -0.15 },
+            { x: width * 0.2, y: height * 0.75, r: 35, speed: 0.3 }
+          ];
+
+          shapes.forEach((s, idx) => {
+            const rot = glowPhase * s.speed;
+            const cy = s.y + Math.sin(glowPhase * 0.5 + idx) * 15;
+            
+            ctx.save();
+            ctx.translate(s.x, cy);
+            ctx.rotate(rot);
+
+            const vertices = [
+              { x: 0, y: -s.r },
+              { x: s.r, y: 0 },
+              { x: 0, y: s.r * 0.3 },
+              { x: -s.r, y: 0 },
+              { x: 0, y: s.r }
+            ];
+
+            ctx.beginPath();
+            // Top pyramid
+            ctx.moveTo(vertices[0].x, vertices[0].y);
+            ctx.lineTo(vertices[1].x, vertices[1].y);
+            ctx.lineTo(vertices[2].x, vertices[2].y);
+            ctx.lineTo(vertices[3].x, vertices[3].y);
+            ctx.closePath();
+
+            // Bottom pyramid
+            ctx.moveTo(vertices[4].x, vertices[4].y);
+            ctx.lineTo(vertices[1].x, vertices[1].y);
+            ctx.lineTo(vertices[2].x, vertices[2].y);
+            ctx.lineTo(vertices[3].x, vertices[3].y);
+            ctx.closePath();
+
+            // Vertices lines
+            for (let i = 1; i <= 3; i++) {
+              ctx.moveTo(vertices[0].x, vertices[0].y);
+              ctx.lineTo(vertices[i].x, vertices[i].y);
+              ctx.moveTo(vertices[4].x, vertices[4].y);
+              ctx.lineTo(vertices[i].x, vertices[i].y);
+            }
+            ctx.stroke();
+            ctx.restore();
+          });
         }
       }
 
@@ -214,7 +393,7 @@ export default function ThreeDBackground({
       // ─── PARTICLES DRAWING ───
       if (enableParticles && particles.length > 0) {
         particles.forEach((p) => {
-          p.update(scrollY, mouseX, mouseY);
+          p.update(scrollY, mouseX, mouseY, currentMouseX, currentMouseY);
 
           const scale = fov / (fov + p.z);
           const projX = p.x * scale + width / 2;
@@ -226,9 +405,30 @@ export default function ThreeDBackground({
             const blurSize = p.baseSize * scale * (1.5 + (1 - depthRatio) * 1.2);
 
             ctx.beginPath();
-            ctx.arc(projX, projY, blurSize, 0, Math.PI * 2);
-            ctx.fillStyle = `hsla(${p.hue}, 70%, 55%, ${alpha})`;
-            ctx.fill();
+            if (particleStyle === 'bubbles') {
+              ctx.arc(projX, projY, blurSize, 0, Math.PI * 2);
+              ctx.strokeStyle = `hsla(${p.hue}, 70%, 65%, ${alpha * 1.5})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            } else if (particleStyle === 'floating-cubes') {
+              ctx.save();
+              ctx.translate(projX, projY);
+              ctx.rotate(p.rotation);
+              ctx.strokeStyle = `hsla(${p.hue}, 70%, 55%, ${alpha * 1.3})`;
+              ctx.lineWidth = 0.8;
+              ctx.strokeRect(-blurSize, -blurSize, blurSize * 2, blurSize * 2);
+              ctx.beginPath();
+              ctx.moveTo(-blurSize, -blurSize);
+              ctx.lineTo(blurSize, blurSize);
+              ctx.moveTo(blurSize, -blurSize);
+              ctx.lineTo(-blurSize, blurSize);
+              ctx.stroke();
+              ctx.restore();
+            } else {
+              ctx.arc(projX, projY, blurSize, 0, Math.PI * 2);
+              ctx.fillStyle = `hsla(${p.hue}, 70%, 55%, ${alpha})`;
+              ctx.fill();
+            }
 
             // Connect nearby particles with thin lines
             particles.forEach((other) => {
@@ -274,6 +474,9 @@ export default function ThreeDBackground({
     gridColor,
     enableParticles,
     particleCount,
+    particleStyle,
+    particleSpeed,
+    geometryMeshStyle,
     enableGlowRings,
     glowRingsColor,
     colorPrimary,

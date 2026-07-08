@@ -11,9 +11,10 @@ import { Magnetic, TextReveal, FadeInUp, StaggerContainer, StaggerItem, TextAnim
 interface HeroSectionProps {
   profile: Profile;
   appearance?: AppearanceSettings;
+  isPreview?: boolean;
 }
 
-export default function HeroSection({ profile, appearance }: HeroSectionProps) {
+export default function HeroSection({ profile, appearance, isPreview = false }: HeroSectionProps) {
   // Appearance Configurations
   const layout = appearance?.heroLayout || "split-right";
   const picShape = appearance?.heroPicShape || "circle";
@@ -122,9 +123,12 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
 
   // Render Inner Content
   const renderTextContent = (isInSplitVertical = false) => {
-    const primaryText = isInSplitVertical ? "text-white" : "text-zinc-950";
-    const subText = isInSplitVertical ? "text-white/80" : "text-zinc-700";
-    const faintText = isInSplitVertical ? "text-white/60" : "text-zinc-450";
+    const primaryText = isInSplitVertical ? "text-white" : "text-zinc-950 dark:text-white";
+    const subText = isInSplitVertical ? "text-white/80" : "text-zinc-700 dark:text-zinc-300";
+    const faintText = isInSplitVertical ? "text-white/60" : "text-zinc-500 dark:text-zinc-400";
+
+    const customPrimaryStyle = (!isInSplitVertical && appearance?.textColorPrimary) ? { color: appearance.textColorPrimary } : undefined;
+    const customMutedStyle = (!isInSplitVertical && appearance?.textColorMuted) ? { color: appearance.textColorMuted } : undefined;
 
     return (
       <div className={`space-y-7 flex-1 ${alignClass}`}>
@@ -148,15 +152,18 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
 
         {/* Name and Title */}
         <div className={`space-y-3 w-full ${alignClass}`}>
-          <h1 className={`text-4xl sm:text-5xl lg:text-6xl ${titleWeightClass} tracking-tight ${primaryText} leading-[1.1] w-full ${
-            appearance?.continuousAnimationStyle === "glowing" 
-              ? "animate-[textGlow_3s_ease-in-out_infinite]"
-              : appearance?.continuousAnimationStyle === "pulsing"
-                ? "animate-[textPulse_4s_ease-in-out_infinite]"
-                : appearance?.continuousAnimationStyle === "wiggle"
-                  ? "animate-[textWiggle_5s_ease-in-out_infinite]"
-                  : ""
-          }`}>
+          <h1 
+            style={customPrimaryStyle}
+            className={`text-4xl sm:text-5xl lg:text-6xl ${titleWeightClass} tracking-tight ${primaryText} leading-[1.1] w-full ${
+              appearance?.continuousAnimationStyle === "glowing" 
+                ? "animate-[textGlow_3s_ease-in-out_infinite]"
+                : appearance?.continuousAnimationStyle === "pulsing"
+                  ? "animate-[textPulse_4s_ease-in-out_infinite]"
+                  : appearance?.continuousAnimationStyle === "wiggle"
+                    ? "animate-[textWiggle_5s_ease-in-out_infinite]"
+                    : ""
+            }`}
+          >
             {appearance?.textAnimationStyle === "typewriter" ? (
               <TextAnimationWrapper style="typewriter" delay={0.3}>
                 {profile.name} {profile.username && <span className="text-sm font-semibold opacity-60 ml-2">@{profile.username}</span>}
@@ -176,14 +183,20 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
 
         {/* Introduction */}
         <TextAnimationWrapper style={appearance?.textAnimationStyle} delay={0.75} distance={20}>
-          <p className={`${subText} text-base sm:text-lg font-medium leading-relaxed max-w-xl`}>
+          <p 
+            style={customMutedStyle}
+            className={`${subText} text-base sm:text-lg font-medium leading-relaxed max-w-xl`}
+          >
             {profile.introduction}
           </p>
         </TextAnimationWrapper>
 
         {/* Subtitle */}
         <TextAnimationWrapper style={appearance?.textAnimationStyle} delay={0.85} distance={20}>
-          <p className={`${faintText} text-sm sm:text-base leading-relaxed max-w-lg`}>
+          <p 
+            style={customMutedStyle}
+            className={`${faintText} text-sm sm:text-base leading-relaxed max-w-lg`}
+          >
             {profile.subtitle}
           </p>
         </TextAnimationWrapper>
@@ -226,7 +239,7 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
                     href={href} 
                     target="_blank" 
                     rel="noreferrer"
-                    className={`${isInSplitVertical ? "text-white/60 hover:text-white hover:bg-white/10" : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"} transition-all duration-300 p-2.5 rounded-xl hover:shadow-sm`}
+                    className={`inline-flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 ${isInSplitVertical ? "text-white/60 hover:text-white hover:bg-white/10" : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"} hover:shadow-sm`}
                     aria-label={platform.label}
                   >
                     {SOCIAL_PLATFORM_LOGOS[platform.key]}
@@ -361,7 +374,11 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
   };
 
   return (
-    <section className={`relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-white wave-divider ${layout === "split-vertical" ? "py-0" : "py-20"}`}>
+    <section className={`relative flex items-center justify-center overflow-hidden bg-white wave-divider ${
+      isPreview 
+        ? "min-h-full h-full py-8" 
+        : `min-h-[92vh] ${layout === "split-vertical" ? "py-0" : "py-20"}`
+    }`}>
       <ThreeDBackground 
         gridType={appearance?.bgGridType}
         gridSize={appearance?.bgGridSize}
@@ -369,6 +386,9 @@ export default function HeroSection({ profile, appearance }: HeroSectionProps) {
         gridColor={appearance?.bgGridColor}
         enableParticles={appearance?.enableParticles}
         particleCount={appearance?.particleCount}
+        particleStyle={appearance?.particleStyle}
+        particleSpeed={appearance?.particleSpeed}
+        geometryMeshStyle={appearance?.geometryMeshStyle}
         enableGlowRings={appearance?.enableGlowRings}
         glowRingsColor={appearance?.glowRingsColor}
         colorPrimary={appearance?.colorPrimary}
