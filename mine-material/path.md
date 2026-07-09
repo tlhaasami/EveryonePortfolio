@@ -170,3 +170,6 @@ This is the part most people underestimate. The CMS is only as good as the seed 
 - [ ] `.env` file scaffolded with the keys listed in Section 3.4
 
 Once these are in hand, Phases 1–4 above will move quickly since you won't be blocked waiting on content while building the CMS.
+
+
+this is for testing what was happening here
